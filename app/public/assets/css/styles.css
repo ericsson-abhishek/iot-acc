@@ -1,0 +1,139 @@
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0px; }
+
+/* Multiline ellipsis START */
+/* Multiline ellipsis END */
+body {
+  font-family: "Segoe UI", "Segoe WP","Segoe Regular", sans-serif;
+  font-size: 15px;
+  line-height: 1.7em;
+  background: #313D44 !important; }
+
+a {
+  color: #80eaf9; }
+
+ul, li {
+  list-style: none; }
+
+input, textarea, button {
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px; }
+
+/* NAV */
+.navbar {
+  width: 90%;
+  margin: auto;
+  background-color: rgba(54, 83, 91, 0.46);
+  border-color: rgba(54, 83, 91, 0.46);
+  min-height: 60px; }
+  .navbar .navbar-brand {
+    color: #fdfeff !important;
+    font-size: 25px;
+    letter-spacing: -0.5px;
+    padding-bottom: 15px !important;
+    padding-top: 22px !important; }
+  .navbar .navbar-nav {
+    min-height: 60px;
+    color: #80eaf9 !important; }
+    .navbar .navbar-nav > li > a {
+      color: #80eaf9 !important;
+      font-size: 17px;
+      letter-spacing: -0.5px;
+      padding-bottom: 20px !important;
+      padding-top: 20px !important; }
+      .navbar .navbar-nav > li > a:hover {
+        color: #fdfeff !important;
+        background-color: #b10d1f; }
+    .navbar .navbar-nav .active > a {
+      color: #fdfeff !important;
+      background-color: #b10d1f; }
+    .navbar .navbar-nav .active > a:hover {
+      color: #fdfeff !important;
+      background-color: #b10d1f; }
+
+.block-primary {
+  font-size: 18px;
+  background-color: #80eaf9;
+  color: #313D44;
+  min-height: 200px;
+  padding-bottom: 15px !important;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-right: 0px;
+  margin-left: 0px; }
+
+.card-secondary {
+  position: relative;
+  font-size: 18px;
+  background-color: #3B5159;
+  color: #6ABEDB;
+  min-height: 300px;
+  max-height: 300px;
+  text-align: center; }
+  .card-secondary .icon {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important; }
+
+.card__front,
+.card__back {
+  position: absolute;
+  padding-bottom: 15px !important;
+  padding-top: 12px !important;
+  padding-right: 10px;
+  padding-left: 10px; }
+
+.card__front,
+.card__back {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s; }
+
+.card__front {
+  background-color: #3B5159; }
+
+.card__back {
+  background-color: #3B5159;
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg); }
+
+.card-secondary.effect__hover:hover .card__front {
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg); }
+
+.card-secondary.effect__hover:hover .card__back {
+  -webkit-transform: rotateY(0);
+  transform: rotateY(0); }
+
+/* section showcase*/
+.showcase {
+  height: 400px;
+  background: url("/assets/img/iot.PNG") no-repeat top center;
+  background-size: cover; }
+  .showcase .showcase-content {
+    padding-top: 100px;
+    padding-right: 90px;
+    text-align: right; }
+    .showcase .showcase-content h1 {
+      color: #80eaf9 !important; }
+    .showcase .showcase-content p {
+      color: #80eaf9 !important; }
+  .showcase .downloads {
+    padding-top: 90px; }
+
+.seperator {
+  background-color: #b10d1f;
+  min-height: 5px; }
+
+/* section highlights*/
+.highlights .highlights-content {
+  padding-top: 30px; }
+.highlights .col-no-pad [class*="col-"] {
+  margin: 0px !important;
+  padding: 5px !important; }
+
+.section-light {
+  margin-top: 30px;
+  background-color: #6ABEDB;
+  letter-spacing: -0.5px; }

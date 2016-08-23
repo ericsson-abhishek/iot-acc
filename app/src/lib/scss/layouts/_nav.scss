@@ -1,0 +1,58 @@
+/* NAV */
+.navbar
+{
+    width: 90%;
+    margin: auto;
+    background-color: $color-base;
+    border-color: $color-base;
+    min-height: 60px;
+    .navbar-brand{
+        color: $color-light  !important;
+        font-size:25px;
+        letter-spacing:-0.5px;
+        padding-bottom:15px !important;
+        padding-top:22px !important;
+     }
+    .navbar-nav{
+        min-height: 60px;
+        color: $color-primary  !important;
+        & > li{
+            &> a{
+                color: $color-primary  !important;
+                font-size:17px;
+                letter-spacing:-0.5px;
+                padding-bottom:20px !important;
+                padding-top:20px !important;
+                &:hover{
+                    color: $color-light !important;
+                    background-color: $color-secondary;
+                }
+            }
+        }
+        .active{
+            & > a{
+                color: $color-light !important;
+                background-color:$color-secondary;
+            }
+            & >a:hover{
+            color: $color-light !important;
+            background-color: $color-secondary;
+            }
+
+        }
+     }
+}
+
+// .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+//     color: #fff;
+//     background-color: #46a1c8;
+// }
+// .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+//     color: #fff;
+//     background-color: transparent;
+// }
+
+// .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+    
+//     background-color: transparent;
+// }

@@ -1,0 +1,66 @@
+@mixin border-radius($radius)
+{
+    -moz-border-radius:$radius;
+    -webkit-border-radius:$radius;
+    border-radius:$radius;
+
+}
+
+@mixin add-background($color){
+	background:$color;
+	@if $color == $light-color{
+		color:#666666;
+	} @else {
+		color:#ffffff;
+	}
+}	
+
+
+@mixin set-opacity($opacity)
+{
+    filter: alpha(opacity=$opacity*100);
+    -moz-opacity:$opacity;
+    /* Mozilla */
+    opacity: $opacity;
+}
+
+@mixin make-blur($blur)
+{
+    -webkit-filter: blur($blur);
+  -moz-filter: blur($blur);
+  -o-filter: blur($blur);
+  -ms-filter: blur($blur);
+  filter: blur($blur);
+}
+
+/* Multiline ellipsis START */
+// @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white){
+//   overflow: hidden;
+//   position: relative;
+//   line-height: $lineHeight;
+//   max-height: $lineHeight * $lineCount; 
+//   text-align: justify;
+//   margin-right: -1em;
+//   padding-right: 1em;
+//   &:before {
+//     content: '...';
+//     position: absolute;
+//     right: 0;
+//     bottom: 0;
+//   }
+//   &:after {
+//     content: '';
+//     position: absolute;
+//     right: 0;
+//     width: 1em;
+//     height: 1em;
+//     margin-top: 0.2em;
+//     background: $bgColor;
+//   }
+// }
+
+// .block-with-text {
+//   @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 3, $bgColor: white);  
+// }
+
+/* Multiline ellipsis END */

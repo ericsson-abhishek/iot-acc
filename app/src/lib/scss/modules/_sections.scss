@@ -1,0 +1,55 @@
+/* section showcase*/
+.showcase{
+    height: 400px;
+    background:url("/assets/img/iot.PNG") no-repeat top center;
+    background-size: cover;
+    //@include set-opacity(0.6);
+   // @include make-blur(2px);
+    .showcase-content{
+        padding-top:100px;
+        padding-right:90px;
+        text-align: right;
+        h1{
+            color:#80eaf9 !important;
+        }
+        p{
+            color: #80eaf9 !important;
+        }
+        // @include make-blur(2px);
+    }
+    .downloads
+    {
+        padding-top:90px;
+        
+    }
+}
+
+.seperator{
+    background-color: $color-secondary;
+    min-height:5px;
+
+}
+
+/* section highlights*/
+.highlights{
+    .highlights-content{
+        padding-top:30px;
+       // letter-spacing:-0.5px;
+    }
+    .col-no-pad{
+        [class*="col-"]
+        {
+            margin: 0px !important;
+            padding: 5px !important;
+            // display: table-cell !important;
+        }
+    }
+}
+
+.section-light
+{
+    margin-top:30px;
+    background-color:  #6ABEDB;
+   // padding-top:30px;
+    letter-spacing:-0.5px;
+}
