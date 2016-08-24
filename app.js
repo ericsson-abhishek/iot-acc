@@ -13,7 +13,6 @@ var _ = require("underscore");
 // Bcrypt library is used to hasing the password before storing
 var bcrypt = require('bcrypt-nodejs');
 
-
 var io = require('socket.io')(http);
 
 io.on('connection', function(socket) {
@@ -47,6 +46,14 @@ app.use(bodyParser.json());
 app.get("/about", function(req, resp) {
     resp.send("About items are listed here");
 });
+
+
+app.post("/device", function(req, resp) {
+    console.log('Enter into device create method');
+    resp.send("About items are listed here"+JSON.stringify(req.body, null, 2));
+});
+
+
 
 
 

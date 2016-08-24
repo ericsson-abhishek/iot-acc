@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+      "test": "mocha app/modules/db/persist_test.js -w"
   },
   "author": "",
   "license": "ISC",
@@ -13,11 +13,14 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "jquery": "^3.1.0",
+    "mongodb": "^2.2.7",
+    "mongoose": "^4.5.9",
     "socket.io": "^1.4.8",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
     "browserify": "^13.1.0",
+    "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-ruby-sass": "^2.1.0",
     "vinyl-source-stream": "^1.1.0"
