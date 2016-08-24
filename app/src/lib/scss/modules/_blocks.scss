@@ -1,66 +1,25 @@
-.block-primary{
-    font-size:18px;
-    background-color: $color-primary;
-    color:#313D44;
-    min-height: 200px;
-    padding-bottom:15px !important;
-    padding-right:10px;
-    padding-left:10px;
-    margin-right:0px;
-    margin-left:0px;
-    
+.card-primary{
+    @include card {
+    background-color: $color-dark-bg;
+    color:$color-light};
+    // @include card-front-back($color-primary-block,$color-primary-block);
+    @include card-front-back($color-dark-bg,$color-secondary$color-dark-bg);
+
 }
 
 
 .card-secondary{
-    position:relative;
-    font-size:18px;
-    background-color: #3B5159;
-    //color:$color-light;
-    color:#6ABEDB;
-    min-height: 300px;
-    max-height: 300px;
-    text-align: center;
-    // padding-bottom:15px !important;
-    // padding-top:12px !important;
-    // padding-right:10px;
-    // padding-left:10px;
-    // margin-right:0px;
-    // margin-left:0px;
-    .icon{
-        padding-top:10px !important;
-        padding-bottom:10px !important;
-    }
+    @include card {background-color: $color-secondary;
+    color:$color-light};
+    @include card-front-back($color-secondary,$color-secondary);
+   // @include card-front-back($color-dark-bg,$color-secondary$color-dark-bg);
+
+
+
+    
 }
 
-.card__front,
-.card__back {
-    position: absolute;
-    padding-bottom:15px !important;
-    padding-top:12px !important;
-    padding-right:10px;
-    padding-left:10px;
-}
-.card__front,
-.card__back {
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-transition: -webkit-transform 0.3s;
-    transition: transform 0.3s;
-}
-.card__front {
-  background-color: #3B5159;
-}
-.card__back {
-    background-color: #3B5159;
-    -webkit-transform: rotateY(-180deg);
-    transform: rotateY(-180deg);
-}
-.card-secondary.effect__hover:hover .card__front {
-    -webkit-transform: rotateY(-180deg);
-    transform: rotateY(-180deg);
-}
-.card-secondary.effect__hover:hover .card__back {
-    -webkit-transform: rotateY(0);
-    transform: rotateY(0);
-}
+
+
+
+    

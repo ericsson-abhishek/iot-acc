@@ -16,6 +16,55 @@
 }	
 
 
+@mixin card {
+    position:relative;
+    font-size:18px;
+    min-height: 300px;
+    max-height: 300px;
+    text-align: center;
+    @content;
+    .icon{
+        padding-top:10px !important;
+        padding-bottom:10px !important;
+    }
+    &.effect__hover:hover .card__front {
+        -webkit-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+    }
+    &.effect__hover:hover .card__back {
+        -webkit-transform: rotateY(0);
+        transform: rotateY(0);
+    }
+
+}
+
+@mixin card-front-back($front-bg-color,$back-bg-color)
+{
+    .card__front,
+    .card__back {
+        position: absolute;
+        padding-bottom:15px !important;
+        padding-top:12px !important;
+        padding-right:10px;
+        padding-left:10px;
+    }
+    .card__front,
+    .card__back {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transition: -webkit-transform 0.3s;
+        transition: transform 0.3s;
+    }
+    .card__front {
+    background-color: $front-bg-color;
+    }
+    .card__back {
+        background-color: $back-bg-color;
+        -webkit-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+    }
+}
+
 @mixin set-opacity($opacity)
 {
     filter: alpha(opacity=$opacity*100);
@@ -31,6 +80,26 @@
   -o-filter: blur($blur);
   -ms-filter: blur($blur);
   filter: blur($blur);
+}
+
+@mixin add-border($size, $color, $position){
+	@if $position == 'all'{
+		border:$size solid $color;
+	} @else if $position == 'top'{
+		border-top:$size solid $color;
+	} @else if $position == 'bottom'{
+		border-bottom:$size solid $color;
+	} @else if $position == 'right'{
+		border-right:$size solid $color;
+	} @else if $position == 'left'{
+		border-left:$size solid $color;
+	} @else if $position == 'top-bottom'{
+		border-top:$size solid $color;
+		border-bottom:$size solid $color;
+	} @else if $position == 'right-left'{
+		border-left:$size solid $color;
+		border-right:$size solid $color;
+	}
 }
 
 /* Multiline ellipsis START */

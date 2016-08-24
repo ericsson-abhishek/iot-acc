@@ -34,13 +34,14 @@
 .highlights{
     .highlights-content{
         padding-top:30px;
+        //background-color: RED;
        // letter-spacing:-0.5px;
     }
     .col-no-pad{
         [class*="col-"]
         {
-            margin: 0px !important;
-            padding: 5px !important;
+            //margin: 0px !important;
+            //padding: 5px !important;
             // display: table-cell !important;
         }
     }
@@ -49,7 +50,16 @@
 .section-light
 {
     margin-top:30px;
-    background-color:  #6ABEDB;
+    background-color:  #3B5159;
+    color:$color-light;
    // padding-top:30px;
     letter-spacing:-0.5px;
+    
+    .device
+    {
+        //max-height: 400px;
+        max-width: 100%;
+        //min-width: 400px;
+        padding:10px 0px 10px 0px;;
+    }
 }
