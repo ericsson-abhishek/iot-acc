@@ -14,7 +14,7 @@ ul,li{
     list-style: none;
 }
 
-input,textarea,button{
+input,textarea,button,.btn{
     @include border-radius(0px);
 }
 

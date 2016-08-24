@@ -2,8 +2,11 @@
 @import "base/_normalize";
 @import "base/_mixins";
 @import "base/_variables";
-@import "modules/_typography";
+
 @import "base/_base";
 @import "layouts/_nav";
-@import "modules/_blocks";
+
 @import "modules/_sections";
+@import "modules/_typography";
+@import "modules/_blocks";
+@import "modules/_buttons";

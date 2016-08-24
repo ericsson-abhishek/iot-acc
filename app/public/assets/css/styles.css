@@ -6,6 +6,88 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Multiline ellipsis START */
 /* Multiline ellipsis END */
+body {
+  font-family: "Segoe UI", "Segoe WP","Segoe Regular", sans-serif;
+  font-size: 15px;
+  line-height: 1.7em;
+  background: rgba(54, 83, 91, 0.46) !important; }
+
+a {
+  color: #477bc7; }
+
+ul, li {
+  list-style: none; }
+
+input, textarea, button, .btn {
+  -moz-border-radius: 0px !important;
+  -webkit-border-radius: 0px !important;
+  border-radius: 0px !important; }
+
+/* NAV */
+.navbar {
+  width: 90%;
+  margin: auto;
+  background-color: rgba(54, 83, 91, 0.46);
+  border-color: rgba(54, 83, 91, 0.46);
+  min-height: 60px; }
+  .navbar .navbar-brand {
+    color: #fdfeff !important;
+    font-size: 25px;
+    letter-spacing: -0.5px;
+    padding-bottom: 15px !important;
+    padding-top: 22px !important; }
+  .navbar .navbar-nav {
+    min-height: 60px;
+    color: #fdfeff !important; }
+    .navbar .navbar-nav > li > a {
+      color: #fdfeff !important;
+      font-size: 17px;
+      letter-spacing: -0.5px;
+      padding-bottom: 20px !important;
+      padding-top: 20px !important; }
+      .navbar .navbar-nav > li > a:hover {
+        color: #fdfeff !important;
+        background-color: #b10d1f; }
+    .navbar .navbar-nav .active > a {
+      color: #fdfeff !important;
+      background-color: #b10d1f; }
+    .navbar .navbar-nav .active > a:hover {
+      color: #fdfeff !important;
+      background-color: #b10d1f; }
+
+/* section showcase*/
+.showcase {
+  height: 400px;
+  background: url("/assets/img/iot.PNG") no-repeat top center;
+  background-size: cover; }
+  .showcase .showcase-content {
+    padding-top: 100px;
+    padding-right: 90px;
+    text-align: right; }
+    .showcase .showcase-content h1 {
+      color: #80eaf9 !important; }
+    .showcase .showcase-content p {
+      color: #80eaf9 !important; }
+  .showcase .downloads {
+    padding-top: 90px; }
+
+.seperator {
+  background-color: #b10d1f;
+  min-height: 5px; }
+
+/* section highlights*/
+.highlights .highlights-content {
+  padding-top: 30px; }
+
+.section-light {
+  margin-top: 30px;
+  background-color: #3B5159;
+  color: #fdfeff;
+  letter-spacing: -0.5px; }
+  .section-light .device {
+    max-width: 100%;
+    padding: 10px 0px 10px 0px; }
+
 .em-primary {
   color: #477bc7; }
 
@@ -67,55 +149,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .list-comments img {
   width: 100px; }
-
-body {
-  font-family: "Segoe UI", "Segoe WP","Segoe Regular", sans-serif;
-  font-size: 15px;
-  line-height: 1.7em;
-  background: rgba(54, 83, 91, 0.46) !important; }
-
-a {
-  color: #477bc7; }
-
-ul, li {
-  list-style: none; }
-
-input, textarea, button {
-  -moz-border-radius: 0px;
-  -webkit-border-radius: 0px;
-  border-radius: 0px; }
-
-/* NAV */
-.navbar {
-  width: 90%;
-  margin: auto;
-  background-color: rgba(54, 83, 91, 0.46);
-  border-color: rgba(54, 83, 91, 0.46);
-  min-height: 60px; }
-  .navbar .navbar-brand {
-    color: #fdfeff !important;
-    font-size: 25px;
-    letter-spacing: -0.5px;
-    padding-bottom: 15px !important;
-    padding-top: 22px !important; }
-  .navbar .navbar-nav {
-    min-height: 60px;
-    color: #fdfeff !important; }
-    .navbar .navbar-nav > li > a {
-      color: #fdfeff !important;
-      font-size: 17px;
-      letter-spacing: -0.5px;
-      padding-bottom: 20px !important;
-      padding-top: 20px !important; }
-      .navbar .navbar-nav > li > a:hover {
-        color: #fdfeff !important;
-        background-color: #b10d1f; }
-    .navbar .navbar-nav .active > a {
-      color: #fdfeff !important;
-      background-color: #b10d1f; }
-    .navbar .navbar-nav .active > a:hover {
-      color: #fdfeff !important;
-      background-color: #b10d1f; }
 
 .card-primary {
   position: relative;
@@ -191,35 +224,21 @@ input, textarea, button {
     -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg); }
 
-/* section showcase*/
-.showcase {
-  height: 400px;
-  background: url("/assets/img/iot.PNG") no-repeat top center;
-  background-size: cover; }
-  .showcase .showcase-content {
-    padding-top: 100px;
-    padding-right: 90px;
-    text-align: right; }
-    .showcase .showcase-content h1 {
-      color: #80eaf9 !important; }
-    .showcase .showcase-content p {
-      color: #80eaf9 !important; }
-  .showcase .downloads {
-    padding-top: 90px; }
+.btn-primary {
+  background: #477bc7;
+  color: #fdfeff !important;
+  border: 1px solid #fdfeff; }
 
-.seperator {
-  background-color: #b10d1f;
-  min-height: 5px; }
+.btn-primary:hover {
+  background: #3363a8;
+  border: 1px solid #fdfeff; }
 
-/* section highlights*/
-.highlights .highlights-content {
-  padding-top: 30px; }
+.btn-secondary {
+  background: #b10d1f;
+  color: #fdfeff !important;
+  border: 1px solid #fdfeff; }
 
-.section-light {
-  margin-top: 30px;
-  background-color: #3B5159;
-  color: #fdfeff;
-  letter-spacing: -0.5px; }
-  .section-light .device {
-    max-width: 100%;
-    padding: 10px 0px 10px 0px; }
+.btn-secondary:hover {
+  background: #810a17;
+  color: #fdfeff !important;
+  border: 1px solid #fdfeff; }
