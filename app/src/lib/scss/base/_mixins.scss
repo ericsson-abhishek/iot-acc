@@ -13,14 +13,14 @@
 
 @mixin card {
     position:relative;
-    font-size:18px;
-    min-height: 300px;
-    max-height: 300px;
+    font-size:14px;
+    min-height: 270px;
+    max-height: 270px;
     text-align: center;
     @content;
     .icon{
         padding-top:10px !important;
-        padding-bottom:10px !important;
+       // padding-bottom:10px !important;
     }
     &.effect__hover:hover .card__front {
         -webkit-transform: rotateY(-180deg);

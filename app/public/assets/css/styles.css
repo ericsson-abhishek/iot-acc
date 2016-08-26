@@ -13,7 +13,7 @@ body {
   background: rgba(54, 83, 91, 0.46) !important; }
 
 a {
-  color: #477bc7; }
+  color: #80eaf9; }
 
 ul, li {
   list-style: none; }
@@ -76,20 +76,21 @@ input, textarea, button, .btn {
   min-height: 5px; }
 
 /* section highlights*/
-.highlights .highlights-content {
-  padding-top: 30px; }
+.highlights {
+  margin-bottom: 30px; }
+  .highlights .highlights-content {
+    padding-top: 30px; }
 
-.section-light {
-  margin-top: 30px;
+.section-dark {
   background-color: #3B5159;
   color: #fdfeff;
   letter-spacing: -0.5px; }
-  .section-light .device {
+  .section-dark .device {
     max-width: 100%;
     padding: 10px 0px 10px 0px; }
 
 .em-primary {
-  color: #477bc7; }
+  color: #80eaf9; }
 
 .em-secondary {
   color: #b10d1f; }
@@ -150,17 +151,28 @@ input, textarea, button, .btn {
 .list-comments img {
   width: 100px; }
 
+.fa-primary {
+  color: #fdfeff; }
+
+.fa-border {
+  border: 1px solid #fdfeff;
+  -moz-border-radius: 5px !important;
+  -webkit-border-radius: 5px !important;
+  border-radius: 5px !important;
+  padding: 13px 15px;
+  width: 70px;
+  margin-bottom: 10px; }
+
 .card-primary {
   position: relative;
-  font-size: 18px;
-  min-height: 300px;
-  max-height: 300px;
+  font-size: 14px;
+  min-height: 270px;
+  max-height: 270px;
   text-align: center;
   background-color: #313D44;
   color: #fdfeff; }
   .card-primary .icon {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important; }
+    padding-top: 10px !important; }
   .card-primary.effect__hover:hover .card__front {
     -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg); }
@@ -189,15 +201,14 @@ input, textarea, button, .btn {
 
 .card-secondary {
   position: relative;
-  font-size: 18px;
-  min-height: 300px;
-  max-height: 300px;
+  font-size: 14px;
+  min-height: 270px;
+  max-height: 270px;
   text-align: center;
   background-color: #b10d1f;
   color: #fdfeff; }
   .card-secondary .icon {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important; }
+    padding-top: 10px !important; }
   .card-secondary.effect__hover:hover .card__front {
     -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg); }
@@ -225,12 +236,12 @@ input, textarea, button, .btn {
     transform: rotateY(-180deg); }
 
 .btn-primary {
-  background: #477bc7;
+  background: #80eaf9;
   color: #fdfeff !important;
   border: 1px solid #fdfeff; }
 
 .btn-primary:hover {
-  background: #3363a8;
+  background: #4fe2f7;
   border: 1px solid #fdfeff; }
 
 .btn-secondary {

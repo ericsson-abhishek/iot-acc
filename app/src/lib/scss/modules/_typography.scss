@@ -80,3 +80,15 @@
 .list-comments img{
 	width:100px;
 }
+
+.fa-primary{
+	color:$color-light;
+}
+
+.fa-border{
+	@include add-border(1px, $color-light, all);
+	@include border-radius(5px);
+	padding:13px 15px;
+	width:70px;
+	margin-bottom:10px;
+}
