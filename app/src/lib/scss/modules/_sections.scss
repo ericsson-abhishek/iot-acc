@@ -1,66 +1,149 @@
 /* section showcase*/
-.showcase{
+
+.showcase {
     height: 400px;
-    background:url("/assets/img/iot.PNG") no-repeat top center;
+    background: url("/assets/img/iot.PNG") no-repeat top center;
     background-size: cover;
     //@include set-opacity(0.6);
-   // @include make-blur(2px);
-    .showcase-content{
-        padding-top:100px;
-        padding-right:90px;
+    // @include make-blur(2px);
+    .showcase-content {
+        padding-top: 100px;
+        padding-right: 90px;
         text-align: right;
-        h1{
-            color:#80eaf9 !important;
+        h1 {
+            color: #80eaf9 !important;
         }
-        p{
+        p {
             color: #80eaf9 !important;
         }
         // @include make-blur(2px);
     }
-    .downloads
-    {
-        padding-top:90px;
-        
+    .downloads {
+        padding-top: 90px;
     }
 }
 
-.seperator{
-    background-color: $color-secondary;
-    min-height:5px;
-
+.showcase-header {
+    height: 300px;
+    //background:url("/assets/img/iot.PNG") no-repeat top center;
+    background-color: $color-dark-block;
+    //@include set-opacity(0.6);
+    // @include make-blur(2px);
+    .showcase-content {
+        padding-top: 100px;
+        padding-right: 90px;
+        text-align: center;
+        h1 {
+            color: $color-light !important;
+        }
+        p {
+            color: $color-light !important;
+        }
+        // @include make-blur(2px);
+    }
+    .downloads {
+        padding-top: 90px;
+    }
 }
+
+.seperator {
+    background-color: $color-secondary;
+    min-height: 4px;
+}
+
+.dashboard-midium {
+    min-height: 70px;
+    background-color: $color-secondary;
+    color: $color-light;
+    h3,
+    p {
+        //padding-top:20px;
+        padding: 0px;
+        margin-top: 10px;
+    }
+    .row {
+        margin-top: 12px;
+        //height: 100%;
+    }
+    input {
+        @include border-radius-left(5px);
+        @include add-background(darken($color-secondary, 10%));
+        @include add-border(1px,
+        darken($color-secondary, 10%),
+        'all');
+        &:focus {
+            @include add-border(1px,
+            darken($color-secondary, 10%),
+            'all');
+        }
+    }
+    button {
+        @include border-radius-right(5px);
+        @include add-background(darken($color-secondary, 10%));
+        @include add-border(1px,
+        darken($color-secondary, 10%),
+        'all');
+        &:hover {
+            @include add-background(darken($color-secondary, 10%));
+            @include add-border(1px,
+            darken($color-secondary, 10%),
+            'all');
+        }
+    }
+}
+
 
 /* section highlights*/
-.highlights{
-    margin-bottom:30px;
-    .highlights-content{
-        padding-top:30px;
+
+.highlights {
+    margin-bottom: 10px;
+    .highlights-content {
+        padding-top: 10px;
         //background-color: RED;
-       // letter-spacing:-0.5px;
+        // letter-spacing:-0.5px;
     }
-    .col-no-pad{
-        [class*="col-"]
-        {
-            //margin: 0px !important;
-            //padding: 5px !important;
+    .col-no-pad {
+        [class*="col-"] {
+            margin-left: 0px !important;
+            margin-right: 0px !important;
+            padding-left: 5px !important;
+            padding-right: 5px !important;
             // display: table-cell !important;
         }
     }
 }
 
-.section-dark
-{
-    
-    background-color:  #3B5159;
-    color:$color-light;
-   // padding-top:30px;
-    letter-spacing:-0.5px;
-    
-    .device
-    {
+.padding-default {
+    padding-top: 20px;
+}
+
+.section-dark {
+    background-color: $color-dark-bg;
+    color: $color-light;
+    // padding-top:30px;
+    letter-spacing: -0.5px;
+    .device {
         //max-height: 400px;
         max-width: 100%;
         //min-width: 400px;
-        padding:10px 0px 10px 0px;;
+        padding: 10px 0px 10px 0px;
+        ;
+    }
+    .panel{
+        @include add-background(lighten($color-dark-bg, 10%));
+    }
+    .panel-default {
+         @include add-border(1px,
+            lighten($color-dark-bg, 10%),
+            'all');
+        & > .panel-heading {
+            // color: #333;
+            // background-color: lighten($color-dark-bg, 10%);
+            // border-color: #ddd;
+            @include add-background(lighten($color-dark-bg, 10%));
+            @include add-border(1px,
+            lighten($color-dark-bg, 10%),
+            'all');
+        }
     }
 }

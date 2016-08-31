@@ -1,33 +1,38 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var util = require('./myAlert')
 
-var util = require ('./myAlert')
-
-window.onload=function()
-{
+window.onload = function() {
     util.myAlert("Welcome to the starter page");
-    util.appendBody(["Started using Jquery","with browserify","The automation is done with Gulp","Checking the last few steps"])
-
+    util.appendBody(["Started using Jquery", "with browserify", "The automation is done with Gulp", "Checking the last few steps"])
+    util.addToggleChevron();
 }
-
 },{"./myAlert":2}],2:[function(require,module,exports){
-
 var _ = require('underscore')
 var $ = require('jquery')
-function myAlert(message)
-{
-    alert("⛄⛄⛄⛄ "+message+" ⛄⛄⛄⛄");
+
+function myAlert(message) {
+    alert("⛄⛄⛄⛄ " + message + " ⛄⛄⛄⛄");
 }
 
-function appendBody(lines)
-{
-    _.each(lines,function(line)
-    {
-        $("#messageHere").append(line+'<BR>');
+function appendBody(lines) {
+    _.each(lines, function(line) {
+        $("#messageHere").append(line + '<BR>');
     })
 }
 
+function toggleChevron(e) {
+    $(e.target)
+        .prev('.panel-heading')
+        .find("i.indicator")
+        .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+}
+
+function addToggleChevron() {
+    $('#accordion').on('hidden.bs.collapse', toggleChevron);
+}
 
 module.exports.myAlert = myAlert;
+module.exports.addToggleChevron = addToggleChevron;
 module.exports.appendBody = appendBody;
 },{"jquery":3,"underscore":4}],3:[function(require,module,exports){
 /*eslint-disable no-unused-vars*/

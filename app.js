@@ -82,10 +82,10 @@ app.post("/devices/deactivate/:deviceId",
     function (req, resp) {
         var deviceId = req.params.deviceId;
         console.log("deactivate device is getting called for " + deviceId)
-        var interval =deviceDB.get(deviceId); //setInterval(() => { clientSim.sendStatus(deviceId) }, 2000);
-       // deviceDB.put(deviceId, interval);
-       console.log(`timer obj retrieved from db for device id ${deviceId} is ${interval}`)
-       clearInterval(interval);
+        var interval = deviceDB.get(deviceId); //setInterval(() => { clientSim.sendStatus(deviceId) }, 2000);
+        // deviceDB.put(deviceId, interval);
+        console.log(`timer obj retrieved from db for device id ${deviceId} is ${interval}`)
+        clearInterval(interval);
         resp.status(200).send();
 
     });

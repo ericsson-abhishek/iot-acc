@@ -3,7 +3,7 @@
     background-color: $color-dark-bg;
     color:$color-light};
     // @include card-front-back($color-primary-block,$color-primary-block);
-    @include card-front-back($color-dark-bg,$color-secondary$color-dark-bg);
+    @include card-front-back($color-dark-bg,$color-dark-bg);
 
 }
 
@@ -14,12 +14,14 @@
     @include card-front-back($color-secondary,$color-secondary);
    // @include card-front-back($color-dark-bg,$color-secondary$color-dark-bg);
 
-
-
-    
 }
 
-
+.card-body{
+    @include card {background-color: $color-body;
+    color:$color-secondary};
+    @include card-front-back($color-body,$color-body);
+   // @include card-front-back($color-dark-bg,$color-secondary$color-dark-bg);
+}
 
 
     

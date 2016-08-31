@@ -1,3 +1,4 @@
+/* border related mixins */
 @mixin border-radius($radius)
 {
     -moz-border-radius:$radius !important;
@@ -5,6 +6,47 @@
     border-radius:$radius !important;;
 }
 
+@mixin border-radius-left($radius)
+{
+    -moz-border-top-left-radius:$radius !important;
+    -moz-border-bottom-left-radius:$radius !important;
+    -webkit-border-top-left-radius:$radius !important;;
+     -webkit-border-bottom-left-radius:$radius !important;;
+    //border-radius:$radius !important;;
+    border-top-left-radius:$radius !important;;
+    border-bottom-left-radius:$radius !important;;
+}
+@mixin border-radius-right($radius)
+{
+   -moz-border-top-right-radius:$radius !important;
+    -moz-border-bottom-right-radius:$radius !important;
+    -webkit-border-top-right-radius:$radius !important;;
+     -webkit-border-bottom-right-radius:$radius !important;;
+    border-top-right-radius:$radius !important;;
+    border-bottom-right-radius:$radius !important;;
+}
+
+@mixin border-radius-top($radius)
+{
+    -moz-border-top-left-radius:$radius !important;
+    -moz-border-top-right-radius:$radius !important;
+    -webkit-border-top-left-radius:$radius !important;;
+     -webkit-border-top-right-radius:$radius !important;;
+    //border-radius:$radius !important;;
+    border-top-left-radius:$radius !important;;
+    border-top-right-radius:$radius !important;;
+}
+@mixin border-radius-bottom($radius)
+{
+   -moz-border-bottom-left-radius:$radius !important;
+    -moz-border-bottom-right-radius:$radius !important;
+    -webkit-border-bottom-left-radius:$radius !important;;
+     -webkit-border-bottom-right-radius:$radius !important;;
+    border-bottom-left-radius:$radius !important;;
+    border-bottom-right-radius:$radius !important;;
+}
+
+/* background related mixins */
 @mixin add-background($color){
 	background:$color;
 	color:$color-light !important;
@@ -14,8 +56,8 @@
 @mixin card {
     position:relative;
     font-size:14px;
-    min-height: 270px;
-    max-height: 270px;
+    min-height: 290px;
+    max-height: 290px;
     text-align: center;
     @content;
     .icon{
@@ -41,7 +83,7 @@
         padding-bottom:15px !important;
         padding-top:12px !important;
         padding-right:10px;
-        padding-left:10px;
+            padding-left:10px;
     }
     .card__front,
     .card__back {

@@ -3,7 +3,7 @@ body{
     font-size: 15px;
     line-height: 1.7em;
     //color:#666666;
-    background:$color-base!important;
+    background:$color-body!important;
 }
 
 a{
@@ -13,8 +13,13 @@ a{
 ul,li{
     list-style: none;
 }
-
-input,textarea,button,.btn{
+input,textarea,button,{
     @include border-radius(0px);
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
 }
 

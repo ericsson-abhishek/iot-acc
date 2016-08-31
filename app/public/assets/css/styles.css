@@ -4,13 +4,15 @@ h1, h2, h3, h4, h5, h6 {
 .page-header {
   margin-top: 30px; }
 
+/* border related mixins */
+/* background related mixins */
 /* Multiline ellipsis START */
 /* Multiline ellipsis END */
 body {
   font-family: "Segoe UI", "Segoe WP","Segoe Regular", sans-serif;
   font-size: 15px;
   line-height: 1.7em;
-  background: rgba(54, 83, 91, 0.46) !important; }
+  background: #d9d6cf !important; }
 
 a {
   color: #80eaf9; }
@@ -18,10 +20,15 @@ a {
 ul, li {
   list-style: none; }
 
-input, textarea, button, .btn {
+input, textarea, button {
   -moz-border-radius: 0px !important;
   -webkit-border-radius: 0px !important;
   border-radius: 0px !important; }
+
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none; }
 
 /* NAV */
 .navbar {
@@ -71,23 +78,91 @@ input, textarea, button, .btn {
   .showcase .downloads {
     padding-top: 90px; }
 
+.showcase-header {
+  height: 300px;
+  background-color: #122025; }
+  .showcase-header .showcase-content {
+    padding-top: 100px;
+    padding-right: 90px;
+    text-align: center; }
+    .showcase-header .showcase-content h1 {
+      color: #fdfeff !important; }
+    .showcase-header .showcase-content p {
+      color: #fdfeff !important; }
+  .showcase-header .downloads {
+    padding-top: 90px; }
+
 .seperator {
   background-color: #b10d1f;
-  min-height: 5px; }
+  min-height: 4px; }
+
+.dashboard-midium {
+  min-height: 70px;
+  background-color: #b10d1f;
+  color: #fdfeff; }
+  .dashboard-midium h3,
+  .dashboard-midium p {
+    padding: 0px;
+    margin-top: 10px; }
+  .dashboard-midium .row {
+    margin-top: 12px; }
+  .dashboard-midium input {
+    -moz-border-top-left-radius: 5px !important;
+    -moz-border-bottom-left-radius: 5px !important;
+    -webkit-border-top-left-radius: 5px !important;
+    -webkit-border-bottom-left-radius: 5px !important;
+    border-top-left-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
+    background: #810a17;
+    color: #fdfeff !important;
+    border: 1px solid #810a17; }
+    .dashboard-midium input:focus {
+      border: 1px solid #810a17; }
+  .dashboard-midium button {
+    -moz-border-top-right-radius: 5px !important;
+    -moz-border-bottom-right-radius: 5px !important;
+    -webkit-border-top-right-radius: 5px !important;
+    -webkit-border-bottom-right-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+    background: #810a17;
+    color: #fdfeff !important;
+    border: 1px solid #810a17; }
+    .dashboard-midium button:hover {
+      background: #810a17;
+      color: #fdfeff !important;
+      border: 1px solid #810a17; }
 
 /* section highlights*/
 .highlights {
-  margin-bottom: 30px; }
+  margin-bottom: 10px; }
   .highlights .highlights-content {
-    padding-top: 30px; }
+    padding-top: 10px; }
+  .highlights .col-no-pad [class*="col-"] {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important; }
+
+.padding-default {
+  padding-top: 20px; }
 
 .section-dark {
-  background-color: #3B5159;
+  background-color: #313D44;
   color: #fdfeff;
   letter-spacing: -0.5px; }
   .section-dark .device {
     max-width: 100%;
     padding: 10px 0px 10px 0px; }
+  .section-dark .panel {
+    background: #465862;
+    color: #fdfeff !important; }
+  .section-dark .panel-default {
+    border: 1px solid #465862; }
+    .section-dark .panel-default > .panel-heading {
+      background: #465862;
+      color: #fdfeff !important;
+      border: 1px solid #465862; }
 
 .em-primary {
   color: #80eaf9; }
@@ -135,6 +210,9 @@ input, textarea, button, .btn {
   .list-feature i {
     margin-top: 10px;
     margin-right: 10px; }
+  .list-feature a {
+    margin-top: 10px;
+    margin-right: 10px; }
 
 .list-comments {
   margin: 0;
@@ -166,8 +244,8 @@ input, textarea, button, .btn {
 .card-primary {
   position: relative;
   font-size: 14px;
-  min-height: 270px;
-  max-height: 270px;
+  min-height: 290px;
+  max-height: 290px;
   text-align: center;
   background-color: #313D44;
   color: #fdfeff; }
@@ -195,15 +273,15 @@ input, textarea, button, .btn {
   .card-primary .card__front {
     background-color: #313D44; }
   .card-primary .card__back {
-    background-color: #b10d1f #313D44;
+    background-color: #313D44;
     -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg); }
 
 .card-secondary {
   position: relative;
   font-size: 14px;
-  min-height: 270px;
-  max-height: 270px;
+  min-height: 290px;
+  max-height: 290px;
   text-align: center;
   background-color: #b10d1f;
   color: #fdfeff; }
@@ -235,6 +313,42 @@ input, textarea, button, .btn {
     -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg); }
 
+.card-body {
+  position: relative;
+  font-size: 14px;
+  min-height: 290px;
+  max-height: 290px;
+  text-align: center;
+  background-color: #d9d6cf;
+  color: #b10d1f; }
+  .card-body .icon {
+    padding-top: 10px !important; }
+  .card-body.effect__hover:hover .card__front {
+    -webkit-transform: rotateY(-180deg);
+    transform: rotateY(-180deg); }
+  .card-body.effect__hover:hover .card__back {
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0); }
+  .card-body .card__front,
+  .card-body .card__back {
+    position: absolute;
+    padding-bottom: 15px !important;
+    padding-top: 12px !important;
+    padding-right: 10px;
+    padding-left: 10px; }
+  .card-body .card__front,
+  .card-body .card__back {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s; }
+  .card-body .card__front {
+    background-color: #d9d6cf; }
+  .card-body .card__back {
+    background-color: #d9d6cf;
+    -webkit-transform: rotateY(-180deg);
+    transform: rotateY(-180deg); }
+
 .btn-primary {
   background: #80eaf9;
   color: #fdfeff !important;
@@ -251,5 +365,16 @@ input, textarea, button, .btn {
 
 .btn-secondary:hover {
   background: #810a17;
+  color: #fdfeff !important;
+  border: 1px solid #fdfeff; }
+
+.btn-dark {
+  background: #122025;
+  color: #fdfeff !important;
+  padding: 12px 24px;
+  font-size: 16px; }
+
+.btn-dark:hover {
+  background: #010203;
   color: #fdfeff !important;
   border: 1px solid #fdfeff; }

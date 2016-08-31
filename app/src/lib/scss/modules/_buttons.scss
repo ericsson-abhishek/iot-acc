@@ -1,19 +1,32 @@
-.btn-primary{
-	@include add-background($color-primary);
-	@include add-border(1px, $color-light, all);
+.btn-primary {
+    @include add-background($color-primary);
+    @include add-border(1px, $color-light, all);
 }
 
-.btn-primary:hover{
-	background:darken($color-primary,10%);
-	@include add-border(1px, $color-light, all);
+.btn-primary:hover {
+    background: darken($color-primary, 10%);
+    @include add-border(1px, $color-light, all);
 }
 
-.btn-secondary{
-	@include add-background($color-secondary);
-	@include add-border(1px, $color-light, all);
+.btn-secondary {
+    @include add-background($color-secondary);
+    @include add-border(1px, $color-light, all);
 }
 
-.btn-secondary:hover{
-	@include add-background(darken($color-secondary,10%));
-	@include add-border(1px, $color-light, all);
+.btn-secondary:hover {
+    @include add-background(darken($color-secondary, 10%));
+    @include add-border(1px, $color-light, all);
+}
+
+.btn-dark {
+    @include add-background($color-dark-block);
+    padding: 12px 24px;
+    font-size: 16px;
+    //text-align: right;
+    //@include add-border(1px, $color-light, all);
+}
+
+.btn-dark:hover {
+    @include add-background(darken($color-dark-block, 10%));
+    @include add-border(1px, $color-light, all);
 }

@@ -1,0 +1,305 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="utf-8" />
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Device Dashboard</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="/assets/css/font-awesome.css" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+
+<body>
+
+    <!--<script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>-->
+    <script type="text/javascript" src="/assets/js/canvasjs.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.js"></script>
+    <script type="text/javascript" src="/assets/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/assets/js/socket.io.js"></script>
+    <script type="text/javascript" src="/assets/js/main.js"></script>
+
+    <script type="text/javascript">
+        var dps = [];
+        var socket = io();
+        var xVal = 0;
+        var yVal = 0;
+        var chart;
+        var chartData = [];
+        var dataMap = [];
+        window.onload = function() {
+            chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: "Data From Humidity Sensors"
+                },
+                backgroundColor: "#3B5159",
+                axisX: {
+                    title: "Time"
+                },
+                axisY: {
+                    title: "Humidity"
+                },
+                toolTip: {
+                    shared: true
+                },
+                data: chartData,
+                legend: {
+                    cursor: "pointer",
+                    itemclick: function(e) {
+                        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                            e.dataSeries.visible = false;
+                        } else {
+                            e.dataSeries.visible = true;
+                        }
+                        chart.render();
+                    }
+                }
+            });
+        }
+
+        function getDeviceID(message) {
+            return message.deviceId;
+        }
+
+        function getData(deviceId) {
+            var dataForDevice = dataMap[deviceId];
+            if (typeof dataForDevice === 'undefined') {
+                dataForDevice = {
+                    name: deviceId,
+                    showInLegend: true,
+                    type: "spline",
+                    dataPoints: []
+                }
+                dataMap[deviceId] = dataForDevice;
+                chartData.push(dataForDevice);
+                console.log("chart Data is " + chartData);
+            }
+
+            return dataForDevice;
+
+        }
+
+        function updateDataForDevice(dataForDevice, message) {
+
+            var yVal = message.data;
+            xVal += 1;
+            dataForDevice.dataPoints.push({
+                x: xVal,
+                y: yVal
+            });
+            if (dataForDevice.dataPoints.length > 20) {
+                dataForDevice.dataPoints.shift();
+            }
+
+        }
+
+        //chart.render();
+        socket.on('message', function(message) {
+            // check the device id
+            var deviceId = getDeviceID(message);
+            // check whether the array corresponding to it has been there
+            var dataForDevice = getData(deviceId);
+
+            console.log(dataForDevice);
+            // add to array and shift if required
+            updateDataForDevice(dataForDevice, message);
+            //$('.messages').append('<p>' + JSON.stringify(message) + '</p>');
+
+            chart.render();
+        });
+        $(document).ready(function() {
+            $('#postme').click(function() {
+                socket.emit('message', {
+                    text: $('#message').val()
+                });
+                $('#message').val("");
+
+            });
+            $('#message').bind("enterKey", function(e) {
+                socket.emit('message', {
+                    text: $('#message').val()
+                })
+                $('#message').val("");
+            });
+            $('#message').keyup(function(e) {
+                if (e.keyCode == 13) {
+                    $(this).trigger("enterKey");
+                }
+            });
+        });
+    </script>
+    <!--<div class="messages"></div>
+		<div>
+			<input type="text" id="message" placeholder = "type your message here"/>
+			<input type="Button" id="postme" value="Post"></button>
+		</div>-->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+                <a class="navbar-brand" href="#">IOTAPP</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home</a></li>
+                    <li class="active"><a href="#devices">Devices</a></li>
+                    <li><a href="#contact">Services</a></li>
+                    <li><a href="#contact">Marketplace</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-sub pull-right">
+                    <li><a href="#register">Register</a></li>
+                    <li><a href="#login">Login</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </div>
+    <section class="showcase-header">
+        <div class="container showcase-content">
+            <h1>Manage & Monitor all Products </h1>
+            <p class="lead">uniform <strong>Dashboard</strong> for your <strong>Devices</strong>
+                <!--<br> <strong></strong>-->
+            </p>
+            <!--<div class="downloads">
+        <a href="#"><img src="/assets/img/btn-download.png" alt="Download"></a>
+        <a href="#"><img src="/assets/img/btn-appstore.png" alt="Download"></a>
+      </div>-->
+        </div>
+
+    </section>
+    <section class="dashboard-midium">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2 ">
+                    <span><h3>DASHBOARD </h3><span>
+				</div>
+				<div class="col-sm-2 ">
+					<p class="lead">Active Devices <strong>06</strong></p>
+				</div>
+				<!--<div class="col-md-2 ">
+					
+				</div>-->
+				<div class="col-sm-2 ">
+					<p class="lead">Totoal Devices <strong>08</strong></p>
+				</div>
+				<div class="col-sm-3 text-right">
+					<div><a href="#" class="btn btn-dark btn-lg"> 
+							<span class="fa fa-plus"></span> Add a New Device
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <form class="navbar-form pull-right" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search devices" name="srch-term" id="srch-term">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+        <!--<div class="downloads">
+        <a href="#"><img src="/assets/img/btn-download.png" alt="Download"></a>
+        <a href="#"><img src="/assets/img/btn-appstore.png" alt="Download"></a>
+      </div>-->
+        </div>
+
+    </section>
+
+    <section class="section-dark">
+        <div class="container">
+            <div class="row">
+                <!--<div class="col-md-4">
+                    <h2 class="page-header">Manage your<span class="em-primary"> DEVICES </span>here</h2>
+                    <!--<ul class="list list-feature">
+						<li><i class="fa fa-check fa-6 fa-primary"></i> <span>Activate Devices in no time</span></li>
+						<li><i class="fa fa-check fa-6 fa-primary"></i> <span>Integrate Devices with COAP, HTTP, MQTT </span></li>
+						<li><i class="fa fa-check fa-6 fa-primary"></i> <span>Make them alive with Services</span></li>
+					</ul>
+					<br>
+                    <ul class="list list-feature">
+                        <li><a href="#" class="btn btn-secondary btn-lg">Add a Device</a></li>
+                        <li><a href="#" class="btn btn-secondary btn-lg">Activate Device</a></li>
+                        <li><a href="#" class="btn btn-secondary btn-lg">Deactive Device</a></li>
+                        <li><a href="#" class="btn btn-secondary btn-lg">Monitor Live Data</a></li>
+                    </ul>
+                </div>-->
+                <!--<div class="col-md-12">-->
+                <!--<a href="#chartContainer" data-toggle="collapse">Collapsible</a>-->
+                <div class="col-md-12">
+
+                    <div class="panel-group padding-default" id="accordion">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+        							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+										Live Feed From Devices
+        							</a>
+									<i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
+      							</h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div id="chartContainer" style="height: 300px; min-width: 100%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+									My Devices 
+									</a>
+									<i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
+      							</h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div id="chartContainer" style="height: 300px; min-width: 100%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+        							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+         								Collapsible Group Item #3 
+        							</a>
+									<i class="indicator glyphicon glyphicon-chevron-up pull-right"></i>
+      							</h4>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div id="chartContainer" style="height: 300px; min-width: 100%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                    <!--<a href="#chartDiv" class="show-as-pannel padding-default" data-toggle="collapse">Collapsible</a>
+                    <div id="chartDiv" class="collapse">
+                        <div id="chartContainer" style="height: 300px; min-width: 100%;">
+                        </div>
+                    </div>-->
+                </div>
+                <!--</div>-->
+            </div>
+
+        </div>
+    </section>
+
+
+</body>
+
+</html>
