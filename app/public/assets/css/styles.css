@@ -34,8 +34,8 @@ input, textarea, button {
 .navbar {
   width: 90%;
   margin: auto;
-  background-color: rgba(54, 83, 91, 0.46);
-  border-color: rgba(54, 83, 91, 0.46);
+  background-color: #36535b;
+  border-color: #36535b;
   min-height: 60px; }
   .navbar .navbar-brand {
     color: #fdfeff !important;

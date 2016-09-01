@@ -16,10 +16,10 @@
 
     <!--<script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>-->
     <script type="text/javascript" src="/assets/js/canvasjs.min.js"></script>
-    <script type="text/javascript" src="/assets/js/jquery.js"></script>
-    <script type="text/javascript" src="/assets/js/bootstrap.js"></script>
+    <!--<script type="text/javascript" src="/assets/js/jquery.js"></script>
+    <script type="text/javascript" src="/assets/js/bootstrap.js"></script>-->
     <script type="text/javascript" src="/assets/js/socket.io.js"></script>
-    <script type="text/javascript" src="/assets/js/main.js"></script>
+
 
     <script type="text/javascript">
         var dps = [];
@@ -109,26 +109,42 @@
 
             chart.render();
         });
-        $(document).ready(function() {
-            $('#postme').click(function() {
-                socket.emit('message', {
-                    text: $('#message').val()
-                });
-                $('#message').val("");
+        // $(document).ready(function() {
+        //     $('#postme').click(function() {
+        //         socket.emit('message', {
+        //             text: $('#message').val()
+        //         });
+        //         $('#message').val("");
 
-            });
-            $('#message').bind("enterKey", function(e) {
-                socket.emit('message', {
-                    text: $('#message').val()
-                })
-                $('#message').val("");
-            });
-            $('#message').keyup(function(e) {
-                if (e.keyCode == 13) {
-                    $(this).trigger("enterKey");
-                }
-            });
-        });
+        //     });
+        //     $('#message').bind("enterKey", function(e) {
+        //         socket.emit('message', {
+        //             text: $('#message').val()
+        //         })
+        //         $('#message').val("");
+        //     });
+        //     $('#message').keyup(function(e) {
+        //         if (e.keyCode == 13) {
+        //             $(this).trigger("enterKey");
+        //         }
+        //     });
+        // $('#accordion').on("hide.bs.collapse", function(e) {
+
+        //     console.log("toggleChevron called" + e)
+        //     $(e.target)
+        //         .prev('.panel-heading')
+        //         .find("i.indicator")
+        //         .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+        // });
+        // $('#accordion').on("show.bs.collapse", function(e) {
+
+        //     console.log("toggleChevron called " + e);
+        //     $(e.target)
+        //         .prev('.panel-heading   ')
+        //         .find("i.indicator")
+        //         .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+        // });
+        // });
     </script>
     <!--<div class="messages"></div>
 		<div>
@@ -167,10 +183,7 @@
             <p class="lead">uniform <strong>Dashboard</strong> for your <strong>Devices</strong>
                 <!--<br> <strong></strong>-->
             </p>
-            <!--<div class="downloads">
-        <a href="#"><img src="/assets/img/btn-download.png" alt="Download"></a>
-        <a href="#"><img src="/assets/img/btn-appstore.png" alt="Download"></a>
-      </div>-->
+
         </div>
 
     </section>
@@ -190,7 +203,7 @@
 					<p class="lead">Totoal Devices <strong>08</strong></p>
 				</div>
 				<div class="col-sm-3 text-right">
-					<div><a href="#" class="btn btn-dark btn-lg"> 
+					<div><a href="#" class="btn btn-dark btn-lg" id="addNewDevice"> 
 							<span class="fa fa-plus"></span> Add a New Device
                     </a>
                 </div>
@@ -207,10 +220,7 @@
             </div>
         </div>
         </div>
-        <!--<div class="downloads">
-        <a href="#"><img src="/assets/img/btn-download.png" alt="Download"></a>
-        <a href="#"><img src="/assets/img/btn-appstore.png" alt="Download"></a>
-      </div>-->
+
         </div>
 
     </section>
@@ -218,23 +228,7 @@
     <section class="section-dark">
         <div class="container">
             <div class="row">
-                <!--<div class="col-md-4">
-                    <h2 class="page-header">Manage your<span class="em-primary"> DEVICES </span>here</h2>
-                    <!--<ul class="list list-feature">
-						<li><i class="fa fa-check fa-6 fa-primary"></i> <span>Activate Devices in no time</span></li>
-						<li><i class="fa fa-check fa-6 fa-primary"></i> <span>Integrate Devices with COAP, HTTP, MQTT </span></li>
-						<li><i class="fa fa-check fa-6 fa-primary"></i> <span>Make them alive with Services</span></li>
-					</ul>
-					<br>
-                    <ul class="list list-feature">
-                        <li><a href="#" class="btn btn-secondary btn-lg">Add a Device</a></li>
-                        <li><a href="#" class="btn btn-secondary btn-lg">Activate Device</a></li>
-                        <li><a href="#" class="btn btn-secondary btn-lg">Deactive Device</a></li>
-                        <li><a href="#" class="btn btn-secondary btn-lg">Monitor Live Data</a></li>
-                    </ul>
-                </div>-->
-                <!--<div class="col-md-12">-->
-                <!--<a href="#chartContainer" data-toggle="collapse">Collapsible</a>-->
+
                 <div class="col-md-12">
 
                     <div class="panel-group padding-default" id="accordion">
@@ -270,13 +264,13 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="panel panel-default">
+                        <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-        							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-         								Collapsible Group Item #3 
-        							</a>
-									<i class="indicator glyphicon glyphicon-chevron-up pull-right"></i>
+									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+									Timeline 
+									</a>
+									<i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
       							</h4>
                             </div>
                             <div id="collapseThree" class="panel-collapse collapse">
@@ -285,13 +279,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>-->
-                    </div>
-                    <!--<a href="#chartDiv" class="show-as-pannel padding-default" data-toggle="collapse">Collapsible</a>
-                    <div id="chartDiv" class="collapse">
-                        <div id="chartContainer" style="height: 300px; min-width: 100%;">
                         </div>
-                    </div>-->
+
+                    </div>
+
                 </div>
                 <!--</div>-->
             </div>
@@ -299,7 +290,7 @@
         </div>
     </section>
 
-
+    <script type="text/javascript" src="/assets/js/main.js"></script>
 </body>
 
 </html>

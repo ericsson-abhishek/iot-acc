@@ -1,7 +1,11 @@
-var util = require('./myAlert')
+// $ => the jquery in global scope
+// window.jQuery is requried by bootstrap
+window.jQuery = $ = require('jquery')
+    // var $ = require("jquery");
+var bootstrap = require('bootstrap');
+var custom_bs_collapse = require('./custom-bs-collapse')
+
 
 window.onload = function() {
-    util.myAlert("Welcome to the starter page");
-    util.appendBody(["Started using Jquery", "with browserify", "The automation is done with Gulp", "Checking the last few steps"])
-    util.addToggleChevron();
+    console.log('main js is invoked');
 }

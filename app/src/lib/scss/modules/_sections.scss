@@ -129,13 +129,13 @@
         padding: 10px 0px 10px 0px;
         ;
     }
-    .panel{
+    .panel {
         @include add-background(lighten($color-dark-bg, 10%));
     }
     .panel-default {
-         @include add-border(1px,
-            lighten($color-dark-bg, 10%),
-            'all');
+        @include add-border(1px,
+        lighten($color-dark-bg, 10%),
+        'all');
         & > .panel-heading {
             // color: #333;
             // background-color: lighten($color-dark-bg, 10%);
