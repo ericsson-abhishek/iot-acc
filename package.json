@@ -1,33 +1,34 @@
 {
-  "name": "iot-acc",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha app/modules/db/persist_test.js -w"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.15.2",
-    "browserify": "^13.1.0",
-    "express": "^4.14.0",
-    "hashmap": "^2.0.6",
-    "jquery": "^3.1.0",
-    "mongodb": "^2.2.7",
-    "mongoose": "^4.5.9",
-    "request": "^2.74.0",
-    "request-promise": "^4.1.1",
-    "socket.io": "^1.4.8",
-    "underscore": "^1.8.3"
-  },
-  "devDependencies": {
-    "bootstrap": "^3.3.7",
-    "browserify": "^13.1.0",
-    "chai": "^3.5.0",
-    "gulp": "^3.9.1",
-    "gulp-ruby-sass": "^2.1.0",
-    "vinyl-source-stream": "^1.1.0"
-  }
+    "name": "iot-acc",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "start":"node app.js",
+        "test": "mocha app/modules/db/persist_test.js -w"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt-nodejs": "0.0.3",
+        "body-parser": "^1.15.2",
+        "browserify": "^13.1.0",
+        "express": "^4.14.0",
+        "hashmap": "^2.0.6",
+        "jquery": "^3.1.0",
+        "mongodb": "^2.2.7",
+        "mongoose": "^4.5.9",
+        "request": "^2.74.0",
+        "request-promise": "^4.1.1",
+        "socket.io": "^1.4.8",
+        "underscore": "^1.8.3"
+    },
+    "devDependencies": {
+        "bootstrap": "^3.3.7",
+        "browserify": "^13.1.0",
+        "chai": "^3.5.0",
+        "gulp": "^3.9.1",
+        "gulp-ruby-sass": "^2.1.0",
+        "vinyl-source-stream": "^1.1.0"
+    }
 }
