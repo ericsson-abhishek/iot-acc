@@ -1,4 +1,6 @@
+var mongoose = require('mongoose');
 
+mongoose.Promise = global.Promise;
 // import express module
 var express = require("express");
 
@@ -16,6 +18,7 @@ var bcrypt = require('bcrypt-nodejs');
 // Used for creating HTTP based simulated devices
 var clientSim = require("./app/modules/simulator/client_http")
 
+var authentication = require("./app/modules/middleware/authentication");
 // instantiating express
 var app = express();
 var http = require('http').Server(app);
@@ -24,6 +27,37 @@ var http = require('http').Server(app);
 // process.env.PORT is the port number set by Heroku..for local server the 9000 port would be used
 // as process.env.PORT is not supplied in the local env
 var PORT = process.env.PORT || 9000;
+
+// //Printing some info about the request by middleware
+// function checkEmail(req, res, next) {
+//     console.log(req.get("email"));
+//     if (req.get("email") === undefined) {
+//         res.status(403);
+//     }
+//     console.log("Before DB Call");
+//     enterpriseService.queryEnterpriseByEmail(req.get("email"),function(aaa)
+//     {
+//         console.log(aaa);
+//     }).then(function(result,err)
+//     {
+//         console.log("00000000000000000000");
+//         if(err)
+//         {
+//             console.log("-------------------------");
+//             res.status(500);
+//         }
+//         else{
+//             console.log("+++++++++++++++++++++++++++");
+//             console.log(result);
+//             next();
+//         }
+
+//     });
+   
+// }
+
+
+// app.use(checkEmail);
 
 // using bodyparser as a middleware
 app.use(bodyParser.json());
@@ -49,12 +83,21 @@ var devicePrefix = "HTTPSIM000";
 var UniqueNumber = 0;
 
 // the following is an example of path specific middleware(pathSpecificLogger), which is used as a second argument of the route difinition
+//Enterprise get method
+app.get("/enterprise", function (req, resp,next) {
+         authentication.authenticate(req,resp,next);
+         console.log('After  enterprise get method');
+         resp.send("Getting response from get enterprise method");
+});
+
+
 app.get("/about", function (req, resp) {
     resp.send("About items are listed here");
 });
 
 
-app.post("/device", function (req, resp) {
+app.post("/device", function (req, resp,next) {
+    authentication.validateUser(req,resp,next);
     console.log('Enter into device create method');
     resp.send("About items are listed here" + JSON.stringify(req.body, null, 2));
 });
@@ -104,8 +147,13 @@ http.listen(PORT, function (error, success) {
     if (error) {
         console.log("server startup failed");
     } else {
+        mongoose.connect('mongodb://localhost:27017/iotaccdb');
         console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
     }
+});
+
+app.post("/login", function (req, resp) {
+    resp.send("About items are listed here" + JSON.stringify(req.body, null, 2));
 });
 
 
