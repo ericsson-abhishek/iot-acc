@@ -33,10 +33,38 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-sub pull-right">
                     <li><a href="#register">Register</a></li>
-                    <li><a href="#login">Login</a></li>
+                    <li><a href="#login" data-toggle="modal" data-target="#loginModal">Login</a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Login to IOTAPP</h3>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action='' name="login_form">
+                        <p><input type="text" class="span3" name="eid" id="email" placeholder="Email"></p>
+                        <p><input type="password" class="span3" name="passwd" placeholder="Password"></p>
+                        <p><a href="#" class="btn btn-secondary ">Sign in</button>
+                            <a href="#">Forgot Password?</a>
+                        </p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <p>New To IOTAPP?
+                        <a href="#" class="btn btn-dark">Register</a></p>
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                </div>
+            </div>
+
         </div>
     </div>
     <section class="showcase">
@@ -69,16 +97,6 @@
                                 We have created the tools that will help you in your next design project. From plugins to complex kits, we've got you covered in all areas regarding front-end development.
                             </p>
                         </div>
-                        <!--<div class="card__back"> 
-              <div class="icon">
-                <h2><i class="fa fa-cogs"></i></h2>
-              </div>
-              <h4>Devices</h4>
-              <p>
-                We have created the tools that will help you in your next design project. From plugins to complex kits, we've got you covered
-                in all areas regarding front-end development.
-              </p>
-            </div>-->
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -92,16 +110,6 @@
                                 We have created the tools that will help you in your next design project. From plugins to complex kits, we've got you covered in all areas regarding front-end development.
                             </p>
                         </div>
-                        <!--<div class="card__back"> 
-              <div class="icon">
-                <h2><i class="fa fa-cogs"></i></h2>
-              </div>
-              <h4>Devices</h4>
-              <p>
-                We have created the tools that will help you in your next design project. From plugins to complex kits, we've got you covered
-                in all areas regarding front-end development.
-              </p>
-            </div>-->
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -176,30 +184,7 @@
             </div>
         </div>
     </section>
-    <!--<section class="section-light">
-		<div class="container">
-			<div class="row">
-			
-				<div class="col-md-6">
-					<img class="device" src="assets/img/devices.png">
-				</div>
-        	<div class="col-md-6">
-					<h2 class="page-header">Use <span class="em-light">IOT Accelerator</span> For all Devices</h2>
-					<ul class="list list-feature">
-						<li><i class="fa fa-check fa-6 fa-primary"></i> <span>Activate Devices in no time</span></li>
-						<li><i class="fa fa-check fa-6 fa-primary"></i> <span>Integrate Devices with COAP, HTTP, MQTT </span></li>
-						<li><i class="fa fa-check fa-6 fa-primary"></i> <span>Make them alive with Services</span></li>
-					</ul>
-					<br>
-					<a href="#" class="btn btn-secondary btn-lg">Get a free Trial now</a>
-				</div>
-			</div>
-		</div>
-	</section>-->
 
-    <div id="messageHere">
-
-    </div>
 
     <script type="text/javascript" src="/assets/js/jquery.js"></script>
     <script type="text/javascript" src="/assets/js/bootstrap.js"></script>
