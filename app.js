@@ -18,6 +18,8 @@ var bcrypt = require('bcrypt-nodejs');
 // Used for creating HTTP based simulated devices
 var clientSim = require("./app/modules/simulator/client_http")
 
+var enterpriseService = require("./app/modules/db/services/enterpriseService");
+
 var authentication = require("./app/modules/middleware/authentication");
 // instantiating express
 var app = express();
@@ -26,7 +28,7 @@ var http = require('http').Server(app);
 
 // process.env.PORT is the port number set by Heroku..for local server the 9000 port would be used
 // as process.env.PORT is not supplied in the local env
-var PORT = process.env.PORT || 9000;
+var PORT = process.env.PORT || 9099;
 
 // //Printing some info about the request by middleware
 // function checkEmail(req, res, next) {
@@ -62,6 +64,8 @@ var PORT = process.env.PORT || 9000;
 // using bodyparser as a middleware
 app.use(bodyParser.json());
 
+// create application/x-www-form-urlencoded parser 
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 // to be replaced with Mongo DB
 var hashMap = require('hashmap');
 
@@ -96,8 +100,7 @@ app.get("/about", function (req, resp) {
 });
 
 
-app.post("/device", function (req, resp,next) {
-    authentication.validateUser(req,resp,next);
+app.post("/device", authentication.authenticate,function (req, resp,next) {
     console.log('Enter into device create method');
     resp.send("About items are listed here" + JSON.stringify(req.body, null, 2));
 });
@@ -141,6 +144,10 @@ app.post("/devices/create",
         resp.status(200).json(deviceId);
     });
 
+app.post("/login", authentication.authenticateUser,function (req, resp,next) {
+    resp.send("About items are listed here" + JSON.stringify(req.body, null, 2)+ "  : response header "+resp.getHeader("Authorization"));
+});
+
 app.use(express.static(__dirname + "/app/public"));
 
 http.listen(PORT, function (error, success) {
@@ -152,9 +159,6 @@ http.listen(PORT, function (error, success) {
     }
 });
 
-app.post("/login", function (req, resp) {
-    resp.send("About items are listed here" + JSON.stringify(req.body, null, 2));
-});
 
 
 // //GET an individual todo with ID=:id
