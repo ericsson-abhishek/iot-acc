@@ -145,10 +145,6 @@ app.post("/devices/create",
     });
 
 app.post("/login", authentication.authenticateUser,function (req, resp,next) {
-    //when i m adding header in app.js ,its taking but in authentication js same thing is not working.
-    //Here we do not have token value to send in Authorization which  is present in authentication.js
-    //I m looking into this header part as well.
-    resp.header({"Authorization" : "Bearer "}).status(200).send("Successfully Logged In  :  " + req.body.username);
 });
 
 app.use(express.static(__dirname + "/app/public"));
