@@ -145,7 +145,7 @@ app.post("/devices/create",
     });
 
 app.post("/login", authentication.authenticateUser,function (req, resp,next) {
-    resp.send("About items are listed here" + JSON.stringify(req.body, null, 2)+ "  : response header "+resp.getHeader("Authorization"));
+    resp.header({"Authorization" : "Bearer "}).status(200).send("Successfully Logged In  :  " + req.body.username);
 });
 
 app.use(express.static(__dirname + "/app/public"));

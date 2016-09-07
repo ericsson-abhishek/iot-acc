@@ -35,22 +35,17 @@ var authenticate = function authenticate(req, res, next) {
 
 var authenticateUser = function authenticateUser(req, res, next) {
    console.log("Inside atheticate method "+ req.body.username +" "+req.body.password);
-   enterpriseService.validateEnterprise(req.body.username,req.body.password).then(function(result,err){
-           if(err) {
-              console.log("Inside if ");
-              return res.status(401).send();
-           }
-           console.log("Inside callback of validateEnterprise " + err);
-           jwt.generateJWTtoken(result,"OAUTH").then(function(res,err){
-           tokenService.createToken(res).then( function(res,err) {
-                 res.header("Authorization","Bearer "+res).status(200).send();
-                });
+   enterpriseService.validateEnterprise(req.body.username,req.body.password).then(function(result){
+           jwt.generateJWTtoken(result,"OAUTH").then(function(jwtToken){
+           tokenService.createToken(jwtToken).then( function(token) {
+                 res.header({"Authorization1" : "Bearer1 "}).status(200).send();
+           });
            });
            next();
    }).catch(function(err){
                console.log(err);
-               res.status(401).send();
-           });
+               res.status(401).send(err);
+      });
 }
     
 // var validateUser = function validateUser(req, res, next) {

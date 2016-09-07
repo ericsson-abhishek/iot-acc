@@ -8,16 +8,29 @@ var enterpriseService = require("../services/enterpriseService");
 
 //enterpriseService.createEnterprise(enterpriseData);
 // console.log("Before");
-// enterpriseService.queryEnterpriseByFilter("username","rana").then(function(result, err){
-//     if(err) {
-//         throw err;
-//     } else {
-//         console.log(result);
-//     }
-// });
 // console.log("After");
- enterpriseService.validateEnterprise("rana1","Kundu").then(function(res,err)
+ enterpriseService.validateEnterprise("rana","Kundu1").then(function(res,err)
  {
      console.log(res);
+ }).catch(function(err){
      console.log(err);
  });
+
+
+
+// var promiseTest = new Promise(function(resolve,reject){
+ 
+//  var isValid = false;
+
+//  if(isValid){
+//      resolve("Success");
+//  } else {
+//      reject("Failure");
+//  }
+// });
+
+// promiseTest.then(function(success){
+//     console.log("Promise Test is : "+success);
+// }).catch(function(failure){
+//     console.log("Promise Test is : "+failure);
+// })

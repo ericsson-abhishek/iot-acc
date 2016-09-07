@@ -33,30 +33,25 @@ var queryEnterpriseByFilter = function (fieldName, fieldValue) {
 }
 
 var validateEnterprise = function (username, password) {
-    console.log("Enter into validateEnterprise Method");
-    return new Promise(function(resolve,reject){
-        queryEnterpriseByFilter("username", username).then(function (result, err) {
-        if (err) {
-            reject(undefined);
-        }
-        else {
-            if (result === null) {
-                console.log("no records found");
-                reject(result);
+    return new Promise(function(resolve,reject) {
+    queryEnterpriseByFilter("username", username).then(function (result) {
+        if(result !== null) {
+        var passwordObj = {};
+        passwordObj.passswordHash = crypto.MD5(password).toString();
+        console.log(result.get("password") === passwordObj.passswordHash);
+        if(result.get("password") === passwordObj.passswordHash) {
+             //   console.log("Success" + result.get("_id"));
+                resolve(result.get("_id"));
             } else {
-                var passwordObj = {};
-                passwordObj.passswordHash = crypto.MD5(password).toString();
-                //console.log("SSS");
-                if (result.get("password") === passwordObj.passswordHash) {
-                    console.log("success "+result.get("_id"));
-                    resolve(result.get("_id"));
-                } else {
-                    console.log("password not matched");
-                    reject("password not matched");
-                }
+                 reject("Invalid login credentials.");
             }
+        } else {
+              //  console.log("Invalid login credentials.");
+                reject("Invalid login credentials.");
         }
-    })
+        }).catch(function(err){
+            console.log(err);
+        });
     });
 }
 
