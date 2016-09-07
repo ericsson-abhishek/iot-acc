@@ -4,17 +4,21 @@ mongoose.connect('mongodb://localhost:27017/iotaccdb');
 var crypto = require("crypto-js");
 
 var enterpriseService = require("../services/enterpriseService");
-//var enterpriseData = { username: "Rana", password: "Kundu", email: "rana@choukundudhury.com" };
+var enterpriseData = { username: "SudarsanSahoo1111", Sahoo123: "Kundu", email: "sss@sss111111.com"};
 
-//enterpriseService.createEnterprise(enterpriseData);
+enterpriseService.createEnterprise(enterpriseData).then(function(result){
+    console.log(result);
+}).catch(function(err){
+    console.log(err);
+});
 // console.log("Before");
 // console.log("After");
- enterpriseService.validateEnterprise("rana","Kundu1").then(function(res,err)
- {
-     console.log(res);
- }).catch(function(err){
-     console.log(err);
- });
+//  enterpriseService.validateEnterprise("rana","Kundu1").then(function(res,err)
+//  {
+//      console.log(res);
+//  }).catch(function(err){
+//      console.log(err);
+//  });
 
 
 
