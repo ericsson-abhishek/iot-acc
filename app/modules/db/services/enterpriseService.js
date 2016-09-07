@@ -46,14 +46,14 @@ var validateEnterprise = function (username, password) {
      passwordObj.passswordHash = crypto.MD5(password).toString();
     //console.log(result.get("password") === passwordObj.passswordHash);
          if(result.get("password") === passwordObj.passswordHash) {
-         //console.log("Success" + result.get("_id"));
+            //console.log("Success" + result.get("_id"));
             resolve(result.get("_id"));
          } else {
-             //password does not match
+            //password does not match
             reject("Invalid login credentials.");
             }
      } else {
-           //User itself is not present
+            console.log("record not found");
             reject("Invalid login credentials.");
         }
     }).catch(function(err){
