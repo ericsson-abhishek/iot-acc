@@ -20,6 +20,8 @@ var clientSim = require("./app/modules/simulator/client_http")
 
 var enterpriseService = require("./app/modules/db/services/enterpriseService");
 
+var deviceService = require("./app/modules/db/services/deviceService");
+
 var authentication = require("./app/modules/middleware/authentication");
 // instantiating express
 var app = express();
@@ -100,9 +102,32 @@ app.get("/about", function (req, resp) {
 });
 
 
-app.post("/device", authentication.authenticate,function (req, resp,next) {
-    console.log('Enter into device create method');
-    resp.send("About items are listed here" + JSON.stringify(req.body, null, 2));
+app.post("/device",function (req, resp) {
+    //console.log('Enter into device create method' + JSON.stringify(req.body, null, 2));
+    //JSON.parse() removes double quotes of json keys
+    var deviceData = JSON.parse(JSON.stringify(req.body, null, 2));
+    //calling create device method with request data
+    deviceService.createDevice(deviceData).then(function(result){
+        //Sending response back on successfull device creation
+        resp.status(200).send("Device is created successfully with Device Id :" + result.get("_id"));
+        //Error handling when some problem occurs for device creation
+    }).catch(function(err){
+        console.log(err);
+        resp.status(500).send("Sorry !!!! Some error occured while creating device.Please try again.");
+    });
+});
+
+app.get("/device",function (req, resp) {
+    console.log(req.query.enterpriseEmail);
+    //calling query device method 
+    deviceService.queryDeviceByFilter("enterpriseEmail",req.query.enterpriseEmail).then(function(result){
+        //Sending response back on successfull device creation
+        resp.status(200).send(result);
+        //Error handling when some problem occurs for device creation
+    }).catch(function(err){
+        console.log(err);
+        resp.status(404).send("Sorry !!!! No devices are registered for enterprise : "+ req.query.enterpriseEmail);
+    });
 });
 
 app.post("/devices/status/:deviceId",
