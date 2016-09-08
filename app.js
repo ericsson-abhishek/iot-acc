@@ -57,7 +57,7 @@ var PORT = process.env.PORT || 9099;
 //         }
 
 //     });
-   
+
 // }
 
 
@@ -68,7 +68,7 @@ app.use(bodyParser.json());
 
 // create application/x-www-form-urlencoded parser 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-// to be replaced with Mongo DB
+    // to be replaced with Mongo DB
 var hashMap = require('hashmap');
 
 var deviceDB = new hashMap();
@@ -77,10 +77,10 @@ var deviceDB = new hashMap();
 
 var io = require('socket.io')(http);
 
-io.on('connection', function (socket) {
+io.on('connection', function(socket) {
     console.log("connection initiated from " + (socket.toString()));
 
-    socket.on('message', function (message) {
+    socket.on('message', function(message) {
         console.log("message received " + message.text);
         socket.broadcast.emit('message', message);
     });
@@ -90,48 +90,48 @@ var UniqueNumber = 0;
 
 // the following is an example of path specific middleware(pathSpecificLogger), which is used as a second argument of the route difinition
 //Enterprise get method
-app.get("/enterprise", function (req, resp,next) {
-         authentication.authenticate(req,resp,next);
-         console.log('After  enterprise get method');
-         resp.send("Getting response from get enterprise method");
+app.get("/enterprise", function(req, resp, next) {
+    authentication.authenticate(req, resp, next);
+    console.log('After  enterprise get method');
+    resp.send("Getting response from get enterprise method");
 });
 
 
-app.get("/about", function (req, resp) {
+app.get("/about", function(req, resp) {
     resp.send("About items are listed here");
 });
 
 
-app.post("/device",function (req, resp) {
+app.post("/device", function(req, resp) {
     //console.log('Enter into device create method' + JSON.stringify(req.body, null, 2));
     //JSON.parse() removes double quotes of json keys
     var deviceData = JSON.parse(JSON.stringify(req.body, null, 2));
     //calling create device method with request data
-    deviceService.createDevice(deviceData).then(function(result){
+    deviceService.createDevice(deviceData).then(function(result) {
         //Sending response back on successfull device creation
         resp.status(200).send("Device is created successfully with Device Id :" + result.get("_id"));
         //Error handling when some problem occurs for device creation
-    }).catch(function(err){
+    }).catch(function(err) {
         console.log(err);
         resp.status(500).send("Sorry !!!! Some error occured while creating device.Please try again.");
     });
 });
 
-app.get("/device",function (req, resp) {
+app.get("/device", function(req, resp) {
     console.log(req.query.enterpriseEmail);
     //calling query device method 
-    deviceService.queryDeviceByFilter("enterpriseEmail",req.query.enterpriseEmail).then(function(result){
+    deviceService.queryDeviceByFilter("enterpriseEmail", req.query.enterpriseEmail).then(function(result) {
         //Sending response back on successfull device creation
         resp.status(200).send(result);
         //Error handling when some problem occurs for device creation
-    }).catch(function(err){
+    }).catch(function(err) {
         console.log(err);
-        resp.status(404).send("Sorry !!!! No devices are registered for enterprise : "+ req.query.enterpriseEmail);
+        resp.status(404).send("Sorry !!!! No devices are registered for enterprise : " + req.query.enterpriseEmail);
     });
 });
 
 app.post("/devices/status/:deviceId",
-    function (req, resp) {
+    function(req, resp) {
         var deviceId = req.params.deviceId;
         console.log("status received from  " + deviceId);
         console.dir(req.body);
@@ -140,7 +140,7 @@ app.post("/devices/status/:deviceId",
     });
 
 app.post("/devices/activate/:deviceId",
-    function (req, resp) {
+    function(req, resp) {
         var deviceId = req.params.deviceId;
         console.log("activate is getting called for " + deviceId)
         var interval = setInterval(() => { clientSim.sendStatus(deviceId) }, 2000);
@@ -150,7 +150,7 @@ app.post("/devices/activate/:deviceId",
     });
 
 app.post("/devices/deactivate/:deviceId",
-    function (req, resp) {
+    function(req, resp) {
         var deviceId = req.params.deviceId;
         console.log("deactivate device is getting called for " + deviceId)
         var interval = deviceDB.get(deviceId); //setInterval(() => { clientSim.sendStatus(deviceId) }, 2000);
@@ -162,19 +162,41 @@ app.post("/devices/deactivate/:deviceId",
     });
 
 app.post("/devices/create",
-    function (req, resp) {
+    function(req, resp) {
         UniqueNumber += 1;
         var deviceId = devicePrefix + UniqueNumber;
         console.log("generated device id " + deviceId);
         resp.status(200).json(deviceId);
     });
 
-app.post("/login", authentication.authenticateUser,function (req, resp,next) {
+app.post("/login", authentication.authenticateUser, function(req, resp, next) {});
+
+app.post("/auth", function(req, resp) {
+    console.log("login is called")
+    console.dir(req.body)
+
+    resp.header('AUTH', "abc.abc.abc").status(200).json(req.body);
+});
+var staticMiddlewarePrivate = express['static'](__dirname + '/app/partials');
+
+// //app.get('/private/*/:file', auth.ensureAuthenticated, function(req, res, next) {
+app.get('/private/*', function(req, res, next) {
+    console.log('**** Private ****' + req.url);
+    req.url = req.url.replace(/^\/private/, '');
+    if (req.get("AUTH")) {
+        console.log("Auth received");
+        staticMiddlewarePrivate(req, res, next);
+    } else {
+        console.log("Auth not received")
+        console.log("put custom logic here");
+        res.status(401).send();
+    }
+
 });
 
 app.use(express.static(__dirname + "/app/public"));
 
-http.listen(PORT, function (error, success) {
+http.listen(PORT, function(error, success) {
     if (error) {
         console.log("server startup failed");
     } else {
@@ -279,4 +301,3 @@ http.listen(PORT, function (error, success) {
 
 //if you dont provide any route for the "/" , this would get autometically invoked
 // __dirname  => is an predefined variable within node which gives the path of current working directory
-
