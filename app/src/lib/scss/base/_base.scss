@@ -1,19 +1,24 @@
-body{
-    font-family: "Segoe UI", "Segoe WP","Segoe Regular", sans-serif;
+body {
+    font-family: "Segoe UI", "Segoe WP", "Segoe Regular", sans-serif;
     font-size: 15px;
     line-height: 1.7em;
     //color:#666666;
-    background:$color-body!important;
+    background: $color-dark-bg!important;
 }
 
-a{
-    color:$color-primary;
+a {
+    color: $color-primary;
 }
 
-ul,li{
+ul,
+li {
     list-style: none;
 }
-input,textarea,button,{
+
+input,
+textarea,
+button,
+{
     @include border-radius(0px);
 }
 
@@ -22,4 +27,3 @@ input,textarea,button,{
     vertical-align: middle;
     float: none;
 }
-

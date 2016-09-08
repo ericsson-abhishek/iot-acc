@@ -1,26 +1,41 @@
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 0px; }
 
 .page-header {
   margin-top: 30px; }
+
+body {
+  padding-right: 0px !important;
+  margin-right: 0px !important; }
+
+body.modal-open {
+  overflow: auto; }
 
 /* border related mixins */
 /* background related mixins */
 /* Multiline ellipsis START */
 /* Multiline ellipsis END */
 body {
-  font-family: "Segoe UI", "Segoe WP","Segoe Regular", sans-serif;
+  font-family: "Segoe UI", "Segoe WP", "Segoe Regular", sans-serif;
   font-size: 15px;
   line-height: 1.7em;
-  background: #d9d6cf !important; }
+  background: #313D44 !important; }
 
 a {
   color: #80eaf9; }
 
-ul, li {
+ul,
+li {
   list-style: none; }
 
-input, textarea, button {
+input,
+textarea,
+button {
   -moz-border-radius: 0px !important;
   -webkit-border-radius: 0px !important;
   border-radius: 0px !important; }
@@ -163,6 +178,48 @@ input, textarea, button {
       background: #465862;
       color: #fdfeff !important;
       border: 1px solid #465862; }
+    .section-dark .panel-default > .panel-footer {
+      background: #465862;
+      color: #fdfeff !important;
+      border: 1px solid #465862; }
+    .section-dark .panel-default input {
+      -moz-border-top-left-radius: 5px !important;
+      -moz-border-bottom-left-radius: 5px !important;
+      -webkit-border-top-left-radius: 5px !important;
+      -webkit-border-bottom-left-radius: 5px !important;
+      border-top-left-radius: 5px !important;
+      border-bottom-left-radius: 5px !important;
+      -moz-border-top-right-radius: 5px !important;
+      -moz-border-bottom-right-radius: 5px !important;
+      -webkit-border-top-right-radius: 5px !important;
+      -webkit-border-bottom-right-radius: 5px !important;
+      border-top-right-radius: 5px !important;
+      border-bottom-right-radius: 5px !important;
+      background: #fdfeff;
+      color: #fdfeff !important;
+      border: 1px solid #cae5ff; }
+      .section-dark .panel-default input:focus {
+        border: 1px solid #cae5ff; }
+    .section-dark .panel-default button {
+      -moz-border-top-right-radius: 5px !important;
+      -moz-border-bottom-right-radius: 5px !important;
+      -webkit-border-top-right-radius: 5px !important;
+      -webkit-border-bottom-right-radius: 5px !important;
+      border-top-right-radius: 5px !important;
+      border-bottom-right-radius: 5px !important;
+      -moz-border-top-left-radius: 5px !important;
+      -moz-border-bottom-left-radius: 5px !important;
+      -webkit-border-top-left-radius: 5px !important;
+      -webkit-border-bottom-left-radius: 5px !important;
+      border-top-left-radius: 5px !important;
+      border-bottom-left-radius: 5px !important;
+      background: #810a17;
+      color: #fdfeff !important;
+      border: 1px solid #810a17; }
+      .section-dark .panel-default button:hover {
+        background: #810a17;
+        color: #fdfeff !important;
+        border: 1px solid #810a17; }
 
 .em-primary {
   color: #80eaf9; }
@@ -360,8 +417,7 @@ input, textarea, button {
 
 .btn-secondary {
   background: #b10d1f;
-  color: #fdfeff !important;
-  border: 1px solid #fdfeff; }
+  color: #fdfeff !important; }
 
 .btn-secondary:hover {
   background: #810a17;
@@ -370,7 +426,9 @@ input, textarea, button {
 
 .btn-dark {
   background: #122025;
-  color: #fdfeff !important;
+  color: #fdfeff !important; }
+
+.btn-lg {
   padding: 12px 24px;
   font-size: 16px; }
 

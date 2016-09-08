@@ -9,7 +9,7 @@ var jwt = require('../../middleware/services/jwt.js');
 var tokenService = require('./tokenService');
 
 //function to create an enterprise
-var createEnterprise = function (requestData) {
+var createEnterprise = function(requestData) {
     //console.log("Enter into insert Enterprise method " + JSON.stringify(requestData));
     //Logic to hashed the password before storing into DB
     var passwordObj = {};
@@ -26,7 +26,7 @@ var createEnterprise = function (requestData) {
 //function to query an enterprise by filter
 //That is fieldName is the DB column and fieldValue is the value for that field by which you 
 //want to query the Enterprise
-var queryEnterpriseByFilter = function (fieldName, fieldValue) {
+var queryEnterpriseByFilter = function(fieldName, fieldValue) {
     //console.log("Enter into query enterprise method with fieldName : " + fieldName + " and fieldValue : " + fieldValue);
     var obj = {};
     obj[fieldName] = { $eq: fieldValue };
@@ -35,28 +35,28 @@ var queryEnterpriseByFilter = function (fieldName, fieldValue) {
 }
 
 //function to validate an enterprise with username and password after logged in
-var validateEnterprise = function (username, password) {
+var validateEnterprise = function(username, password) {
     //Creating a promise to return the validation future object
-    return new Promise(function(resolve,reject) {
-    queryEnterpriseByFilter("username", username).then(function (result) {
-    //checking for user existence in DB
-    if(result !== null) {
-    //Hashing the user passed password , so that we can compare with DB stored password    
-    var passwordObj = {};
-     passwordObj.passswordHash = crypto.MD5(password).toString();
-    //console.log(result.get("password") === passwordObj.passswordHash);
-         if(result.get("password") === passwordObj.passswordHash) {
-            //console.log("Success" + result.get("_id"));
-            resolve(result.get("_id"));
-         } else {
-            //password does not match
-            reject("Invalid login credentials.");
+    return new Promise(function(resolve, reject) {
+        queryEnterpriseByFilter("username", username).then(function(result) {
+            //checking for user existence in DB
+            if (result !== null) {
+                //Hashing the user passed password , so that we can compare with DB stored password    
+                var passwordObj = {};
+                passwordObj.passswordHash = crypto.MD5(password).toString();
+                //console.log(result.get("password") === passwordObj.passswordHash);
+                if (result.get("password") === passwordObj.passswordHash) {
+                    //console.log("Success" + result.get("_id"));
+                    resolve(result.get("_id"));
+                } else {
+                    //password does not match
+                    reject("Invalid login credentials!");
+                }
+            } else {
+                console.log("record not found");
+                reject("User Does Not Exist!");
             }
-     } else {
-            console.log("record not found");
-            reject("Invalid login credentials.");
-        }
-    }).catch(function(err){
+        }).catch(function(err) {
             console.log(err);
         });
     });

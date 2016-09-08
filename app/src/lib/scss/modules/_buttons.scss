@@ -10,7 +10,7 @@
 
 .btn-secondary {
     @include add-background($color-secondary);
-    @include add-border(1px, $color-light, all);
+    //@include add-border(1px, $color-light, all);
 }
 
 .btn-secondary:hover {
@@ -20,10 +20,13 @@
 
 .btn-dark {
     @include add-background($color-dark-block);
-    padding: 12px 24px;
-    font-size: 16px;
     //text-align: right;
     //@include add-border(1px, $color-light, all);
+}
+
+.btn-lg {
+    padding: 12px 24px;
+    font-size: 16px;
 }
 
 .btn-dark:hover {

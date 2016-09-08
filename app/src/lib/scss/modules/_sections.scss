@@ -145,5 +145,41 @@
             lighten($color-dark-bg, 10%),
             'all');
         }
+        & > .panel-footer {
+            // color: #333;
+            // background-color: lighten($color-dark-bg, 10%);
+            // border-color: #ddd;
+            @include add-background(lighten($color-dark-bg, 10%));
+            @include add-border(1px,
+            lighten($color-dark-bg, 10%),
+            'all');
+        }
+        input {
+            @include border-radius-left(5px);
+            @include border-radius-right(5px);
+            @include add-background($color-light);
+            @include add-border(1px,
+            darken($color-light, 10%),
+            'all');
+            &:focus {
+                @include add-border(1px,
+                darken($color-light, 10%),
+                'all');
+            }
+        }
+        button {
+            @include border-radius-right(5px);
+            @include border-radius-left(5px);
+            @include add-background(darken($color-secondary, 10%));
+            @include add-border(1px,
+            darken($color-secondary, 10%),
+            'all');
+            &:hover {
+                @include add-background(darken($color-secondary, 10%));
+                @include add-border(1px,
+                darken($color-secondary, 10%),
+                'all');
+            }
+        }
     }
 }
