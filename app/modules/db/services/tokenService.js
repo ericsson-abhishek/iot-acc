@@ -3,7 +3,7 @@ var Token = require('../models/token');
 var crypto = require("crypto-js");
 
 var createToken = function(token) {
-    //console.log("Enter into create Token method "+JSON.stringify(requestData));
+    console.log("Enter into create Token method "+JSON.stringify(token));
     var tokenObj = {};
     tokenObj.tokenHash = crypto.MD5(token).toString();
     tokenObj.expiryTime = new Date();

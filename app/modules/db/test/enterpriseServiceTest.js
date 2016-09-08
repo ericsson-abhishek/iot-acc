@@ -1,8 +1,40 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/iotaccdb');
 
-var enterpriseService = require("../services/enterpriseService");
-var enterpriseData = { username: "sahoo", password: "Avishek", email: "abhishek@choudhury.com" };
+var crypto = require("crypto-js");
 
-enterpriseService.createEnterprise(enterpriseData);
-//enterpriseService.queryEnterpriseByEmail("abhishek@choudhury.com");
+var enterpriseService = require("../services/enterpriseService");
+var enterpriseData = { username: "SudarsanSahoo1111", Sahoo123: "Kundu", email: "sss@sss111111.com"};
+
+enterpriseService.createEnterprise(enterpriseData).then(function(result){
+    console.log(result);
+}).catch(function(err){
+    console.log(err);
+});
+// console.log("Before");
+// console.log("After");
+//  enterpriseService.validateEnterprise("rana","Kundu1").then(function(res,err)
+//  {
+//      console.log(res);
+//  }).catch(function(err){
+//      console.log(err);
+//  });
+
+
+
+// var promiseTest = new Promise(function(resolve,reject){
+ 
+//  var isValid = false;
+
+//  if(isValid){
+//      resolve("Success");
+//  } else {
+//      reject("Failure");
+//  }
+// });
+
+// promiseTest.then(function(success){
+//     console.log("Promise Test is : "+success);
+// }).catch(function(failure){
+//     console.log("Promise Test is : "+failure);
+// })

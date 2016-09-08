@@ -1,39 +1,26 @@
 var mongoose = require('mongoose');
+
 var Enterprise = require('../models/enterprise');
 var Device = require('../models/device');
 
 var createDevice = function(requestData) {
-   console.log("Enter into create device method with data : "+JSON.stringify(requestData));
+   //console.log("Enter into create device method with data : "+JSON.stringify(requestData));
    //check for Enterprise existence
-   console.log(requestData.enterpriseNumber);
-   Enterprise.find({number: {$eq:requestData.enterpriseNumber}}, "name", function(err, result){
-    if( err || result.length === 0 )  {
-        console.log("Enterprise not found");
-        throw err;
-    }    else {
    var objToinsert = new Device(requestData);
-   console.log(objToinsert);
-  //Saving the model instance to the DB
-   objToinsert.save(function(err,docsInserted){
-   if ( err ) throw err;
-   console.log("Device Saved Successfully");
-  });}
- });}
-
- 
-var queryDeviceByEnterpriseNumber = function(input){
-  console.log("Enter into query device method "+input);
-  //Now querying those books which have less than 100 pages
-  //Find API takes in a query condition, attributes in the document to be projected,
-  //callback to be executed when the data is available.
-  Device.find({enterpriseNumber : {$eq:input}}, "name manufacturer", function(err, result){
-    if ( err ) throw err;
-    console.log("Find Operations: " + result);
-  });
+   //Saving the model instance to the DB
+   return objToinsert.save();
 }
+
+var queryDeviceByFilter = function (fieldName, fieldValue) {
+    //console.log("Enter into query enterprise method with fieldName : " + fieldName + " and fieldValue : " + fieldValue);
+    var obj = {};
+    obj[fieldName] = { $eq: fieldValue };
+    //Querying the model instance from DB
+    return Device.find(obj);
+}
+
 var updateDeviceByName = function(input){
   console.log("Enter into update device method "+input);
-  
   /*
   Find the book to be updated using the condition and then execute the update
   passed to the API as the second argument
@@ -60,6 +47,6 @@ var deleteDeviceById = function(input){
 
 
 module.exports.createDevice = createDevice;
-module.exports.queryDeviceByEnterpriseNumber = queryDeviceByEnterpriseNumber;
+module.exports.queryDeviceByFilter = queryDeviceByFilter;
 module.exports.updateDeviceByName = updateDeviceByName;
 module.exports.deleteDeviceById = deleteDeviceById;
