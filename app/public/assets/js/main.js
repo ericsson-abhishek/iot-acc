@@ -1,8 +1,26 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var DashboardCtrl = function($scope, $http, $window) {
+var DashboardCtrl = function($scope, $http, $window, $location) {
     console.log($window.sessionStorage.token);
+
+    $scope.logout = function() {
+        $http.delete('/logout')
+            .success(function(data, status, headers, config) {
+                console.log("from Dashboard" + data);
+                console.dir(headers())
+                delete $window.sessionStorage.token;
+                console.log("JWT after delete " + $window.sessionStorage.token)
+                $window.sessionStorage.token = undefined;
+                console.log("JWT after delete " + $window.sessionStorage.token)
+                    // $location.path('/');
+                $window.location.href='/';
+                // $('#loginModal').modal('hide');
+            }).error(function() {
+                delete $window.sessionStorage.token;
+                console.log("Error");
+            })
+    }
 };
 
 module.exports = DashboardCtrl;
@@ -25,18 +43,22 @@ var LoginFormCtrl = function($scope, $http, $window, $location) {
 
     $scope.appName = 'PAT';
     $scope.login = function() {
-        var reqData = { "usrr": "AA" };
+        console.log("name" + $scope.email)
+        var reqData = { email: $scope.email, password: $scope.password };
 
         console.log("---" + reqData);
-        $http.post('/auth', reqData)
+        $http.post('/login', reqData)
             .success(function(data, status, headers, config) {
-                console.log(data);
-                var authHeader = headers()['auth'];
-                $window.sessionStorage.token = authHeader;
+                console.log("from Controller" + data);
+                console.dir(headers())
+                var authHeader = headers()['authorization'];
+                console.log("authHeader from controller" + authHeader);
+                if (authHeader) {
+                    $window.sessionStorage.token = authHeader;
+                }
 
                 $location.path('/devices');
 
-                // $('#loginModal').modal('hide');
             }).error(function() {
                 delete $window.sessionStorage.token;
                 console.log("Error");
@@ -49,7 +71,9 @@ module.exports = LoginFormCtrl;
 module.exports = function($q, $location, $window) {
     return {
         'request': function(config) {
-            config.headers['AUTH'] = $window.sessionStorage.token;
+            console.log("From Interceptor " + $window.sessionStorage.token)
+            if ($window.sessionStorage.token)
+                config.headers['Bearer'] = $window.sessionStorage.token;
             console.log("using interceptor  for " + config.url)
             return config;
         },

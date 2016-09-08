@@ -58,6 +58,9 @@ button {
     letter-spacing: -0.5px;
     padding-bottom: 15px !important;
     padding-top: 22px !important; }
+    .navbar .navbar-brand > img {
+      height: 50px;
+      width: auto; }
   .navbar .navbar-nav {
     min-height: 60px;
     color: #fdfeff !important; }
@@ -166,9 +169,18 @@ button {
   background-color: #313D44;
   color: #fdfeff;
   letter-spacing: -0.5px; }
+  .section-dark img {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 115px; }
+  .section-dark .addMargin {
+    margin-top: 50px; }
   .section-dark .device {
     max-width: 100%;
     padding: 10px 0px 10px 0px; }
+  .section-dark .panel-title {
+    font-size: 21px;
+    text-align: center; }
   .section-dark .panel {
     background: #465862;
     color: #fdfeff !important; }
@@ -183,6 +195,7 @@ button {
       color: #fdfeff !important;
       border: 1px solid #465862; }
     .section-dark .panel-default input {
+      margin-bottom: 10px;
       -moz-border-top-left-radius: 5px !important;
       -moz-border-bottom-left-radius: 5px !important;
       -webkit-border-top-left-radius: 5px !important;
@@ -196,11 +209,12 @@ button {
       border-top-right-radius: 5px !important;
       border-bottom-right-radius: 5px !important;
       background: #fdfeff;
-      color: #fdfeff !important;
-      border: 1px solid #cae5ff; }
+      color: #122025 !important;
+      border: 1px solid #fdfeff; }
       .section-dark .panel-default input:focus {
-        border: 1px solid #cae5ff; }
+        border: 1px solid #fdfeff; }
     .section-dark .panel-default button {
+      width: 100%;
       -moz-border-top-right-radius: 5px !important;
       -moz-border-bottom-right-radius: 5px !important;
       -webkit-border-top-right-radius: 5px !important;
@@ -213,9 +227,9 @@ button {
       -webkit-border-bottom-left-radius: 5px !important;
       border-top-left-radius: 5px !important;
       border-bottom-left-radius: 5px !important;
-      background: #810a17;
+      background: #b10d1f;
       color: #fdfeff !important;
-      border: 1px solid #810a17; }
+      border: 1px solid #b10d1f; }
       .section-dark .panel-default button:hover {
         background: #810a17;
         color: #fdfeff !important;

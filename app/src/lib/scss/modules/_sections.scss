@@ -122,12 +122,24 @@
     color: $color-light;
     // padding-top:30px;
     letter-spacing: -0.5px;
+    img {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        height: 115px;
+    }
+    .addMargin {
+        margin-top: 50px;
+    }
     .device {
         //max-height: 400px;
         max-width: 100%;
         //min-width: 400px;
         padding: 10px 0px 10px 0px;
         ;
+    }
+    .panel-title {
+        font-size: 21px;
+        text-align: center;
     }
     .panel {
         @include add-background(lighten($color-dark-bg, 10%));
@@ -155,24 +167,26 @@
             'all');
         }
         input {
+            margin-bottom: 10px;
             @include border-radius-left(5px);
             @include border-radius-right(5px);
             @include add-background($color-light);
             @include add-border(1px,
-            darken($color-light, 10%),
+            $color-light,
             'all');
             &:focus {
                 @include add-border(1px,
-                darken($color-light, 10%),
+                $color-light,
                 'all');
             }
         }
         button {
+            width: 100%;
             @include border-radius-right(5px);
             @include border-radius-left(5px);
-            @include add-background(darken($color-secondary, 10%));
+            @include add-background($color-secondary);
             @include add-border(1px,
-            darken($color-secondary, 10%),
+            $color-secondary,
             'all');
             &:hover {
                 @include add-background(darken($color-secondary, 10%));

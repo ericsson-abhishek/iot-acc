@@ -1,28 +1,32 @@
 <section class="section-dark">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
+    <div class="container ">
+        <div class="row addMargin">
+            <div class="col-sm-4 col-sm-offset-4">
 
 
                 <div class="panel-group padding-default" id="loginForm" ng-controller='LoginFormCtrl'>
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            <img src="/assets/img/Logo.png" alt="OOO" class="img-responsive center-block" />
                             <h1 class="panel-title">
-        				        Login To IOTAPP			
+        				        Wecome Back!		
       		                </h1>
                         </div>
                         <div class="panel-body">
                             <form name="login_form">
-                                <input type="text" class="input-lg col-md-12" name="eid" id="email" placeholder="Email">
-                                <input type="password" class="input-lg col-md-12" name="passwd" placeholder="Password">
-                                <p><button ng-click="login()" class="btn btn-secondary btn-lg">Sign in</button>
-                                    <a href="#">Forgot Password?</a>
+                                <input type="text" class="input-lg col-xs-12" name="eid" id="email" placeholder="Email" ng-model="email">
+                                <input type="password" class="input-lg col-xs-12" name="passwd" placeholder="Password" ng-model="password">
+                                <p><button ng-click="login()" class="btn btn-secondary btn-lg">Sign in to IOTApp</button>
+
                                 </p>
                             </form>
                         </div>
                         <div class="panel-footer">
-                            <p>New To IOTAPP?
-                                <a href="#" class="btn btn-dark">Register</a></p>
+
+                            <p>
+                                <a href="#">Forgot Password?</a> New To IOTAPP?
+                                <a href="#">Register</a>
+                            </p>
                         </div>
                     </div>
                 </div>

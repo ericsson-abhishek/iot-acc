@@ -1,7 +1,9 @@
 module.exports = function($q, $location, $window) {
     return {
         'request': function(config) {
-            config.headers['AUTH'] = $window.sessionStorage.token;
+            console.log("From Interceptor " + $window.sessionStorage.token)
+            if ($window.sessionStorage.token)
+                config.headers['Bearer'] = $window.sessionStorage.token;
             console.log("using interceptor  for " + config.url)
             return config;
         },

@@ -106,7 +106,7 @@ app.get("/about", function(req, resp) {
 });
 
 
-app.post("/device",authentication.authenticateRequired,function (req, resp) {
+app.post("/device", authentication.authenticateRequired, function(req, resp) {
     //console.log('Enter into device create method' + JSON.stringify(req.body, null, 2));
     //getting enterprise id from jwt service
     //JSON.parse() removes double quotes of json keys
@@ -124,9 +124,9 @@ app.post("/device",authentication.authenticateRequired,function (req, resp) {
     });
 });
 
-app.get("/device",authentication.authenticateRequired,function (req, resp) {
+app.get("/device", authentication.authenticateRequired, function(req, resp) {
     //calling query device method 
-    deviceService.queryDeviceByFilter("enterpriseId",req.params.enterpriseId).then(function(result){
+    deviceService.queryDeviceByFilter("enterpriseId", req.params.enterpriseId).then(function(result) {
         //Sending response back on successfull device creation
         resp.status(200).send(result);
         //Error handling when some problem occurs for device creation
@@ -175,24 +175,38 @@ app.post("/devices/create",
         resp.status(200).json(deviceId);
     });
 
-app.post("/login", authentication.authenticateUser,function (req, resp,next) {
-    resp.header({"Authorization" : req.params.token}).status(200).send("Success");
+app.post("/login", authentication.authenticateUser, function(req, resp, next) {
+    resp.header("Authorization", req.params.token).status(200).send("Success");
 });
 var staticMiddlewarePrivate = express['static'](__dirname + '/app/partials');
 
-app.delete("/logout",function (req, resp,next) {
-   // console.log("logout");
-   var bearerJwt = req.get("Bearer");
-    tokenService.deleteToken(bearerJwt).then(function(count){
+app.delete("/logout", function(req, resp, next) {
+    // console.log("logout");
+    var bearerJwt = req.get("Bearer");
+    tokenService.deleteToken(bearerJwt).then(function(count) {
         //console.log("count : "+count.result.n);
-        if(count.result.n === 1) {
+        if (count.result.n === 1) {
             resp.status(200).send("Logged out successfully.");
-    }
+        }
         //console.log(result);
-            resp.status(401).send("Unauthorized user, please login again.");
-    }).catch(function(err){
+        resp.status(401).send("Unauthorized user, please login again.");
+    }).catch(function(err) {
         resp.status(500).send("Sorry !!!! Some error occured while creating device.Please try again.");
     });
+});
+
+app.get('/private/*', authentication.authenticateRequired, function(req, res, next) {
+    console.log('**** Private ****' + req.url);
+    req.url = req.url.replace(/^\/private/, '');
+    // if (req.get("AUTH")) {
+    //     console.log("Auth received");
+    staticMiddlewarePrivate(req, res, next);
+    // } else {
+    //     console.log("Auth not received")
+    //     console.log("put custom logic here");
+    //     res.status(401).send();
+    // }
+
 });
 
 app.use(express.static(__dirname + "/app/public"));
@@ -302,4 +316,3 @@ http.listen(PORT, function(error, success) {
 
 //if you dont provide any route for the "/" , this would get autometically invoked
 // __dirname  => is an predefined variable within node which gives the path of current working directory
-

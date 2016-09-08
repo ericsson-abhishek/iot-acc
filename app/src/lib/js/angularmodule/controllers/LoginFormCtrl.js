@@ -4,18 +4,22 @@ var LoginFormCtrl = function($scope, $http, $window, $location) {
 
     $scope.appName = 'PAT';
     $scope.login = function() {
-        var reqData = { "usrr": "AA" };
+        console.log("name" + $scope.email)
+        var reqData = { email: $scope.email, password: $scope.password };
 
         console.log("---" + reqData);
-        $http.post('/auth', reqData)
+        $http.post('/login', reqData)
             .success(function(data, status, headers, config) {
-                console.log(data);
-                var authHeader = headers()['auth'];
-                $window.sessionStorage.token = authHeader;
+                console.log("from Controller" + data);
+                console.dir(headers())
+                var authHeader = headers()['authorization'];
+                console.log("authHeader from controller" + authHeader);
+                if (authHeader) {
+                    $window.sessionStorage.token = authHeader;
+                }
 
                 $location.path('/devices');
 
-                // $('#loginModal').modal('hide');
             }).error(function() {
                 delete $window.sessionStorage.token;
                 console.log("Error");
