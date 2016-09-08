@@ -35,10 +35,10 @@ var queryEnterpriseByFilter = function(fieldName, fieldValue) {
 }
 
 //function to validate an enterprise with username and password after logged in
-var validateEnterprise = function(username, password) {
+var validateEnterprise = function(email, password) {
     //Creating a promise to return the validation future object
     return new Promise(function(resolve, reject) {
-        queryEnterpriseByFilter("username", username).then(function(result) {
+        queryEnterpriseByFilter("email", email).then(function(result) {
             //checking for user existence in DB
             if (result !== null) {
                 //Hashing the user passed password , so that we can compare with DB stored password    

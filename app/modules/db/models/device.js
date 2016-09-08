@@ -6,6 +6,7 @@ var deviceSchema = mongoose.Schema({
   name: {type: String, required: true, dropDups: true, lowercase: true, trim: true },
   manufacturer: { type: String, required: true, dropDups: true, lowercase: true, trim: true },
   serialNo: {type: String, unique: true, required: true, dropDups: true, lowercase: true, trim: true },
+  //protocol : {type: String, required: true, dropDups: true, lowercase: true, trim: true },
   enterpriseEmail:{type: String, required: true, dropDups: true, lowercase: true, trim: true },
   //enterpriseEmail:{type: mongoose.Schema.Types.ObjectId, ref: 'Enterprise'}
 });

@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "mocha app/modules/db/test/enterpriseServicetest.js -w"
+    "test": "mocha app/modules/db/test/deviceServicetest.js -w"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "jsonwebtoken": "^7.1.9",
     "mongodb": "^2.2.7",
     "mongoose": "^4.5.9",
+    "mongoose-unique-validator": "^1.0.2",
     "q": "^1.4.1",
     "request": "^2.74.0",
     "request-promise": "^4.1.1",

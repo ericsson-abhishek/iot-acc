@@ -35,15 +35,15 @@ var tokenService = require("../../modules/db/services/tokenService");
 
 var authenticateUser = function authenticateUser(req, res, next) {
    //Validating the user when logged in
-   enterpriseService.validateEnterprise(req.body.username,req.body.password).then(function(result){
+   enterpriseService.validateEnterprise(req.body.email,req.body.password).then(function(result){
    //Generating jwt token once user is validated    
    jwt.generateJWTtoken(result,"OAUTH").then(function(jwtToken){
    //Generating actual token by passing jwt token
    tokenService.createToken(jwtToken).then( function(token) {
-   console.log("Success");
-   var tokenObj = {token};
+   //console.log("Success");
+   //var tokenObj = {token};
    //Adding the token in response header
-   res.header({"Authorization" : tokenObj}).status(200).send("Successfully Logged In : "+req.body.username);
+   res.header({"Authorization" : jwtToken}).status(200).send("Successfully Logged In : "+req.body.email);
             });
         });
            //next();
