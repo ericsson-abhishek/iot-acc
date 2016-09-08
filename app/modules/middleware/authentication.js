@@ -4,33 +4,34 @@ var enterpriseService = require("../db/services/enterpriseService");
 var jwt = require("./services/jwt");
 var tokenService = require("../../modules/db/services/tokenService");
 
-// //Printing some info about the request by middleware
-// var authenticate = function authenticate(req, res, next) {
-//     console.log(req.get("email"));
-//     if (req.get("email") === undefined) {
-//         res.status(403);
-//     }
-//     console.log("Before DB Call");
-//     enterpriseService.queryEnterpriseByFilter("email",req.get("email")).then(function (result, err) {
-//         console.log("In callback method");
-//         if (err) {
-//             console.log("Internal error occured");
-//             res.status(500);
-//         }
-//         else {
-//             console.log("Queried sucessfully" + result);
-//             if (typeof result !== 'undefined' && result) {
-//                 console.log("Success");
-//                 res.status(200);
-//                 next();
-//             }
-//             else {
-//                 console.log("Failure");
-//                 res.status(403);
-//             }
-//         }
-//     });
-// }
+//Checking for user authentocation
+var authenticateRequired = function authenticateRequired(req, res, next) {
+    console.log(req.get("Bearer"));
+    if (req.get("Bearer") === undefined) {
+        res.status(403);
+    }
+    //console.log("Before DB Call");
+    var bearerJwt = req.get("Bearer");
+    tokenService.findToken(bearerJwt).then(function(token){
+        if(token === null){
+             console.log("Token not found.");
+             res.status(401).send("Unauthorized user, please login again.");
+        }
+        console.log("Token Authenticated User");
+        jwt.getUserInfoFromJWT(bearerJwt).then(function (enterpriseId) {
+            console.log("enterprise id : "+enterpriseId+" is successfully added to request object.");
+            req.params.enterpriseId = enterpriseId;
+            next();
+        }).catch(function (err) {
+            console.log(err);
+            res.status(401).send("Unauthorized User,Please Login Again!");
+        });
+       
+    }).catch(function(err){
+                console.log("Error occured in find method ");
+                res.status(401).send("Unauthorized user, please login again.");
+    });
+}
 
 
 var authenticateUser = function authenticateUser(req, res, next) {
@@ -41,12 +42,11 @@ var authenticateUser = function authenticateUser(req, res, next) {
    //Generating actual token by passing jwt token
    tokenService.createToken(jwtToken).then( function(token) {
    //console.log("Success");
-   //var tokenObj = {token};
-   //Adding the token in response header
-   res.header({"Authorization" : jwtToken}).status(200).send("Successfully Logged In : "+req.body.email);
-            });
-        });
-           //next();
+        req.params.token = jwtToken;
+        //console.log("Success" +req.params.token);
+        next();
+         });
+       });
     //Error handling logic when promise is rejected.       
     }).catch(function(err){
             console.log(err);
@@ -55,5 +55,5 @@ var authenticateUser = function authenticateUser(req, res, next) {
 }
     
 
-//module.exports.authenticate = authenticate;
+module.exports.authenticateRequired = authenticateRequired;
 module.exports.authenticateUser = authenticateUser;

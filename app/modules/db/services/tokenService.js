@@ -26,6 +26,19 @@ var findToken = function(token) {
     return Token.findOne({ tokenHash: { $eq: tempTokenHash } });
 }
 
+var deleteToken = function(token) {
+    //console.log("Enter into create Token method "+JSON.stringify(requestData));
+    // tokenObj = {};
+    var tempTokenHash = crypto.MD5(token).toString();
+    //tokenObj.expiryTime = new Date();
+    // var objToinsert = new Token(tokenObj);
+
+    //Saving the model instance to the DB
+    return Token.remove({ tokenHash: { $eq: tempTokenHash } }).exec();
+}
+
 
 module.exports.createToken = createToken;
 module.exports.findToken = findToken;
+module.exports.deleteToken = deleteToken;
+
