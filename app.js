@@ -22,7 +22,11 @@ var enterpriseService = require("./app/modules/db/services/enterpriseService");
 
 var deviceService = require("./app/modules/db/services/deviceService");
 
+var tokenService = require("./app/modules/db/services/tokenService");
+
 var authentication = require("./app/modules/middleware/authentication");
+
+var jwt = require("./app/modules/middleware/services/jwt");
 // instantiating express
 var app = express();
 var http = require('http').Server(app);
@@ -102,10 +106,13 @@ app.get("/about", function(req, resp) {
 });
 
 
-app.post("/device", function(req, resp) {
+app.post("/device",authentication.authenticateRequired,function (req, resp) {
     //console.log('Enter into device create method' + JSON.stringify(req.body, null, 2));
+    //getting enterprise id from jwt service
     //JSON.parse() removes double quotes of json keys
     var deviceData = JSON.parse(JSON.stringify(req.body, null, 2));
+    //console.log(req.body.enterpriseId);
+    //console.log("Request data after adding enterprise id : "+JSON.stringify(req.body, null, 2));
     //calling create device method with request data
     deviceService.createDevice(deviceData).then(function(result) {
         //Sending response back on successfull device creation
@@ -117,10 +124,9 @@ app.post("/device", function(req, resp) {
     });
 });
 
-app.get("/device", function(req, resp) {
-    console.log(req.query.enterpriseEmail);
+app.get("/device",authentication.authenticateRequired,function (req, resp) {
     //calling query device method 
-    deviceService.queryDeviceByFilter("enterpriseEmail", req.query.enterpriseEmail).then(function(result) {
+    deviceService.queryDeviceByFilter("enterpriseId",req.params.enterpriseId).then(function(result){
         //Sending response back on successfull device creation
         resp.status(200).send(result);
         //Error handling when some problem occurs for device creation
@@ -169,29 +175,24 @@ app.post("/devices/create",
         resp.status(200).json(deviceId);
     });
 
-app.post("/login", authentication.authenticateUser, function(req, resp, next) {});
-
-app.post("/auth", function(req, resp) {
-    console.log("login is called")
-    console.dir(req.body)
-
-    resp.header('AUTH', "abc.abc.abc").status(200).json(req.body);
+app.post("/login", authentication.authenticateUser,function (req, resp,next) {
+    resp.header({"Authorization" : req.params.token}).status(200).send("Success");
 });
 var staticMiddlewarePrivate = express['static'](__dirname + '/app/partials');
 
-// //app.get('/private/*/:file', auth.ensureAuthenticated, function(req, res, next) {
-app.get('/private/*', function(req, res, next) {
-    console.log('**** Private ****' + req.url);
-    req.url = req.url.replace(/^\/private/, '');
-    if (req.get("AUTH")) {
-        console.log("Auth received");
-        staticMiddlewarePrivate(req, res, next);
-    } else {
-        console.log("Auth not received")
-        console.log("put custom logic here");
-        res.status(401).send();
+app.delete("/logout",function (req, resp,next) {
+   // console.log("logout");
+   var bearerJwt = req.get("Bearer");
+    tokenService.deleteToken(bearerJwt).then(function(count){
+        //console.log("count : "+count.result.n);
+        if(count.result.n === 1) {
+            resp.status(200).send("Logged out successfully.");
     }
-
+        //console.log(result);
+            resp.status(401).send("Unauthorized user, please login again.");
+    }).catch(function(err){
+        resp.status(500).send("Sorry !!!! Some error occured while creating device.Please try again.");
+    });
 });
 
 app.use(express.static(__dirname + "/app/public"));
@@ -301,3 +302,4 @@ http.listen(PORT, function(error, success) {
 
 //if you dont provide any route for the "/" , this would get autometically invoked
 // __dirname  => is an predefined variable within node which gives the path of current working directory
+
