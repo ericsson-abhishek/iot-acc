@@ -231,20 +231,18 @@ app.get('/private/*', authentication.authenticateRequired, function(req, res, ne
 app.use(express.static(__dirname + "/app/public"));
 
 
-var drop;
 var connect = mongoose.connect('mongodb://localhost:27017/iotaccdb',function(){
-    drop = mongoose.connection.db.dropDatabase()
+    mongoose.connection.db.dropDatabase()
     console.log("Database is dropped succesfully");
 });
 
-connect.then(function(res){drop.then(function(msg){
+connect.then(function(res){
     http.listen(PORT, function(error, success) {
     if (error) {
         console.log("server startup failed");
     } else {
         console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
     }
-});
 
 }).catch(function(err){
     console.log(err);

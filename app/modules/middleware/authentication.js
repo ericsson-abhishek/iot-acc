@@ -16,7 +16,7 @@ var authenticateRequired = function authenticateRequired(req, res, next) {
         if(token === null){
              console.log("Token not found.");
              res.status(401).send("Unauthorized user, please login again.");
-        }
+        } else {
         console.log("Token Authenticated User");
         jwt.getUserInfoFromJWT(bearerJwt).then(function (enterpriseId) {
             console.log("enterprise id : "+enterpriseId+" is successfully added to request object.");
@@ -26,7 +26,7 @@ var authenticateRequired = function authenticateRequired(req, res, next) {
             console.log(err);
             res.status(401).send("Unauthorized User,Please Login Again!");
         });
-       
+      }
     }).catch(function(err){
                 console.log("Error occured in find method ");
                 res.status(401).send("Unauthorized user, please login again.");
