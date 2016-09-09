@@ -110,7 +110,15 @@ app.post("/device", authentication.authenticateRequired, function(req, resp) {
     //console.log('Enter into device create method' + JSON.stringify(req.body, null, 2));
     //getting enterprise id from jwt service
     //JSON.parse() removes double quotes of json keys
-    var deviceData = JSON.parse(JSON.stringify(req.body, null, 2));
+    //req.body.enterpriseId = req.params.enterpriseId;
+   // var deviceData = JSON.parse(JSON.stringify(req.body));
+    
+    var deviceData = _.omit(req.body,'');
+    deviceData.enterpriseId = req.params.enterpriseId;
+    console.log(deviceData);
+    // var deviceData = {};
+    // deviceData.name = req.body.name;
+    // , manufacturer : req.body.manufacturer,serialNo : req.body.serialNo,protocol : req.body.protocol,enterpriseId : req.params.enterpriseId,status : req.body.status
     //console.log(req.body.enterpriseId);
     //console.log("Request data after adding enterprise id : "+JSON.stringify(req.body, null, 2));
     //calling create device method with request data
@@ -140,11 +148,12 @@ app.post("/enterprise",function(req, resp) {
     //console.log('Enter into device create method' + JSON.stringify(req.body, null, 2));
     //getting enterprise id from jwt service
     //JSON.parse() removes double quotes of json keys
-    var deviceData = JSON.parse(JSON.stringify(req.body, null, 2));
+    //var deviceData = JSON.parse(JSON.stringify(req.body, null, 2));
+    var enterpriseData = _.omit(req.body,'');
     //console.log(req.body.enterpriseId);
     //console.log("Request data after adding enterprise id : "+JSON.stringify(req.body, null, 2));
     //calling create enterprise method with request data
-    enterpriseService.createEnterprise(deviceData).then(function(result) {
+    enterpriseService.createEnterprise(enterpriseData).then(function(result) {
         //Sending response back on successfull device creation
          resp.status(200).send("Congratulations !!! You have successfully resgistered.Please login to use our services.");
         //Error handling when some problem occurs for device creation
@@ -195,8 +204,28 @@ app.post("/devices/create",
     });
 
 app.post("/login", authentication.authenticateUser, function(req, resp, next) {
-    resp.header("Authorization", req.params.token).status(200).send("Success");
+
+    enterpriseService.queryEnterpriseByFilter("email",req.body.email).then(function(enterpriseDetails){
+        console.log("Enterprise queried successfully."+ enterpriseDetails);
+        deviceService.queryDeviceByFilter("enterpriseId",enterpriseDetails._id).then(function(devices){
+            console.log("Total  devices : "+devices);
+            var responseData = _.pick(enterpriseDetails,'firstname','lastname');
+            responseData.totalDevices = devices.length;
+            var activatedDevices = 0;
+            for(var i =0 ; i<devices.length; i++) {
+                if(devices[i].status === true) {
+                    activatedDevices += 1;
+                }
+            }
+            responseData.activatedDevices = activatedDevices;
+            console.log("Activated devices  "+activatedDevices);
+            resp.header("Authorization", req.params.token).status(200).send(responseData);
+        }).catch(function(err){
+            console.log("Error occured while querying devices "+err);
+        });
+    });
 });
+
 var staticMiddlewarePrivate = express['static'](__dirname + '/app/partials');
 
 app.delete("/logout", function(req, resp, next) {
@@ -232,7 +261,7 @@ app.use(express.static(__dirname + "/app/public"));
 
 
 var connect = mongoose.connect('mongodb://localhost:27017/iotaccdb',function(){
-    mongoose.connection.db.dropDatabase()
+    //mongoose.connection.db.dropDatabase()
     console.log("Database is dropped succesfully");
 });
 

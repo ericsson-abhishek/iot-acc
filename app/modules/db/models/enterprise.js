@@ -6,7 +6,7 @@ var enterpriseSchema = new mongoose.Schema({
     firstname: { type: String, lowercase: true, trim: true },
     lastname: { type: String, lowercase: true, trim: true },
     username: { type: String, unique: true, required: true, dropDups: true, lowercase: true, trim: true },
-    password: String,
+    password: { type: String, trim: true },
     email: { type: String, unique: true, required: true, dropDups: true, lowercase: true, trim: true }
 });
 
