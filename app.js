@@ -95,7 +95,7 @@ var UniqueNumber = 0;
 // the following is an example of path specific middleware(pathSpecificLogger), which is used as a second argument of the route difinition
 //Enterprise get method
 app.get("/enterprise", function(req, resp, next) {
-    authentication.authenticate(req, resp, next);
+   // authentication.authenticate(req, resp, next);
     console.log('After  enterprise get method');
     resp.send("Getting response from get enterprise method");
 });
@@ -135,6 +135,25 @@ app.get("/device", authentication.authenticateRequired, function(req, resp) {
         resp.status(404).send("Sorry !!!! No devices are registered for enterprise : " + req.query.enterpriseEmail);
     });
 });
+
+app.post("/enterprise",function(req, resp) {
+    //console.log('Enter into device create method' + JSON.stringify(req.body, null, 2));
+    //getting enterprise id from jwt service
+    //JSON.parse() removes double quotes of json keys
+    var deviceData = JSON.parse(JSON.stringify(req.body, null, 2));
+    //console.log(req.body.enterpriseId);
+    //console.log("Request data after adding enterprise id : "+JSON.stringify(req.body, null, 2));
+    //calling create enterprise method with request data
+    enterpriseService.createEnterprise(deviceData).then(function(result) {
+        //Sending response back on successfull device creation
+         resp.status(200).send("Congratulations !!! You have successfully resgistered.Please login to use our services.");
+        //Error handling when some problem occurs for device creation
+    }).catch(function(err) {
+        console.log(err);
+        resp.status(500).send("Sorry !!!! Some error occured while registered.Please try again.");
+    });
+});
+
 
 app.post("/devices/status/:deviceId",
     function(req, resp) {
@@ -211,13 +230,25 @@ app.get('/private/*', authentication.authenticateRequired, function(req, res, ne
 
 app.use(express.static(__dirname + "/app/public"));
 
-http.listen(PORT, function(error, success) {
+
+var drop;
+var connect = mongoose.connect('mongodb://localhost:27017/iotaccdb',function(){
+    drop = mongoose.connection.db.dropDatabase()
+    console.log("Database is dropped succesfully");
+});
+
+connect.then(function(res){drop.then(function(msg){
+    http.listen(PORT, function(error, success) {
     if (error) {
         console.log("server startup failed");
     } else {
-        mongoose.connect('mongodb://localhost:27017/iotaccdb');
         console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
     }
+});
+
+}).catch(function(err){
+    console.log(err);
+});
 });
 
 
