@@ -94,7 +94,8 @@
 			<input type="text" id="message" placeholder = "type your message here"/>
 			<input type="Button" id="postme" value="Post"></button>
 		</div>-->
-<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="DashboardCtrl">
+<div  ng-controller="DashboardCtrl">
+<div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -134,16 +135,16 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-2 ">
-                <span><h3>DASHBOARD </h3><span>
+                <span><h3>DASHBOARD </h3></span>
 				</div>
 				<div class="col-sm-2 ">
-					<p class="lead">Active Devices <strong>06</strong></p>
+					<p class="lead">Active Devices -  <strong>{{user.activatedDevices}}</strong></p>
 				</div>
 				<!--<div class="col-md-2 ">
 					
 				</div>-->
 				<div class="col-sm-2 ">
-					<p class="lead">Totoal Devices <strong>08</strong></p>
+					<p class="lead">Totoal Devices - <strong>{{user.totalDevices}}</strong></p>
 				</div>
 				<div class="col-sm-3 text-right">
 					<div><a href="#" class="btn btn-dark btn-lg" id="addNewDevice"> 
@@ -163,11 +164,7 @@
         </div>
     </div>
     </div>
-
-    </div>
-
 </section>
-
 <section class="section-dark">
     <div class="container">
         <div class="row">
@@ -202,8 +199,8 @@
                         </div>
                         <div id="collapseTwo" class="panel-collapse collapse">
                             <div class="panel-body">
-                                <div id="chartContainer" style="height: 300px; min-width: 100%;">
-                                </div>
+                                <!--<div id="chartContainer" style="height: 300px; min-width: 100%;">
+                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -218,8 +215,8 @@
                         </div>
                         <div id="collapseThree" class="panel-collapse collapse">
                             <div class="panel-body">
-                                <div id="chartContainer" style="height: 300px; min-width: 100%;">
-                                </div>
+                               <!-- <div id="chartContainer" style="height: 300px; min-width: 100%;">
+                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -232,3 +229,4 @@
 
     </div>
 </section>
+</div>

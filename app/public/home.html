@@ -1,4 +1,6 @@
-<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="HomeCtrl">
+
+<div ng-controller="HomeCtrl">
+<div class="navbar navbar-inverse navbar-fixed-top" >
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -18,13 +20,14 @@
             </ul>
             <ul class="nav navbar-nav navbar-sub pull-right">
                 <li><a href="#register">Register</a></li>
-                <li><a href="" ng-click="loginShow()">Login</a></li>
+                <li><a href="" ng-click="loginShow()" ng-show="!isLoggedIn">Login</a></li>
+                <li><a href=""  ng-click="logout()" ng-show="isLoggedIn">Logout</a></li>
             </ul>
         </div>
         <!--/.nav-collapse -->
     </div>
 </div>
-<div login-modal></div>
+
 
 <section class="showcase">
     <div class="container showcase-content">
@@ -118,6 +121,8 @@
             </div>-->
                 </div>
             </div>
+        </div>
+    </div>
 </section>
 <section class="seperator">
     <div>
@@ -143,7 +148,7 @@
         </div>
     </div>
 </section>
-
+</div>
 
 <!--<script type="text/javascript" src="/assets/js/jquery.js"></script>
     <script type="text/javascript" src="/assets/js/bootstrap.js"></script>-->

@@ -12,21 +12,25 @@ var bodyParser = require("body-parser");
 // It is used as a middleware with Express using app.use()
 var _ = require("underscore");
 
-// Bcrypt library is used to hasing the password before storing
-var bcrypt = require('bcrypt-nodejs');
+//// Bcrypt library is used to hasing the password before storing
+//var bcrypt = require('bcrypt-nodejs');
 
 // Used for creating HTTP based simulated devices
 var clientSim = require("./app/modules/simulator/client_http")
 
-var enterpriseService = require("./app/modules/db/services/enterpriseService");
+//var enterpriseService = require("./app/modules/appdb/services/enterpriseService");
+//
+//var deviceService = require("./app/modules/appdb/services/deviceService");
+//
+//var tokenService = require("./app/modules/appdb/services/tokenService");
+//
 
-var deviceService = require("./app/modules/db/services/deviceService");
-
-var tokenService = require("./app/modules/db/services/tokenService");
-
+var appdb = require("./app/modules/db");
 var authentication = require("./app/modules/middleware/authentication");
 
-var jwt = require("./app/modules/middleware/services/jwt");
+
+
+//var jwt = require("./app/modules/middleware/services/jwt");
 // instantiating express
 var app = express();
 var http = require('http').Server(app);
@@ -36,38 +40,7 @@ var http = require('http').Server(app);
 // as process.env.PORT is not supplied in the local env
 var PORT = process.env.PORT || 9099;
 
-// //Printing some info about the request by middleware
-// function checkEmail(req, res, next) {
-//     console.log(req.get("email"));
-//     if (req.get("email") === undefined) {
-//         res.status(403);
-//     }
-//     console.log("Before DB Call");
-//     enterpriseService.queryEnterpriseByEmail(req.get("email"),function(aaa)
-//     {
-//         console.log(aaa);
-//     }).then(function(result,err)
-//     {
-//         console.log("00000000000000000000");
-//         if(err)
-//         {
-//             console.log("-------------------------");
-//             res.status(500);
-//         }
-//         else{
-//             console.log("+++++++++++++++++++++++++++");
-//             console.log(result);
-//             next();
-//         }
-
-//     });
-
-// }
-
-
-// app.use(checkEmail);
-
-// using bodyparser as a middleware
+// using body-parser as a middleware
 app.use(bodyParser.json());
 
 // create application/x-www-form-urlencoded parser 
@@ -94,11 +67,6 @@ var UniqueNumber = 0;
 
 // the following is an example of path specific middleware(pathSpecificLogger), which is used as a second argument of the route difinition
 //Enterprise get method
-app.get("/enterprise", function(req, resp, next) {
-   // authentication.authenticate(req, resp, next);
-    console.log('After  enterprise get method');
-    resp.send("Getting response from get enterprise method");
-});
 
 
 app.get("/about", function(req, resp) {
@@ -112,7 +80,7 @@ app.post("/device", authentication.authenticateRequired, function(req, resp) {
     //JSON.parse() removes double quotes of json keys
     //req.body.enterpriseId = req.params.enterpriseId;
    // var deviceData = JSON.parse(JSON.stringify(req.body));
-    
+
     var deviceData = _.omit(req.body,'');
     deviceData.enterpriseId = req.params.enterpriseId;
     console.log(deviceData);
@@ -122,7 +90,7 @@ app.post("/device", authentication.authenticateRequired, function(req, resp) {
     //console.log(req.body.enterpriseId);
     //console.log("Request data after adding enterprise id : "+JSON.stringify(req.body, null, 2));
     //calling create device method with request data
-    deviceService.createDevice(deviceData).then(function(result) {
+    appdb.deviceService.createDevice(deviceData).then(function(result) {
         //Sending response back on successfull device creation
         resp.status(200).send("Device is created successfully with Device Id :" + result.get("_id"));
         //Error handling when some problem occurs for device creation
@@ -134,7 +102,7 @@ app.post("/device", authentication.authenticateRequired, function(req, resp) {
 
 app.get("/device", authentication.authenticateRequired, function(req, resp) {
     //calling query device method 
-    deviceService.queryDeviceByFilter("enterpriseId", req.params.enterpriseId).then(function(result) {
+    appdb.deviceService.queryDeviceByFilter("enterpriseId", req.params.enterpriseId).then(function(result) {
         //Sending response back on successfull device creation
         resp.status(200).send(result);
         //Error handling when some problem occurs for device creation
@@ -153,7 +121,7 @@ app.post("/enterprise",function(req, resp) {
     //console.log(req.body.enterpriseId);
     //console.log("Request data after adding enterprise id : "+JSON.stringify(req.body, null, 2));
     //calling create enterprise method with request data
-    enterpriseService.createEnterprise(enterpriseData).then(function(result) {
+    appdb.enterpriseService.createEnterprise(enterpriseData).then(function(result) {
         //Sending response back on successfull device creation
          resp.status(200).send("Congratulations !!! You have successfully resgistered.Please login to use our services.");
         //Error handling when some problem occurs for device creation
@@ -177,7 +145,7 @@ app.post("/devices/activate/:deviceId",
     function(req, resp) {
         var deviceId = req.params.deviceId;
         console.log("activate is getting called for " + deviceId)
-        var interval = setInterval(() => { clientSim.sendStatus(deviceId) }, 2000);
+        var interval = setInterval(function(){ clientSim.sendStatus(deviceId) }, 2000);
         deviceDB.set(deviceId, interval);
         resp.status(200).send();
 
@@ -189,7 +157,7 @@ app.post("/devices/deactivate/:deviceId",
         console.log("deactivate device is getting called for " + deviceId)
         var interval = deviceDB.get(deviceId); //setInterval(() => { clientSim.sendStatus(deviceId) }, 2000);
         // deviceDB.put(deviceId, interval);
-        console.log(`timer obj retrieved from db for device id ${deviceId} is ${interval}`)
+        console.log("timer obj retrieved from appdb for device id "+ deviceId+" is "+interval)
         clearInterval(interval);
         resp.status(200).send();
 
@@ -203,11 +171,37 @@ app.post("/devices/create",
         resp.status(200).json(deviceId);
     });
 
+
+    app.get("/enterprise",authentication.authenticateRequired, function(req, resp){
+    appdb.deviceService.queryDeviceByFilter("enterpriseId", req.params.enterpriseId).then(function(result) {
+            appdb.deviceService.queryDeviceByFilter("enterpriseId",result._id).then(function(devices){
+                var responseData = _.pick(result,'firstname','lastname');
+                responseData.totalDevices = devices.length;
+                var activatedDevices = 0;
+                for(var i =0 ; i<devices.length; i++) {
+                    if(devices[i].status === true) {
+                        activatedDevices += 1;
+                    }
+                }
+                responseData.activatedDevices = activatedDevices;
+                console.log("Activated devices  "+activatedDevices);
+                resp.header("Authorization", req.params.token).status(200).send(responseData);
+            })
+    })
+        .catch(function(error)
+        {
+            console.log("Error occured while querying devices "+err);
+        })
+
+
+    }
+)
+
 app.post("/login", authentication.authenticateUser, function(req, resp, next) {
 
-    enterpriseService.queryEnterpriseByFilter("email",req.body.email).then(function(enterpriseDetails){
+    appdb.enterpriseService.queryEnterpriseByFilter("email",req.body.email).then(function(enterpriseDetails){
         console.log("Enterprise queried successfully."+ enterpriseDetails);
-        deviceService.queryDeviceByFilter("enterpriseId",enterpriseDetails._id).then(function(devices){
+        appdb.deviceService.queryDeviceByFilter("enterpriseId",enterpriseDetails._id).then(function(devices){
             console.log("Total  devices : "+devices);
             var responseData = _.pick(enterpriseDetails,'firstname','lastname');
             responseData.totalDevices = devices.length;
@@ -226,12 +220,12 @@ app.post("/login", authentication.authenticateUser, function(req, resp, next) {
     });
 });
 
-var staticMiddlewarePrivate = express['static'](__dirname + '/app/partials');
+
 
 app.delete("/logout", function(req, resp, next) {
     // console.log("logout");
     var bearerJwt = req.get("Bearer");
-    tokenService.deleteToken(bearerJwt).then(function(count) {
+    appdb.tokenService.deleteToken(bearerJwt).then(function(count) {
         //console.log("count : "+count.result.n);
         if (count.result.n === 1) {
             resp.status(200).send("Logged out successfully.");
@@ -243,25 +237,19 @@ app.delete("/logout", function(req, resp, next) {
     });
 });
 
+var staticMiddlewarePrivate = express['static'](__dirname + '/app/partials');
 app.get('/private/*', authentication.authenticateRequired, function(req, res, next) {
     console.log('**** Private ****' + req.url);
     req.url = req.url.replace(/^\/private/, '');
-    // if (req.get("AUTH")) {
-    //     console.log("Auth received");
     staticMiddlewarePrivate(req, res, next);
-    // } else {
-    //     console.log("Auth not received")
-    //     console.log("put custom logic here");
-    //     res.status(401).send();
-    // }
-
 });
 
+// __dirname  => is an predefined variable within node which gives the path of current working directory
 app.use(express.static(__dirname + "/app/public"));
 
 
 var connect = mongoose.connect('mongodb://localhost:27017/iotaccdb',function(){
-    //mongoose.connection.db.dropDatabase()
+    //mongoose.connection.appdb.dropDatabase()
     console.log("Database is dropped succesfully");
 });
 
@@ -280,97 +268,3 @@ connect.then(function(res){
 
 
 
-// //GET an individual todo with ID=:id
-// app.get("/todos/:id", requireauthMW.requires,
-//     function(req, resp) {
-//         var todoId = parseInt(req.params.id, 10);
-//         db.todo.findById(todoId).then(function(todo) {
-//             if (todo) {
-//                 resp.status(200).json(todo.toJSON());
-//             } else {
-//                 console.log("Error");
-//                 resp.status(404).send();
-//             }
-
-//         }).catch(function(error) {
-//             console.log("Error");
-//             resp.status(404).send();
-
-
-//         });
-
-//     }
-// );
-
-
-// // create new todo item
-// app.post("/todos", requireauthMW.requires,
-//     function(req, resp) {
-//         // using body-parser provides the feature of req.body to be used
-//         var body = req.body;
-//         db.todo.create({
-//             description: body.description,
-//             completed: body.completed
-//         }).then(function(todo) {
-//             resp.status(200).json(todo.toJSON());
-//         }).
-//         catch(function(error) {
-//             resp.status(400).json(error);
-//         })
-//     }
-// );
-
-
-// // create new todo item
-// app.post("/users",
-//     function(req, resp) {
-//         // using body-parser provides the feature of req.body to be used
-//         var body = _.pick(req.body, 'email', 'password');
-//         db.user.create(body).then(function(user) {
-//             resp.status(200).json(user.toBareUser());
-//         }).
-//         catch(function(error) {
-//             resp.status(400).json(error);
-//         })
-//     }
-// );
-
-// app.post("/users/login",
-//     function(req, resp) {
-//         // using body-parser provides the feature of req.body to be used
-//         var body = _.pick(req.body, 'email', 'password');
-//         var generatedToken;
-//         // authenticate the user
-//         db.user.authenticate(body).then(
-//             // for successfull authentication wiil have the user instance populated
-//             function(user) {
-//                 // generate the token
-//                 generatedToken = user.generateJwtToken('Authentication');
-//                 // create the token by hashing it in DB
-//                 db.token.create({
-//                         token: generatedToken
-//                     }).
-//                     // setting the auth header
-//                 then(function() {
-//                     resp.header('AUTH', generatedToken).status(200).json(user.toBareUser())
-//                 })
-//             },
-//             function() {
-//                 resp.status(401).send();
-//             }).
-//         catch(function(err) {
-//             console.log(err);
-//             resp.status(500).send();
-//         })
-//     }
-// );
-
-// app.post("/users/logout", requireauthMW.requires,
-//     function(req, resp) {
-//         req.token.destroy().then(resp.status(204).send());
-//     }
-// )
-
-
-//if you dont provide any route for the "/" , this would get autometically invoked
-// __dirname  => is an predefined variable within node which gives the path of current working directory

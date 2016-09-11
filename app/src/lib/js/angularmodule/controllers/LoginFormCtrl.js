@@ -1,29 +1,20 @@
 'use strict';
 
-var LoginFormCtrl = function($scope, $http, $window, $location) {
+var LoginFormCtrl = function($scope,userContext,$window,$location) {
 
+    // the following code has been added to skip the login page when user is already logged in
+    // the scenario can appear when user click on the back button from the dashboard after logging in
+    if($window.sessionStorage.token )
+    {
+        // here we are redirecting the user to the home page instead of the login page.
+        $location.path("/")
+    }
     $scope.appName = 'PAT';
     $scope.login = function() {
-        console.log("name" + $scope.email)
+        console.log("[LoginFormCtrl.login()] invoked with email "+$scope.email)
         var reqData = { email: $scope.email, password: $scope.password };
+        userContext.login(reqData);
 
-        console.log("---" + reqData);
-        $http.post('/login', reqData)
-            .success(function(data, status, headers, config) {
-                console.log("from Controller" + data);
-                console.dir(headers())
-                var authHeader = headers()['authorization'];
-                console.log("authHeader from controller" + authHeader);
-                if (authHeader) {
-                    $window.sessionStorage.token = authHeader;
-                }
-
-                $location.path('/devices');
-
-            }).error(function() {
-                delete $window.sessionStorage.token;
-                console.log("Error");
-            })
     };
 };
 

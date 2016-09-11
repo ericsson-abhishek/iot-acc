@@ -1,9 +1,24 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var DashboardCtrl = function($scope, $http, $window, $location) {
-    console.log($window.sessionStorage.token);
+var DashboardCtrl = function($scope, $http, $window, $location,userContext,$rootScope) {
+    //$scope.user ={ "activatedDevices":"100", "totalDevices":"110"};
+    $scope.user = userContext.getUserData();
 
+    console.log("[DashboardCtrl] checking user data unavailable "+(typeof $scope.user === 'undefined'));
+    if(typeof $scope.user ==='undefined')
+    {
+        userContext.getUserDataFromServer().then(function(user)
+        {
+            $scope.user = user;
+        });
+    }
+
+
+    console.log("[DashboardCtrl] saved token "+$window.sessionStorage.token);
+    console.log("[DashboardCtrl] current user is $scope.user "+ $scope.user);
+
+    console.dir($scope.user);
     $scope.logout = function() {
         $http.delete('/logout')
             .success(function(data, status, headers, config) {
@@ -26,69 +41,90 @@ var DashboardCtrl = function($scope, $http, $window, $location) {
 module.exports = DashboardCtrl;
 },{}],2:[function(require,module,exports){
 'use strict';
-
-var HomeCtrl = function($scope, $http, $window, $location) {
-
-    $scope.loginShow = function() {
+var HomeCtrl = function ($scope, $http, $window, $location) {
+    console.log("[HomeCtrl] user info from store"+ $window.sessionStorage.token)
+    if (typeof $window.sessionStorage.token === "undefined") {
+        $scope.isLoggedIn = false;
+        console.log("[HomeCtrl] is user logged in " + $scope.isLoggedIn)
+    }
+    else {
+        $scope.isLoggedIn = true;
+        console.log("[HomeCtrl] is user logged in " + $scope.isLoggedIn)
+    }
+    $scope.loginShow = function () {
         $location.path("/login");
     }
-
+    $scope.logout = function () {
+        console.log("[HomeCtrl.logout()] is user logged in " + $scope.isLoggedIn)
+        $http.delete('/logout')
+            .success(function (data, status, headers, config) {
+                console.log("from Dashboard" + data);
+                console.dir(headers())
+                delete $window.sessionStorage.token;
+                console.log("JWT after delete " + $window.sessionStorage.token)
+                //$window.sessionStorage.token = undefined;
+                //console.log("JWT after delete " + $window.sessionStorage.token)
+                // $location.path('/');
+                $window.location.href = '/';
+                // $('#loginModal').modal('hide');
+            }).error(function () {
+                delete $window.sessionStorage.token;
+                console.log("Error");
+            })
+    }
 };
-
 module.exports = HomeCtrl;
 },{}],3:[function(require,module,exports){
 'use strict';
 
-var LoginFormCtrl = function($scope, $http, $window, $location) {
+var LoginFormCtrl = function($scope,userContext,$window,$location) {
 
+    // the following code has been added to skip the login page when user is already logged in
+    // the scenario can appear when user click on the back button from the dashboard after logging in
+    if($window.sessionStorage.token )
+    {
+        // here we are redirecting the user to the home page instead of the login page.
+        $location.path("/")
+    }
     $scope.appName = 'PAT';
     $scope.login = function() {
-        console.log("name" + $scope.email)
+        console.log("[LoginFormCtrl.login()] invoked with email "+$scope.email)
         var reqData = { email: $scope.email, password: $scope.password };
+        userContext.login(reqData);
 
-        console.log("---" + reqData);
-        $http.post('/login', reqData)
-            .success(function(data, status, headers, config) {
-                console.log("from Controller" + data);
-                console.dir(headers())
-                var authHeader = headers()['authorization'];
-                console.log("authHeader from controller" + authHeader);
-                if (authHeader) {
-                    $window.sessionStorage.token = authHeader;
-                }
-
-                $location.path('/devices');
-
-            }).error(function() {
-                delete $window.sessionStorage.token;
-                console.log("Error");
-            })
     };
 };
 
 module.exports = LoginFormCtrl;
 },{}],4:[function(require,module,exports){
-module.exports = function($q, $location, $window) {
+// Authentication interceptor is getting used as a client side component to share the JWT token in every request
+module.exports = function ($q, $location, $window) {
     return {
-        'request': function(config) {
-            console.log("From Interceptor " + $window.sessionStorage.token)
-            if ($window.sessionStorage.token)
+        'request': function (config) {
+            console.log("[AuthInterceptor.request()]  available JWT token in the store " + $window.sessionStorage.token)
+            // check if JWT token available
+            if ($window.sessionStorage.token) {
+                // add Bearer header for the JWT
                 config.headers['Bearer'] = $window.sessionStorage.token;
-            console.log("using interceptor  for " + config.url)
+            }
+            console.log("[AuthInterceptor.request()] using interceptor  for " + config.url)
             return config;
         },
-        'response': function(response) {
-            console.log('repose in intercepted')
+        'response': function (response) {
+            console.log('[AuthInterceptor.response()] successful response is intercepted '+ response)
             return response;
         },
-        'responseError': function(response) {
-            console.log('repose in intercepted in error')
+        'responseError': function (response) {
+            console.log('[AuthInterceptor.responseError()] responseError is intercepted '+response.status)
             if (response.status == 401) {
-                console.log("Not Authenticated")
-                $location.path('/login');
+                console.log("[AuthInterceptor.responseError()] Not Authenticated ")
+                delete $window.sessionStorage.token;
+                //$location.path('/login');
+                $window.location.href='/';
             }
             if (response.status == 404) {
-                console.log("Not Authenticated")
+                console.log("[AuthInterceptor.responseError()] Page not found ")
+                delete $window.sessionStorage.token;
                 $location.path('/404');
             }
             return $q.reject(response);
@@ -96,21 +132,79 @@ module.exports = function($q, $location, $window) {
     }
 }
 },{}],5:[function(require,module,exports){
+module.exports= function ($q, $location, $window,$http){
+    var userData;
+    return{
+        getUserData:function()
+        {
+            return userData;
+        },
+        login:function(reqData)
+        {
+            var deffered = $q.defer();
+            $http.post('/login', reqData)
+                .success(function(data, status, headers, config) {
+                    console.log("[userContext.login()] response from the server is" + data);
+                    console.dir(headers())
+                    var authHeader = headers()['authorization'];
+                    console.log(" [userContext.login()] authHeader received in the response is " + authHeader);
+                    if (authHeader) {
+                        $window.sessionStorage.token = authHeader;
+                    }
+                    userData=data;
+
+                    $location.path('/devices');
+                    deffered.resolve(data);
+
+                }).error(function(error) {
+                    console.log(" [userContext.login()] Error encountered  " + error);
+                    delete $window.sessionStorage.token;
+                    deffered.reject(error);
+                })
+            return deffered.promise;
+        },
+
+        getUserDataFromServer:function()
+        {
+            console.log(" [userContext.getUserDataFromServer()] is called");
+            var deferred = $q.defer();
+            $http.get('/enterprise')
+                .success(function(data, status, headers, config) {
+                    console.log(" [userContext.getUserDataFromServer()]response received from server is " + data);
+                    deferred.resolve(data);
+
+                }).error(function(error) {
+                    console.log(" [userContext.getUserDataFromServer()] error received in the response is " + error);
+                    delete $window.sessionStorage.token;
+                    deferred.reject(error);
+                })
+            return deferred.promise;
+        }
+    }
+
+}
+
+},{}],6:[function(require,module,exports){
 'use strict';
 
-// dependencies for angluar
+// dependencies for angularjs
 var angular = require('angular');
 require('angular-route')
 
+// defining the module
 var app = angular.module('iotapp', ['ngRoute']);
 
 // adding angular controllers
+// Controller for log in page
 app.controller('LoginFormCtrl', require('./controllers/LoginFormCtrl'));
+// controller for home page
 app.controller('HomeCtrl', require('./controllers/HomeCtrl'));
+// Controller for Dashboard pages
 app.controller('DashboardCtrl', require('./controllers/DashboardCtrl'));
 
 // adding angular factories
 app.factory('authInterceptor', require('./factories/AuthInterceptor'));
+app.factory('userContext', require('./factories/userContext'));
 
 // add the factory as an interceptor
 app.config(['$httpProvider', function($httpProvider) {
@@ -119,7 +213,7 @@ app.config(['$httpProvider', function($httpProvider) {
 
 // adding routes
 app.config(require('./routeConfig/BasicRoutes'));
-},{"./controllers/DashboardCtrl":1,"./controllers/HomeCtrl":2,"./controllers/LoginFormCtrl":3,"./factories/AuthInterceptor":4,"./routeConfig/BasicRoutes":6,"angular":12,"angular-route":10}],6:[function(require,module,exports){
+},{"./controllers/DashboardCtrl":1,"./controllers/HomeCtrl":2,"./controllers/LoginFormCtrl":3,"./factories/AuthInterceptor":4,"./factories/userContext":5,"./routeConfig/BasicRoutes":7,"angular":13,"angular-route":11}],7:[function(require,module,exports){
 module.exports = function($routeProvider) {
 
     $routeProvider
@@ -139,7 +233,7 @@ module.exports = function($routeProvider) {
             redirectTo: '/'
         })
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 function toggleChevron(e) {
     $(e.target)
         .prev('.panel-heading')
@@ -154,7 +248,7 @@ function addToggleChevron() {
 }
 // this function would be invoked during the require call from main.js
 addToggleChevron();
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 // $ => the jquery in global scope
 // window.jQuery is requried by bootstrap
 window.jQuery = $ = require('jquery')
@@ -166,7 +260,7 @@ var angular = require('./angularmodule');
 window.onload = function() {
     console.log('main js is invoked');
 }
-},{"./angularmodule":5,"./custom-bs-collapse":7,"bootstrap":13,"jquery":26}],9:[function(require,module,exports){
+},{"./angularmodule":6,"./custom-bs-collapse":8,"bootstrap":14,"jquery":27}],10:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -1237,11 +1331,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":9}],11:[function(require,module,exports){
+},{"./angular-route":10}],12:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -33010,11 +33104,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":11}],13:[function(require,module,exports){
+},{"./angular":12}],14:[function(require,module,exports){
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
 require('../../js/transition.js')
 require('../../js/alert.js')
@@ -33028,7 +33122,7 @@ require('../../js/popover.js')
 require('../../js/scrollspy.js')
 require('../../js/tab.js')
 require('../../js/affix.js')
-},{"../../js/affix.js":14,"../../js/alert.js":15,"../../js/button.js":16,"../../js/carousel.js":17,"../../js/collapse.js":18,"../../js/dropdown.js":19,"../../js/modal.js":20,"../../js/popover.js":21,"../../js/scrollspy.js":22,"../../js/tab.js":23,"../../js/tooltip.js":24,"../../js/transition.js":25}],14:[function(require,module,exports){
+},{"../../js/affix.js":15,"../../js/alert.js":16,"../../js/button.js":17,"../../js/carousel.js":18,"../../js/collapse.js":19,"../../js/dropdown.js":20,"../../js/modal.js":21,"../../js/popover.js":22,"../../js/scrollspy.js":23,"../../js/tab.js":24,"../../js/tooltip.js":25,"../../js/transition.js":26}],15:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.3.7
  * http://getbootstrap.com/javascript/#affix
@@ -33192,7 +33286,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: alert.js v3.3.7
  * http://getbootstrap.com/javascript/#alerts
@@ -33288,7 +33382,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: button.js v3.3.7
  * http://getbootstrap.com/javascript/#buttons
@@ -33415,7 +33509,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: carousel.js v3.3.7
  * http://getbootstrap.com/javascript/#carousel
@@ -33654,7 +33748,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: collapse.js v3.3.7
  * http://getbootstrap.com/javascript/#collapse
@@ -33868,7 +33962,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.7
  * http://getbootstrap.com/javascript/#dropdowns
@@ -34035,7 +34129,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: modal.js v3.3.7
  * http://getbootstrap.com/javascript/#modals
@@ -34376,7 +34470,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: popover.js v3.3.7
  * http://getbootstrap.com/javascript/#popovers
@@ -34486,7 +34580,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: scrollspy.js v3.3.7
  * http://getbootstrap.com/javascript/#scrollspy
@@ -34660,7 +34754,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tab.js v3.3.7
  * http://getbootstrap.com/javascript/#tabs
@@ -34817,7 +34911,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.7
  * http://getbootstrap.com/javascript/#tooltip
@@ -35339,7 +35433,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: transition.js v3.3.7
  * http://getbootstrap.com/javascript/#transitions
@@ -35400,7 +35494,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /*eslint-disable no-unused-vars*/
 /*!
  * jQuery JavaScript Library v3.1.0
@@ -45476,4 +45570,4 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{}]},{},[8]);
+},{}]},{},[9]);

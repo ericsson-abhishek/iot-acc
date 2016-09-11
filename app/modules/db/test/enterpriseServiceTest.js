@@ -4,7 +4,7 @@ mongoose.connect('mongodb://localhost:27017/iotaccdb');
 var crypto = require("crypto-js");
 
 var enterpriseService = require("../services/enterpriseService");
-var enterpriseData = { firstname: "Sudarsan",lastname: "Sahoo",username: "SudarsanSaho11o1111111", password : "SSS", email: "2sss@11111111111sss111111.com"};
+var enterpriseData = { firstname: "test",lastname: "user",username: "testuser", password : "test", email: "test@user.com"};
 
 enterpriseService.createEnterprise(enterpriseData).then(function(result){
     console.log(result);
