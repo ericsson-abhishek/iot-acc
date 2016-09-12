@@ -11,12 +11,14 @@ var DashboardCtrl = function($scope, $http, $window, $location,userContext,$root
         userContext.getUserDataFromServer().then(function(user)
         {
             $scope.user = user;
+            console.log("[DashboardCtrl] saved token "+$window.sessionStorage.token);
+            console.log("[DashboardCtrl] current user is $scope.user "+ $scope.user);
+
         });
     }
 
 
-    console.log("[DashboardCtrl] saved token "+$window.sessionStorage.token);
-    console.log("[DashboardCtrl] current user is $scope.user "+ $scope.user);
+
 
     console.dir($scope.user);
     $scope.logout = function() {

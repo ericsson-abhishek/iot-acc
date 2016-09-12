@@ -123,7 +123,7 @@ app.post("/enterprise",function(req, resp) {
     //calling create enterprise method with request data
     appdb.enterpriseService.createEnterprise(enterpriseData).then(function(result) {
         //Sending response back on successfull device creation
-         resp.status(200).send("Congratulations !!! You have successfully resgistered.Please login to use our services.");
+         resp.status(200).send("Congratulations !!! You have successfully registered.Please login to use our services.");
         //Error handling when some problem occurs for device creation
     }).catch(function(err) {
         console.log(err);
@@ -173,7 +173,10 @@ app.post("/devices/create",
 
 
     app.get("/enterprise",authentication.authenticateRequired, function(req, resp){
-    appdb.deviceService.queryDeviceByFilter("enterpriseId", req.params.enterpriseId).then(function(result) {
+    appdb.enterpriseService.queryEnterpriseByFilter("_id", req.params.enterpriseId).then(function(result) {
+            console.log("get enterprise");
+            console.dir(result)
+            console.log("get enterprise result");
             appdb.deviceService.queryDeviceByFilter("enterpriseId",result._id).then(function(devices){
                 var responseData = _.pick(result,'firstname','lastname');
                 responseData.totalDevices = devices.length;
