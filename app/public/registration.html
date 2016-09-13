@@ -4,7 +4,7 @@
             <div class="col-sm-4 col-sm-offset-4">
 
 
-                <div class="panel-group padding-default" id="registration" ng-controller='RegistraionFormCtrl'>
+                <div class="panel-group padding-default" id="registration" ng-controller='RegistrationCtrl'>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <img src="/assets/img/Logo.png" alt="OOO" class="img-responsive center-block logo" />
@@ -14,10 +14,11 @@
                         </div>
                         <div class="panel-body">
                             <form name="login_form">
-                                <input type="text" class="input-lg col-xs-12" name="fName" id="fName" placeholder="first name" ng-model="firstName">
-                                <input type="text" class="input-lg col-xs-12" name="lName" id="lName" placeholder="last name" ng-model="lastName">
-                                <input type="email" class="input-lg col-xs-12" name="email" placeholder="email" ng-model="eMail">
-                                <input type="confEmail" class="input-lg col-xs-12" name="confEmail" placeholder="Confirm Email" ng-model="confEmail">
+                                <input type="text" class="input-lg col-xs-12" name="uName" placeholder="user name" ng-model="username">
+                                <input type="text" class="input-lg col-xs-12" name="fName" id="fName" placeholder="first name" ng-model="firstname">
+                                <input type="text" class="input-lg col-xs-12" name="lName" id="lName" placeholder="last name" ng-model="lastname">
+                                <input type="email" class="input-lg col-xs-12" name="email" placeholder="email" ng-model="email">
+                                <input type="text" class="input-lg col-xs-12" name="confEmail" placeholder="Confirm Email" ng-model="confEmail">
                                 <input type="password" class="input-lg col-xs-12" name="passwd" placeholder="Password" ng-model="password">
                                 <p><button ng-click="register()" class="btn btn-secondary btn-lg">Register</button>
                                 </p>
