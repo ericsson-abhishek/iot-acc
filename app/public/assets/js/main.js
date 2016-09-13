@@ -28,8 +28,8 @@ var DashboardCtrl = function($scope, $http, $window, $location,userContext,$root
                 console.dir(headers())
                 delete $window.sessionStorage.token;
                 console.log("JWT after delete " + $window.sessionStorage.token)
-                $window.sessionStorage.token = undefined;
-                console.log("JWT after delete " + $window.sessionStorage.token)
+                //$window.sessionStorage.token = undefined;
+                //console.log("JWT after delete " + $window.sessionStorage.token)
                     // $location.path('/');
                 $window.location.href='/';
                 // $('#loginModal').modal('hide');
@@ -218,6 +218,7 @@ app.config(require('./routeConfig/BasicRoutes'));
 },{"./controllers/DashboardCtrl":1,"./controllers/HomeCtrl":2,"./controllers/LoginFormCtrl":3,"./factories/AuthInterceptor":4,"./factories/userContext":5,"./routeConfig/BasicRoutes":7,"angular":13,"angular-route":11}],7:[function(require,module,exports){
 module.exports = function($routeProvider) {
 
+
     $routeProvider
         .when('/', {
             templateUrl: '../home.html'
@@ -225,14 +226,17 @@ module.exports = function($routeProvider) {
         .when('/devices', {
             templateUrl: '../private/dashboard.html'
         })
+        .when('/register', {
+            templateUrl: '../registration.html'
+        })
         .when('/login', {
             templateUrl: '../loginForm.html'
         })
-        .when('/register', {
-            templateUrl: '../register.html'
-        })
+        //.when('/register', {
+        //    templateUrl: '../register.html'
+        //})
         .otherwise({
-            redirectTo: '/'
+            redirectTo:  '/'
         })
 }
 },{}],8:[function(require,module,exports){

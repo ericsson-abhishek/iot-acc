@@ -172,9 +172,14 @@ button {
   .section-dark .logo {
     margin-top: 20px;
     margin-bottom: 20px;
-    height: 115px; }
-  .section-dark .addMargin {
-    margin-top: 50px; }
+    height: 90px; }
+  .section-dark .vertical-center {
+    min-height: 100%;
+    /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh;
+    /* These two lines are counted as one :-)       */
+    display: flex;
+    align-items: center; }
   .section-dark .device {
     max-width: 100%;
     padding: 10px 0px 10px 0px; }

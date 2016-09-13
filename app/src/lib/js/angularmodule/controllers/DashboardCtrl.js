@@ -27,8 +27,8 @@ var DashboardCtrl = function($scope, $http, $window, $location,userContext,$root
                 console.dir(headers())
                 delete $window.sessionStorage.token;
                 console.log("JWT after delete " + $window.sessionStorage.token)
-                $window.sessionStorage.token = undefined;
-                console.log("JWT after delete " + $window.sessionStorage.token)
+                //$window.sessionStorage.token = undefined;
+                //console.log("JWT after delete " + $window.sessionStorage.token)
                     // $location.path('/');
                 $window.location.href='/';
                 // $('#loginModal').modal('hide');

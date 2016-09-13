@@ -125,10 +125,18 @@
     .logo {
         margin-top: 20px;
         margin-bottom: 20px;
-        height: 115px;
+        height: 90px;
     }
-    .addMargin {
-        margin-top: 50px;
+//    .addMargin {
+//        margin-top: 50px;
+//    }
+
+    .vertical-center {
+        min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+        min-height: 100vh; /* These two lines are counted as one :-)       */
+
+        display: flex;
+        align-items: center;
     }
     .device {
         //max-height: 400px;

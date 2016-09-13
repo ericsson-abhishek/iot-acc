@@ -1,5 +1,6 @@
 module.exports = function($routeProvider) {
 
+
     $routeProvider
         .when('/', {
             templateUrl: '../home.html'
@@ -7,13 +8,16 @@ module.exports = function($routeProvider) {
         .when('/devices', {
             templateUrl: '../private/dashboard.html'
         })
+        .when('/register', {
+            templateUrl: '../registration.html'
+        })
         .when('/login', {
             templateUrl: '../loginForm.html'
         })
-        .when('/register', {
-            templateUrl: '../register.html'
-        })
+        //.when('/register', {
+        //    templateUrl: '../register.html'
+        //})
         .otherwise({
-            redirectTo: '/'
+            redirectTo:  '/'
         })
 }
