@@ -22,6 +22,7 @@
     "mongodb": "^2.2.7",
     "mongoose": "^4.5.9",
     "mongoose-unique-validator": "^1.0.2",
+    "node-mailjet": "^3.0.5",
     "q": "^1.4.1",
     "request": "^2.74.0",
     "request-promise": "^4.1.1",
