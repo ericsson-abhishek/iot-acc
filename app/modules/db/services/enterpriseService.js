@@ -92,12 +92,11 @@ var activateEnterprise = function (input) {
                         console.log("Successfully Activated");
                         resolve("Successfully Activated");
                     });
-                // } else {
+                } else {
         
-                //        Enterprise.update({ activation_hash: { $eq: input } }, { $set: {activation_timestamp:dayFromNow()} }).then(function(act,err){
-                //        reject("Your Activation Link is Already Expired.Please click below to resend\n.<a href='http://100.96.115.100:9099/enterprise/activate?activateId="+ result.activation_hash+"'>click here</a>"); 
-                //     });    
-                reject("Your account is alreafy activated.");        
+                       Enterprise.update({ activation_hash: { $eq: input } }, { $set: {activation_timestamp:dayFromNow()} }).then(function(act,err){
+                       reject("Your Activation Link is Already Expired.Please click below to resend\n.<a href='http://100.96.115.100:9099/enterprise/activate?activateId="+ result.activation_hash+"'>click here</a>"); 
+                    });            
                 }
             } else {
                 //password does not match
