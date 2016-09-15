@@ -12,7 +12,7 @@ var send = function(mailObj) {
         "Html-part": "<h3>Dear " + mailObj.name + " , welcome to IOTAPP!</h3><br/>" +
             "<h2>Your account has been successfully created</h2>" +
             "<p>Please click the following link to activate your account!</p>" +
-            "",
+            "<a href='http://100.96.115.100:9099/enterprise/activate?activateId="+ mailObj.activateId +"'>click here</a>",
         "Recipients": [{
             "Email": mailObj.email
         }]

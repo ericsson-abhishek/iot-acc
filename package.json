@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "mocha app/modules/db/test/deviceServicetest.js -w"
+    "test": "mocha test.js -w"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,8 @@
     "hashmap": "^2.0.6",
     "jquery": "^3.1.0",
     "jsonwebtoken": "^7.1.9",
+    "moment": "^2.15.0",
+    "moment-timezone": "^0.5.5",
     "mongodb": "^2.2.7",
     "mongoose": "^4.5.9",
     "mongoose-unique-validator": "^1.0.2",
@@ -27,7 +29,8 @@
     "request": "^2.74.0",
     "request-promise": "^4.1.1",
     "socket.io": "^1.4.8",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "uuid": "^2.0.2"
   },
   "devDependencies": {
     "angular": "^1.5.8",
@@ -40,6 +43,7 @@
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-ruby-sass": "^2.1.0",
+    "mocha": "^3.0.2",
     "vinyl-source-stream": "^1.1.0"
   }
 }

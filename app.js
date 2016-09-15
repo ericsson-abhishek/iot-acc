@@ -126,13 +126,14 @@ app.post("/enterprise", function(req, resp) {
     //calling create enterprise method with request data
     appdb.enterpriseService.createEnterprise(enterpriseData).then(function(result) {
 
-        var mailObj = { name: result.firstname, email: result.email };
+        var mailObj = { name: result.firstname, email: result.email , activateId : result.activation_hash};
         var request = mailSender.send(mailObj);
 
         request.then(function(response) {
                 console.log(response);
                 resp.status(200).send(_.omit(result, '_id'));
             })
+         //resp.status(200).send(_.omit(result, '_id'));
             //Sending response back on successfull device creation
 
         //Error handling when some problem occurs for device creation
@@ -142,6 +143,17 @@ app.post("/enterprise", function(req, resp) {
     });
 });
 
+app.get("/enterprise/activate",function(req, resp) {
+        var activateId = req.query.activateId;
+        console.log("activate is getting called for " + activateId);
+        appdb.enterpriseService.activateEnterprise(activateId).then(function(result){
+            //console.log(result);
+            resp.status(200).send(result);
+        }).catch(function(err){
+            console.log("Some error occured while enterprise activation"+err);
+            resp.status(500).send(err);
+        });
+    });
 
 app.post("/devices/status/:deviceId",
     function(req, resp) {
