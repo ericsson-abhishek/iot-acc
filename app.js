@@ -28,6 +28,8 @@ var clientSim = require("./app/modules/simulator/client_http")
 var appdb = require("./app/modules/db");
 var authentication = require("./app/modules/middleware/authentication");
 
+var mailSender = require("./app/modules/mail/sendmail.js");
+
 
 
 //var jwt = require("./app/modules/middleware/services/jwt");
@@ -79,9 +81,9 @@ app.post("/device", authentication.authenticateRequired, function(req, resp) {
     //getting enterprise id from jwt service
     //JSON.parse() removes double quotes of json keys
     //req.body.enterpriseId = req.params.enterpriseId;
-   // var deviceData = JSON.parse(JSON.stringify(req.body));
+    // var deviceData = JSON.parse(JSON.stringify(req.body));
 
-    var deviceData = _.omit(req.body,'');
+    var deviceData = _.omit(req.body, '');
     deviceData.enterpriseId = req.params.enterpriseId;
     console.log(deviceData);
     // var deviceData = {};
@@ -112,18 +114,27 @@ app.get("/device", authentication.authenticateRequired, function(req, resp) {
     });
 });
 
-app.post("/enterprise",function(req, resp) {
+app.post("/enterprise", function(req, resp) {
     //console.log('Enter into device create method' + JSON.stringify(req.body, null, 2));
     //getting enterprise id from jwt service
     //JSON.parse() removes double quotes of json keys
     //var deviceData = JSON.parse(JSON.stringify(req.body, null, 2));
-    var enterpriseData = _.omit(req.body,'');
+    var enterpriseData = _.omit(req.body, '');
+    console.dir(enterpriseData);
     //console.log(req.body.enterpriseId);
     //console.log("Request data after adding enterprise id : "+JSON.stringify(req.body, null, 2));
     //calling create enterprise method with request data
     appdb.enterpriseService.createEnterprise(enterpriseData).then(function(result) {
-        //Sending response back on successfull device creation
-         resp.status(200).send("Congratulations !!! You have successfully registered.Please login to use our services.");
+
+        var mailObj = { name: result.firstname, email: result.email };
+        var request = mailSender.send(mailObj);
+
+        request.then(function(response) {
+                console.log(response);
+                resp.status(200).send(_.omit(result, '_id'));
+            })
+            //Sending response back on successfull device creation
+
         //Error handling when some problem occurs for device creation
     }).catch(function(err) {
         console.log(err);
@@ -145,7 +156,7 @@ app.post("/devices/activate/:deviceId",
     function(req, resp) {
         var deviceId = req.params.deviceId;
         console.log("activate is getting called for " + deviceId)
-        var interval = setInterval(function(){ clientSim.sendStatus(deviceId) }, 2000);
+        var interval = setInterval(function() { clientSim.sendStatus(deviceId) }, 2000);
         deviceDB.set(deviceId, interval);
         resp.status(200).send();
 
@@ -157,7 +168,7 @@ app.post("/devices/deactivate/:deviceId",
         console.log("deactivate device is getting called for " + deviceId)
         var interval = deviceDB.get(deviceId); //setInterval(() => { clientSim.sendStatus(deviceId) }, 2000);
         // deviceDB.put(deviceId, interval);
-        console.log("timer obj retrieved from appdb for device id "+ deviceId+" is "+interval)
+        console.log("timer obj retrieved from appdb for device id " + deviceId + " is " + interval)
         clearInterval(interval);
         resp.status(200).send();
 
@@ -172,53 +183,51 @@ app.post("/devices/create",
     });
 
 
-    app.get("/enterprise",authentication.authenticateRequired, function(req, resp){
+app.get("/enterprise", authentication.authenticateRequired, function(req, resp) {
     appdb.enterpriseService.queryEnterpriseByFilter("_id", req.params.enterpriseId).then(function(result) {
             console.log("get enterprise");
             console.dir(result)
             console.log("get enterprise result");
-            appdb.deviceService.queryDeviceByFilter("enterpriseId",result._id).then(function(devices){
-                var responseData = _.pick(result,'firstname','lastname');
+            appdb.deviceService.queryDeviceByFilter("enterpriseId", result._id).then(function(devices) {
+                var responseData = _.pick(result, 'firstname', 'lastname');
                 responseData.totalDevices = devices.length;
                 var activatedDevices = 0;
-                for(var i =0 ; i<devices.length; i++) {
-                    if(devices[i].status === true) {
+                for (var i = 0; i < devices.length; i++) {
+                    if (devices[i].status === true) {
                         activatedDevices += 1;
                     }
                 }
                 responseData.activatedDevices = activatedDevices;
-                console.log("Activated devices  "+activatedDevices);
+                console.log("Activated devices  " + activatedDevices);
                 resp.header("Authorization", req.params.token).status(200).send(responseData);
             })
-    })
-        .catch(function(error)
-        {
-            console.log("Error occured while querying devices "+err);
+        })
+        .catch(function(error) {
+            console.log("Error occured while querying devices " + err);
         })
 
 
-    }
-)
+})
 
 app.post("/login", authentication.authenticateUser, function(req, resp, next) {
 
-    appdb.enterpriseService.queryEnterpriseByFilter("email",req.body.email).then(function(enterpriseDetails){
-        console.log("Enterprise queried successfully."+ enterpriseDetails);
-        appdb.deviceService.queryDeviceByFilter("enterpriseId",enterpriseDetails._id).then(function(devices){
-            console.log("Total  devices : "+devices);
-            var responseData = _.pick(enterpriseDetails,'firstname','lastname');
+    appdb.enterpriseService.queryEnterpriseByFilter("email", req.body.email).then(function(enterpriseDetails) {
+        console.log("Enterprise queried successfully." + enterpriseDetails);
+        appdb.deviceService.queryDeviceByFilter("enterpriseId", enterpriseDetails._id).then(function(devices) {
+            console.log("Total  devices : " + devices);
+            var responseData = _.pick(enterpriseDetails, 'firstname', 'lastname');
             responseData.totalDevices = devices.length;
             var activatedDevices = 0;
-            for(var i =0 ; i<devices.length; i++) {
-                if(devices[i].status === true) {
+            for (var i = 0; i < devices.length; i++) {
+                if (devices[i].status === true) {
                     activatedDevices += 1;
                 }
             }
             responseData.activatedDevices = activatedDevices;
-            console.log("Activated devices  "+activatedDevices);
+            console.log("Activated devices  " + activatedDevices);
             resp.header("Authorization", req.params.token).status(200).send(responseData);
-        }).catch(function(err){
-            console.log("Error occured while querying devices "+err);
+        }).catch(function(err) {
+            console.log("Error occured while querying devices " + err);
         });
     });
 });
@@ -251,23 +260,20 @@ app.get('/private/*', authentication.authenticateRequired, function(req, res, ne
 app.use(express.static(__dirname + "/app/public"));
 
 
-var connect = mongoose.connect('mongodb://localhost:27017/iotaccdb',function(){
-    //mongoose.connection.appdb.dropDatabase()
+var connect = mongoose.connect('mongodb://localhost:27017/iotaccdb', function() {
+    mongoose.connection.db.dropDatabase()
     console.log("Database is dropped succesfully");
 });
 
-connect.then(function(res){
+connect.then(function(res) {
     http.listen(PORT, function(error, success) {
-    if (error) {
-        console.log("server startup failed");
-    } else {
-        console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
-    }
+        if (error) {
+            console.log("server startup failed");
+        } else {
+            console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
+        }
 
-}).catch(function(err){
-    console.log(err);
+    }).catch(function(err) {
+        console.log(err);
+    });
 });
-});
-
-
-
