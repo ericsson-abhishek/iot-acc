@@ -168,7 +168,10 @@ button {
 .section-dark {
   background-color: #313D44;
   color: #fdfeff;
+  text-align: center;
   letter-spacing: -0.5px; }
+  .section-dark h2 {
+    font-size: 32px; }
   .section-dark .logo {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -200,6 +203,7 @@ button {
       color: #fdfeff !important;
       border: 1px solid #465862; }
     .section-dark .panel-default input {
+      height: 40px;
       margin-bottom: 10px;
       -moz-border-top-left-radius: 5px !important;
       -moz-border-bottom-left-radius: 5px !important;
@@ -236,9 +240,9 @@ button {
       color: #fdfeff !important;
       border: 1px solid #b10d1f; }
       .section-dark .panel-default button:hover {
-        background: #810a17;
+        background: #f46373;
         color: #fdfeff !important;
-        border: 1px solid #810a17; }
+        border: 1px solid #f46373; }
 
 .em-primary {
   color: #80eaf9; }

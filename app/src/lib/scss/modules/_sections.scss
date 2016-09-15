@@ -121,20 +121,24 @@
     background-color: $color-dark-bg;
     color: $color-light;
     // padding-top:30px;
+    text-align: center;
     letter-spacing: -0.5px;
+    h2 {
+        font-size: 32px;
+    }
     .logo {
         margin-top: 20px;
         margin-bottom: 20px;
         height: 90px;
     }
-//    .addMargin {
-//        margin-top: 50px;
-//    }
-
+    //    .addMargin {
+    //        margin-top: 50px;
+    //    }
     .vertical-center {
-        min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
-        min-height: 100vh; /* These two lines are counted as one :-)       */
-
+        min-height: 100%;
+        /* Fallback for browsers do NOT support vh unit */
+        min-height: 100vh;
+        /* These two lines are counted as one :-)       */
         display: flex;
         align-items: center;
     }
@@ -175,6 +179,7 @@
             'all');
         }
         input {
+            height: 40px;
             margin-bottom: 10px;
             @include border-radius-left(5px);
             @include border-radius-right(5px);
@@ -197,9 +202,9 @@
             $color-secondary,
             'all');
             &:hover {
-                @include add-background(darken($color-secondary, 10%));
+                @include add-background(lighten($color-secondary, 30%));
                 @include add-border(1px,
-                darken($color-secondary, 10%),
+                lighten($color-secondary, 30%),
                 'all');
             }
         }

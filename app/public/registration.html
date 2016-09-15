@@ -1,34 +1,62 @@
 <section class="section-dark">
-    <div class="container ">
-        <div class="row vertical-center">
-            <div class="col-sm-4 col-sm-offset-4">
+    <div class="container">
+        <div class="row vertical-center" ng-controller='RegistrationCtrl'>
+            <div ng-show="!isRegistrationSuccess">
+                <div class="col-sm-4 col-sm-offset-4">
 
 
-                <div class="panel-group padding-default" id="registration" ng-controller='RegistrationCtrl'>
+                    <div class="panel-group padding-default" id="registration">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <img src="/assets/img/Logo.png" alt="OOO" class="img-responsive center-block logo" />
+                                <h1 class="panel-title">
+        				       Create a new account
+      		                </h1>
+                            </div>
+                            <div class="panel-body">
+                                <form name="login_form">
+                                    <input type="text" class=" col-xs-12" name="uName" placeholder="user name" ng-model="username">
+                                    <input type="text" class=" col-xs-12" name="fName" id="fName" placeholder="first name" ng-model="firstname">
+                                    <input type="text" class=" col-xs-12" name="lName" id="lName" placeholder="last name" ng-model="lastname">
+                                    <input type="email" class=" col-xs-12" name="email" placeholder="email" ng-model="email">
+                                    <input type="text" class=" col-xs-12" name="confEmail" placeholder="Confirm Email" ng-model="confEmail">
+                                    <input type="password" class=" col-xs-12" name="passwd" placeholder="Password" ng-model="password">
+                                    <p><button ng-click="register()" class="btn btn-secondary btn-lg">Register</button>
+                                    </p>
+                                </form>
+                            </div>
+                            <div class="panel-footer">
+
+                                <p>
+                                    <a href="#/">Go back To Home </a> Already have an Account
+                                    <a href="#/login">Login</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 col-sm-offset-4" ng-show="isRegistrationSuccess">
+                <div class="panel-group padding-default" id="registrationSuccess">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <img src="/assets/img/Logo.png" alt="OOO" class="img-responsive center-block logo" />
-                            <h1 class="panel-title">
-        				       Create a new account
-      		                </h1>
+                            <h2>
+        				        Congratulations {{registeredUsername}}
+      		                    </h2>
                         </div>
                         <div class="panel-body">
-                            <form name="login_form">
-                                <input type="text" class="input-lg col-xs-12" name="uName" placeholder="user name" ng-model="username">
-                                <input type="text" class="input-lg col-xs-12" name="fName" id="fName" placeholder="first name" ng-model="firstname">
-                                <input type="text" class="input-lg col-xs-12" name="lName" id="lName" placeholder="last name" ng-model="lastname">
-                                <input type="email" class="input-lg col-xs-12" name="email" placeholder="email" ng-model="email">
-                                <input type="text" class="input-lg col-xs-12" name="confEmail" placeholder="Confirm Email" ng-model="confEmail">
-                                <input type="password" class="input-lg col-xs-12" name="passwd" placeholder="Password" ng-model="password">
-                                <p><button ng-click="register()" class="btn btn-secondary btn-lg">Register</button>
-                                </p>
-                            </form>
+                            <h4>Your account has been created successfully</h4>
+                            <h5>We have sent a mail to {{registeredEmail}} please check your inbox and activate your account</h5>
+                            <br>
+                            <p><button ng-click="resend()" class="btn btn-secondary btn-lg">Resend Activation Link</button>
+                            </p>
                         </div>
                         <div class="panel-footer">
-
                             <p>
-                                <a href="#">Forgot Password?</a> New To IOTAPP?
-                                <a href="#">Register</a>
+                                <a href="#/" class="col-sm-6">Home</a>
+                                <a href="#/login">Login</a>
                             </p>
                         </div>
                     </div>
