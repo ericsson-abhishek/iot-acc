@@ -16,6 +16,8 @@ app.controller('HomeCtrl', require('./controllers/HomeCtrl'));
 app.controller('DashboardCtrl', require('./controllers/DashboardCtrl'));
 // Controller for Dashboard pages
 app.controller('RegistrationCtrl', require('./controllers/RegistrationCtrl'));
+// Controller for Root page
+app.controller('RootCtrl', require('./controllers/RootCtrl'));
 
 // adding angular factories
 app.factory('authInterceptor', require('./factories/AuthInterceptor'));

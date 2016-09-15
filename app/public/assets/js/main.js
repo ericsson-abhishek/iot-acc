@@ -131,8 +131,17 @@ var RegistrationCtrl = function($scope, $http, $window, $location) {
 };
 module.exports = RegistrationCtrl;
 },{}],5:[function(require,module,exports){
+'use strict';
+var RootCtrl = function ($rootScope) {
+    $rootScope.$on('LOADING',function(){ $rootScope.reqLoading=true;} )
+    $rootScope.$on('LOADED',function(){ $rootScope.reqLoading=false;} )
+
+}
+
+module.exports = RootCtrl;
+},{}],6:[function(require,module,exports){
 // Authentication interceptor is getting used as a client side component to share the JWT token in every request
-module.exports = function ($q, $location, $window) {
+module.exports = function ($q, $location, $window,$rootScope) {
     return {
         'request': function (config) {
             console.log("[AuthInterceptor.request()]  available JWT token in the store " + $window.sessionStorage.token)
@@ -142,13 +151,16 @@ module.exports = function ($q, $location, $window) {
                 config.headers['Bearer'] = $window.sessionStorage.token;
             }
             console.log("[AuthInterceptor.request()] using interceptor  for " + config.url)
+            $rootScope.$emit('LOADING');
             return config;
         },
         'response': function (response) {
+            $rootScope.$emit('LOADED');
             console.log('[AuthInterceptor.response()] successful response is intercepted '+ response)
             return response;
         },
         'responseError': function (response) {
+            $rootScope.$emit('LOADED');
             console.log('[AuthInterceptor.responseError()] responseError is intercepted '+response.status)
             if (response.status == 401) {
                 console.log("[AuthInterceptor.responseError()] Not Authenticated ")
@@ -165,7 +177,7 @@ module.exports = function ($q, $location, $window) {
         }
     }
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports= function ($q, $location, $window,$http){
     var userData;
     return{
@@ -218,7 +230,7 @@ module.exports= function ($q, $location, $window,$http){
 
 }
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 // dependencies for angularjs
@@ -237,6 +249,8 @@ app.controller('HomeCtrl', require('./controllers/HomeCtrl'));
 app.controller('DashboardCtrl', require('./controllers/DashboardCtrl'));
 // Controller for Dashboard pages
 app.controller('RegistrationCtrl', require('./controllers/RegistrationCtrl'));
+// Controller for Root page
+app.controller('RootCtrl', require('./controllers/RootCtrl'));
 
 // adding angular factories
 app.factory('authInterceptor', require('./factories/AuthInterceptor'));
@@ -249,7 +263,7 @@ app.config(['$httpProvider', function($httpProvider) {
 
 // adding routes
 app.config(require('./routeConfig/BasicRoutes'));
-},{"./controllers/DashboardCtrl":1,"./controllers/HomeCtrl":2,"./controllers/LoginFormCtrl":3,"./controllers/RegistrationCtrl":4,"./factories/AuthInterceptor":5,"./factories/userContext":6,"./routeConfig/BasicRoutes":8,"angular":14,"angular-route":12}],8:[function(require,module,exports){
+},{"./controllers/DashboardCtrl":1,"./controllers/HomeCtrl":2,"./controllers/LoginFormCtrl":3,"./controllers/RegistrationCtrl":4,"./controllers/RootCtrl":5,"./factories/AuthInterceptor":6,"./factories/userContext":7,"./routeConfig/BasicRoutes":9,"angular":15,"angular-route":13}],9:[function(require,module,exports){
 module.exports = function($routeProvider) {
 
 
@@ -273,7 +287,7 @@ module.exports = function($routeProvider) {
             redirectTo:  '/'
         })
 }
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 function toggleChevron(e) {
     $(e.target)
         .prev('.panel-heading')
@@ -288,7 +302,7 @@ function addToggleChevron() {
 }
 // this function would be invoked during the require call from main.js
 addToggleChevron();
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 // $ => the jquery in global scope
 // window.jQuery is requried by bootstrap
 window.jQuery = $ = require('jquery')
@@ -300,7 +314,7 @@ var angular = require('./angularmodule');
 window.onload = function() {
     console.log('main js is invoked');
 }
-},{"./angularmodule":7,"./custom-bs-collapse":9,"bootstrap":15,"jquery":28}],11:[function(require,module,exports){
+},{"./angularmodule":8,"./custom-bs-collapse":10,"bootstrap":16,"jquery":29}],12:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -1371,11 +1385,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":11}],13:[function(require,module,exports){
+},{"./angular-route":12}],14:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -33144,11 +33158,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":13}],15:[function(require,module,exports){
+},{"./angular":14}],16:[function(require,module,exports){
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
 require('../../js/transition.js')
 require('../../js/alert.js')
@@ -33162,7 +33176,7 @@ require('../../js/popover.js')
 require('../../js/scrollspy.js')
 require('../../js/tab.js')
 require('../../js/affix.js')
-},{"../../js/affix.js":16,"../../js/alert.js":17,"../../js/button.js":18,"../../js/carousel.js":19,"../../js/collapse.js":20,"../../js/dropdown.js":21,"../../js/modal.js":22,"../../js/popover.js":23,"../../js/scrollspy.js":24,"../../js/tab.js":25,"../../js/tooltip.js":26,"../../js/transition.js":27}],16:[function(require,module,exports){
+},{"../../js/affix.js":17,"../../js/alert.js":18,"../../js/button.js":19,"../../js/carousel.js":20,"../../js/collapse.js":21,"../../js/dropdown.js":22,"../../js/modal.js":23,"../../js/popover.js":24,"../../js/scrollspy.js":25,"../../js/tab.js":26,"../../js/tooltip.js":27,"../../js/transition.js":28}],17:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.3.7
  * http://getbootstrap.com/javascript/#affix
@@ -33326,7 +33340,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: alert.js v3.3.7
  * http://getbootstrap.com/javascript/#alerts
@@ -33422,7 +33436,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: button.js v3.3.7
  * http://getbootstrap.com/javascript/#buttons
@@ -33549,7 +33563,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: carousel.js v3.3.7
  * http://getbootstrap.com/javascript/#carousel
@@ -33788,7 +33802,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: collapse.js v3.3.7
  * http://getbootstrap.com/javascript/#collapse
@@ -34002,7 +34016,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.7
  * http://getbootstrap.com/javascript/#dropdowns
@@ -34169,7 +34183,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: modal.js v3.3.7
  * http://getbootstrap.com/javascript/#modals
@@ -34510,7 +34524,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: popover.js v3.3.7
  * http://getbootstrap.com/javascript/#popovers
@@ -34620,7 +34634,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: scrollspy.js v3.3.7
  * http://getbootstrap.com/javascript/#scrollspy
@@ -34794,7 +34808,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tab.js v3.3.7
  * http://getbootstrap.com/javascript/#tabs
@@ -34951,7 +34965,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.7
  * http://getbootstrap.com/javascript/#tooltip
@@ -35473,7 +35487,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: transition.js v3.3.7
  * http://getbootstrap.com/javascript/#transitions
@@ -35534,7 +35548,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /*eslint-disable no-unused-vars*/
 /*!
  * jQuery JavaScript Library v3.1.0
@@ -45610,4 +45624,4 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{}]},{},[10]);
+},{}]},{},[11]);

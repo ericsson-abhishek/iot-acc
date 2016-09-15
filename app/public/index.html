@@ -18,8 +18,13 @@
     <script type="text/javascript" src="/assets/js/socket.io.js"></script>
 
     <script type="text/javascript" src="/assets/js/main.js"></script>
+    <div ng-controller="RootCtrl">
+        <div ng-show="reqLoading">
+            <h1 class="alert alert-info">LOADING......</h1>
+        </div>
+        <div ng-view></div>
+    </div>
 
-    <div ng-view></div>
 
 
     <!--<script type="text/javascript" src="/assets/js/jquery.js"></script>
