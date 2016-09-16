@@ -11,7 +11,7 @@ var jwt = require('../../middleware/services/jwt.js');
 //using token service module
 var tokenService = require('./tokenService');
 
-var dayFromNow = function(){
+var dayFromNow = function () {
     return moment().add(1, 'days').toDate();
 };
 
@@ -28,7 +28,7 @@ var createEnterprise = function (requestData) {
     //requestData.account_status= "inactive";
     // Generate a v1 (time-based) id 
     requestData.activation_hash = uuid.v1();
-    requestData.send_activation_email_timestamp=dayFromNow();
+    requestData.send_activation_email_timestamp = dayFromNow();
     var objToinsert = new Enterprise(requestData);
     //console.log(objToinsert);
     //Saving the model instance to the DB
@@ -54,6 +54,9 @@ var validateEnterprise = function (email, password) {
             //checking for user existence in DB
             if (result !== null) {
                 //Hashing the user passed password , so that we can compare with DB stored password    
+                if(result.account_status !== "active") {
+                    reject("Account is not yet activated");
+                } else {
                 var passwordObj = {};
                 passwordObj.passswordHash = crypto.MD5(password).toString();
                 //console.log(result.get("password") === passwordObj.passswordHash);
@@ -64,6 +67,7 @@ var validateEnterprise = function (email, password) {
                     //password does not match
                     reject("Invalid login credentials!");
                 }
+             }
             } else {
                 console.log("record not found");
                 reject("User Does Not Exist!");
@@ -84,19 +88,16 @@ var activateEnterprise = function (input) {
             if (result !== null) {
                 var current = new Date();
                 var send_activation_email_timestamp = result.send_activation_email_timestamp;
-                console.log("Current Time : "+ current+" activation : "+send_activation_email_timestamp);
+                console.log("Current Time : " + current + " activation : " + send_activation_email_timestamp);
                 console.log(current < send_activation_email_timestamp);
-                if (current < send_activation_email_timestamp ) {
-                   // resolve("Successfully Activated");
-                        Enterprise.update({ activation_hash: { $eq: input } }, { $set: { account_status: "activate",activation_timestamp:current,activation_hash:null } }).then(function(act,err){
+                if (current < send_activation_email_timestamp) {
+                    // resolve("Successfully Activated");
+                    Enterprise.update({ activation_hash: { $eq: input } }, { $set: { account_status: "activate", activation_timestamp: current, activation_hash: null } }).then(function (act, err) {
                         console.log("Successfully Activated");
                         resolve("Successfully Activated");
                     });
                 } else {
-        
-                       Enterprise.update({ activation_hash: { $eq: input } }, { $set: {activation_timestamp:dayFromNow()} }).then(function(act,err){
-                       reject("Your Activation Link is Already Expired.Please click below to resend\n.<a href='http://100.96.115.100:9099/enterprise/activate?activateId="+ result.activation_hash+"'>click here</a>"); 
-                    });            
+                    reject("Your Activation Link has been Expired"+result.activation_hash);
                 }
             } else {
                 //password does not match
@@ -106,10 +107,35 @@ var activateEnterprise = function (input) {
             console.log(err);
         });
     });
-}
+};
 
 
-    module.exports.createEnterprise = createEnterprise;
-    module.exports.queryEnterpriseByFilter = queryEnterpriseByFilter;
-    module.exports.validateEnterprise = validateEnterprise;
-    module.exports.activateEnterprise = activateEnterprise;
+var resendActivateEnterprise = function (input) {
+    console.log("Enter into activae enterprise method " + input);
+    return new Promise(function (resolve, reject) {
+        queryEnterpriseByFilter("activation_hash", input).then(function (result) {
+            //checking for user existence in DB
+            //console.log(" record found is : "+result.result.n);
+            if (result !== null) {
+                var current = new Date();
+                    // resolve("Successfully Activated");
+                    Enterprise.update({ activation_hash: { $eq: input } }, { $set: { send_activation_email_timestamp : current } }).then(function (act, err) {
+                        console.log("Successfully Updated send_activation_email_timestamp with current time");
+                        resolve(result);
+                    });
+            } else {
+                //password does not match
+                reject("Record not found");
+            }
+        }).catch(function (err) {
+            console.log(err);
+        });
+    });
+};
+
+
+module.exports.createEnterprise = createEnterprise;
+module.exports.queryEnterpriseByFilter = queryEnterpriseByFilter;
+module.exports.validateEnterprise = validateEnterprise;
+module.exports.activateEnterprise = activateEnterprise;
+module.exports.resendActivateEnterprise = resendActivateEnterprise;

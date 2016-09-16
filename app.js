@@ -154,6 +154,27 @@ app.get("/enterprise/activate", function(req, resp) {
     });
 });
 
+app.get("/enterprise/activate/resend", function (req, resp) {
+    var activate_hash = req.query.activateId;
+    console.log("resend activate is getting called for " + activate_hash);
+    appdb.enterpriseService.resendActivateEnterprise(activate_hash).then(function(result){   
+    var mailObj = {
+            name: result.firstname,
+            email: result.email,
+            activateId: result.activation_hash
+        };
+        // send the mail notification
+        mailSender.send(mailObj).then(function (response) {
+            console.log(response);
+            resp.status(200).send(_.omit(result, '_id'));
+        });
+    }).catch(function(err){
+        console.log(err);
+        resp.status(500).send();
+    });
+    
+});
+
 app.post("/devices/status/:deviceId",
     function(req, resp) {
         var deviceId = req.params.deviceId;
