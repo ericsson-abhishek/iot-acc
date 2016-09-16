@@ -7,5 +7,5 @@ var custom_bs_collapse = require('./custom-bs-collapse');
 var angular = require('./angularmodule');
 
 window.onload = function() {
-    console.log('main js is invoked');
+    console.log('main js is invoked successfully');
 }

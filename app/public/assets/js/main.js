@@ -312,7 +312,7 @@ var custom_bs_collapse = require('./custom-bs-collapse');
 var angular = require('./angularmodule');
 
 window.onload = function() {
-    console.log('main js is invoked');
+    console.log('main js is invoked successfully');
 }
 },{"./angularmodule":8,"./custom-bs-collapse":10,"bootstrap":16,"jquery":29}],12:[function(require,module,exports){
 /**
