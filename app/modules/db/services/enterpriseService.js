@@ -110,19 +110,25 @@ var activateEnterprise = function (input) {
 };
 
 
-var resendActivateEnterprise = function (input) {
+var resendActivationEmail = function (input) {
     console.log("Enter into activae enterprise method " + input);
     return new Promise(function (resolve, reject) {
-        queryEnterpriseByFilter("activation_hash", input).then(function (result) {
+        queryEnterpriseByFilter("email", input).then(function (result) {
             //checking for user existence in DB
             //console.log(" record found is : "+result.result.n);
             if (result !== null) {
                 var current = new Date();
+                var send_activation_email_timestamp = result.send_activation_email_timestamp;
+                var new_activation_hash = uuid.v1();
+                if(current > send_activation_email_timestamp) {
                     // resolve("Successfully Activated");
-                    Enterprise.update({ activation_hash: { $eq: input } }, { $set: { send_activation_email_timestamp : current } }).then(function (act, err) {
+                    Enterprise.update({ email: { $eq: input } }, { $set: { send_activation_email_timestamp : dayFromNow(), activation_hash : new_activation_hash } }).then(function (act, err) {
                         console.log("Successfully Updated send_activation_email_timestamp with current time");
                         resolve(result);
                     });
+                 } else {
+                     reject("Activation email already sent to your inbox.");
+                 }   
             } else {
                 //password does not match
                 reject("Record not found");
@@ -138,4 +144,4 @@ module.exports.createEnterprise = createEnterprise;
 module.exports.queryEnterpriseByFilter = queryEnterpriseByFilter;
 module.exports.validateEnterprise = validateEnterprise;
 module.exports.activateEnterprise = activateEnterprise;
-module.exports.resendActivateEnterprise = resendActivateEnterprise;
+module.exports.resendActivationEmail = resendActivationEmail;

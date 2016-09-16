@@ -154,10 +154,11 @@ app.get("/enterprise/activate", function(req, resp) {
     });
 });
 
-app.get("/enterprise/activate/resend", function (req, resp) {
-    var activate_hash = req.query.activateId;
-    console.log("resend activate is getting called for " + activate_hash);
-    appdb.enterpriseService.resendActivateEnterprise(activate_hash).then(function(result){   
+app.post("/enterprise/activate/resend", function (req, resp) {
+    var email = req.body.email;
+    console.log("resend activate is getting called for " + email);
+    appdb.enterpriseService.resendActivationEmail(email).then(function(result){   
+    console.log("result is "+result);
     var mailObj = {
             name: result.firstname,
             email: result.email,
@@ -170,9 +171,8 @@ app.get("/enterprise/activate/resend", function (req, resp) {
         });
     }).catch(function(err){
         console.log(err);
-        resp.status(500).send();
+        resp.status(500).send(err);
     });
-    
 });
 
 app.post("/devices/status/:deviceId",
@@ -296,8 +296,8 @@ app.use(express.static(__dirname + "/app/public"));
 
 var mongo_uri = process.env.MONGODB_URI || "mongodb://localhost:27017"
 var connect = mongoose.connect(mongo_uri + '/iotaccdb', function() {
-    mongoose.connection.db.dropDatabase()
-    console.log("Database is dropped succesfully");
+   // mongoose.connection.db.dropDatabase()
+   // console.log("Database is dropped succesfully");
 });
 
 connect.then(function(res) {
