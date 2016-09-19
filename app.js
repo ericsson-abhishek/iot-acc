@@ -61,7 +61,7 @@ io.on('connection', function(socket) {
         console.log("message received " + message.text);
         socket.broadcast.emit('message', message);
     });
-})
+});
 var devicePrefix = "HTTPSIM000";
 var UniqueNumber = 0;
 
@@ -129,24 +129,45 @@ app.post("/enterprise", function(req, resp) {
 
         // send the mail notification
         mailSender.send(mailObj).then(function(response) {
-                console.log(response);
-                resp.status(200).send(_.omit(result, '_id'));
-            })
-            //resp.status(200).send(_.omit(result, '_id'));
-            //Sending response back on successfull device creation
-
-        //Error handling when some problem occurs for device creation
+                console.log(typeof response.response != 'undefined');
+                if(typeof response.response != 'undefined') {
+                    console.log("if");
+                    resp.status(200).send(_.omit(result, '_id'));
+                } else {
+                    console.log("else");
+                    retrySendMail(mailObj);
+                    resp.status(200).send("Sorry there is some issue while sending activation email.We will be sending it shortly.");
+                }
+            });
     }).catch(function(err) {
         console.log(err);
         resp.status(500).send("Sorry !!!! Some error occured while registered.Please try again.");
     });
 });
 
+var retrySendMail = function (mailObj) {
+                 var sendCount = 0;
+                 if(sendCount < 1) {
+                 mailSender.send(mailObj).then(function (response) {
+                    console.log(typeof response.response != 'undefined');
+                    if(typeof response.response != 'undefined') {
+                        sendCount = 1;
+                        console.log("Retry successful");
+                        return;
+                    } else {
+                         process.nextTick(function () {
+                            console.log("Retrying");
+                            retrySendMail(mailObj);
+                        });
+                    }
+            });
+        }
+};
+
 app.get("/enterprise/activate", function(req, resp) {
     var activateId = req.query.activateId;
     console.log("activate is getting called for " + activateId);
     appdb.enterpriseService.activateEnterprise(activateId).then(function(result) {
-        //console.log(result);
         resp.status(200).send(result);
     }).catch(function(err) {
         console.log("Some error occurred while enterprise activation" + err);
@@ -244,7 +265,7 @@ app.get("/enterprise", authentication.authenticateRequired, function(req, resp) 
 })
 
 app.post("/login", authentication.authenticateUser, function(req, resp, next) {
-
+    console.log("Enter into login method for : "+req.body.email);
     appdb.enterpriseService.queryEnterpriseByFilter("email", req.body.email).then(function(enterpriseDetails) {
         console.log("Enterprise queried successfully." + enterpriseDetails);
         appdb.deviceService.queryDeviceByFilter("enterpriseId", enterpriseDetails._id).then(function(devices) {
@@ -296,8 +317,8 @@ app.use(express.static(__dirname + "/app/public"));
 
 var mongo_uri = process.env.MONGODB_URI || "mongodb://localhost:27017"
 var connect = mongoose.connect(mongo_uri + '/iotaccdb', function() {
-   // mongoose.connection.db.dropDatabase()
-   // console.log("Database is dropped succesfully");
+  // mongoose.connection.db.dropDatabase()
+  // console.log("Database is dropped succesfully");
 });
 
 connect.then(function(res) {
@@ -312,3 +333,5 @@ connect.then(function(res) {
         console.log(err);
     });
 });
+
+module.exports = app;
