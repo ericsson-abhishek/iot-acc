@@ -3,9 +3,10 @@
 // dependencies for angularjs
 var angular = require('angular');
 require('angular-route')
+require('angular-messages')
 
 // defining the module
-var app = angular.module('iotapp', ['ngRoute']);
+var app = angular.module('iotapp', ['ngRoute', 'ngMessages']);
 
 // adding angular controllers
 // Controller for log in page

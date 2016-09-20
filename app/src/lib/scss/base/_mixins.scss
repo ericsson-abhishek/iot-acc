@@ -8,6 +8,25 @@
     ;
 }
 
+@mixin add-background-transition($time)
+{
+     -webkit-transition: background-color $time;
+     -moz-transition: background-color $time;
+      transition: background-color $time;
+    //     -webkit-transition: 	border-color $time;
+    //  -moz-transition:  border-color $time;
+    //   transition:  border-color $time;
+}
+
+@mixin add-border-color-transition($time)
+{
+     -webkit-transition: 	border-color $time;
+     -moz-transition:  border-color $time;
+      transition:  border-color $time;
+}
+
+
+
 @mixin border-radius-left($radius) {
     -moz-border-top-left-radius: $radius !important;
     -moz-border-bottom-left-radius: $radius !important;
@@ -48,6 +67,8 @@
     border-top-right-radius: $radius !important;
     ;
 }
+
+
 
 @mixin border-radius-bottom($radius) {
     -moz-border-bottom-left-radius: $radius !important;

@@ -10,6 +10,10 @@ a {
     color: $color-primary;
 }
 
+.type-md {
+    font-size: 12px;
+}
+
 ul,
 li {
     list-style: none;
@@ -26,4 +30,18 @@ button,
     display: inline-block;
     vertical-align: middle;
     float: none;
+}
+
+.alert-danger {
+    color: #a42604;
+    background-color: #efd6ce;
+    border-color: #edb5a3;
+}
+.alert {
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 14px;
+    letter-spacing: 0.1px;
 }

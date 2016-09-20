@@ -1,6 +1,5 @@
-<!--<script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>-->
-
 <script type="text/javascript">
+
     var dps = [];
     var socket = io();
     var xVal = 0;
@@ -94,139 +93,140 @@
 			<input type="text" id="message" placeholder = "type your message here"/>
 			<input type="Button" id="postme" value="Post"></button>
 		</div>-->
-<div  ng-controller="DashboardCtrl">
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<div ng-controller="DashboardCtrl">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-            <a class="navbar-brand" href="#">IOTAPP</a>
+                <a class="navbar-brand" href="#">IOTAPP</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home</a></li>
+                    <li class="active"><a href="#devices">Devices</a></li>
+                    <li><a href="#contact">Services</a></li>
+                    <li><a href="#contact">Marketplace</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-sub pull-right">
+                    <!--<li><a href="#register">Register</a></li>-->
+                    <li><a href="" ng-click="logout()">Logout</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
-                <li class="active"><a href="#devices">Devices</a></li>
-                <li><a href="#contact">Services</a></li>
-                <li><a href="#contact">Marketplace</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-sub pull-right">
-                <!--<li><a href="#register">Register</a></li>-->
-                <li><a href="" ng-click="logout()">Logout</a></li>
-            </ul>
+    </div>
+    <section class="showcase-header">
+        <div class="container showcase-content">
+            <h1>Manage & Monitor all Products </h1>
+            <p class="lead">uniform <strong>Dashboard</strong> for your <strong>Devices</strong>
+                <!--<br> <strong></strong>-->
+            </p>
+
         </div>
-        <!--/.nav-collapse -->
-    </div>
-</div>
-<section class="showcase-header">
-    <div class="container showcase-content">
-        <h1>Manage & Monitor all Products </h1>
-        <p class="lead">uniform <strong>Dashboard</strong> for your <strong>Devices</strong>
-            <!--<br> <strong></strong>-->
-        </p>
 
-    </div>
-
-</section>
-<section class="dashboard-midium">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-2 ">
-                <span><h3>DASHBOARD </h3></span>
-				</div>
-				<div class="col-sm-2 ">
-					<p class="lead">Active Devices -  <strong>{{user.activatedDevices}}</strong></p>
-				</div>
-				<!--<div class="col-md-2 ">
+    </section>
+    <section class="dashboard-midium">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2 ">
+                    <span><h3>DASHBOARD </h3></span>
+                </div>
+                <div class="col-sm-2 ">
+                    <p class="lead">Active Devices - <strong>{{user.activatedDevices}}</strong></p>
+                </div>
+                <!--<div class="col-md-2 ">
 					
 				</div>-->
-				<div class="col-sm-2 ">
-					<p class="lead">Totoal Devices - <strong>{{user.totalDevices}}</strong></p>
-				</div>
-				<div class="col-sm-3 text-right">
-					<div><a href="#" class="btn btn-dark btn-lg" id="addNewDevice"> 
-							<span class="fa fa-plus"></span> Add a New Device
-                </a>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <form class="navbar-form pull-right" role="search">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search devices" name="srch-term" id="srch-term">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                <div class="col-sm-2 ">
+                    <p class="lead">Totoal Devices - <strong>{{user.totalDevices}}</strong></p>
+                </div>
+                <div class="col-sm-3 text-right">
+                    <div>
+                        <a href="#" class="btn btn-dark btn-lg" id="addNewDevice">
+                            <span class="fa fa-plus"></span> Add a New Device
+                        </a>
                     </div>
                 </div>
-            </form>
+                <div class="col-sm-3">
+                    <form class="navbar-form pull-right" role="search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search devices" name="srch-term" id="srch-term">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-    </div>
-</section>
-<section class="section-dark">
-    <div class="container">
-        <div class="row">
+    </section>
+    <section class="section-dark">
+        <div class="container">
+            <div class="row">
 
-            <div class="col-md-12">
+                <div class="col-md-12">
 
-                <div class="panel-group padding-default" id="accordion">
-                    <div class="panel panel-default">
-                        <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
-                            <h4 class="panel-title">
+                    <div class="panel-group padding-default" id="accordion">
+                        <div class="panel panel-default">
+                            <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+                                <h4 class="panel-title">
         							
 										Live Feed From Devices
         						
 									<i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
       							</h4>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <div id="chartContainer" style="height: 300px; min-width: 100%;">
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div id="chartContainer" style="height: 300px; min-width: 100%;">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
 									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
 									My Devices 
 									</a>
 									<i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
       							</h4>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <!--<div id="chartContainer" style="height: 300px; min-width: 100%;">
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <!--<div id="chartContainer" style="height: 300px; min-width: 100%;">
                                 </div>-->
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
 									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
 									Timeline 
 									</a>
 									<i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
       							</h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse">
-                            <div class="panel-body">
-                               <!-- <div id="chartContainer" style="height: 300px; min-width: 100%;">
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <!-- <div id="chartContainer" style="height: 300px; min-width: 100%;">
                                 </div>-->
+                                </div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
-
+                <!--</div>-->
             </div>
-            <!--</div>-->
-        </div>
 
-    </div>
-</section>
+        </div>
+    </section>
 </div>

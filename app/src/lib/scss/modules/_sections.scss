@@ -120,12 +120,13 @@
 .section-dark {
     background-color: $color-dark-bg;
     color: $color-light;
+    letter-spacing: -0.5px;
     // padding-top:30px;
+    // to be used from aligning the text in the middle
     .central-form {
         text-align: center;
         letter-spacing: -0.2px;
     }
-    letter-spacing: -0.5px;
     h2 {
         font-size: 32px;
     }
@@ -164,18 +165,12 @@
         lighten($color-dark-bg, 10%),
         'all');
         & > .panel-heading {
-            // color: #333;
-            // background-color: lighten($color-dark-bg, 10%);
-            // border-color: #ddd;
             @include add-background(lighten($color-dark-bg, 10%));
             @include add-border(1px,
             lighten($color-dark-bg, 10%),
             'all');
         }
         & > .panel-footer {
-            // color: #333;
-            // background-color: lighten($color-dark-bg, 10%);
-            // border-color: #ddd;
             @include add-background(lighten($color-dark-bg, 10%));
             @include add-border(1px,
             lighten($color-dark-bg, 10%),
@@ -184,32 +179,57 @@
         input {
             height: 40px;
             margin-bottom: 10px;
-            @include border-radius-left(5px);
-            @include border-radius-right(5px);
+            @include border-radius-left(3px);
+            @include border-radius-right(3px);
             @include add-background($color-light);
-            @include add-border(1px,
-            $color-light,
-            'all');
-            &:focus {
-                @include add-border(1px,
-                $color-light,
-                'all');
-            }
+            border: none;
         }
         button {
+            margin-top: 10px;
             width: 100%;
             @include border-radius-right(5px);
             @include border-radius-left(5px);
-            @include add-background($color-secondary);
+            @include add-background($color-secondary-light);
             @include add-border(1px,
-            $color-secondary,
+            $color-secondary-light,
             'all');
+           // background-color: blue;
+           @include add-background-transition(1s);
+           //@include add-border-color-transition(1s);
+            
             &:hover {
-                @include add-background(lighten($color-secondary, 30%));
+                @include add-background($color-secondary);
                 @include add-border(1px,
-                lighten($color-secondary, 30%),
+                $color-secondary,
                 'all');
             }
+        }
+        // .form-control:focus {
+        //     border-color: $color-secondary;
+        //     box-shadow: inset 0 1px 1px $color-secondary, 0 0 5px $color-secondary;
+        // }
+        //.left-inner-addon 
+        .clselected {
+            color: $color-secondary;
+            font-weight: 500;
+        }
+        //.left-inner-addon 
+    }
+    .left-inner-addon {
+        position: relative;
+        input {
+            padding-left: 40px;
+        }
+        i {
+            font-size: 20px;
+            position: absolute;
+            padding: 8px 8px 8px 8px;
+            margin-top: 2px;
+            margin-left: 2px;
+            pointer-events: none;
+            color: lighten($color-dark-bg, 10%);
+            background-color: $color-light;
+            @include border-radius-left(3px);
         }
     }
 }

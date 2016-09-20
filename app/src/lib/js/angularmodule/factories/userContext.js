@@ -13,7 +13,7 @@ module.exports= function ($q, $location, $window,$http){
                     console.log("[userContext.login()] response from the server is" + data);
                     console.dir(headers())
                     var authHeader = headers()['authorization'];
-                    console.log(" [userContext.login()] authHeader received in the response is " + authHeader);
+                    console.log("[userContext.login()] authHeader received in the response is " + authHeader);
                     if (authHeader) {
                         $window.sessionStorage.token = authHeader;
                     }
@@ -23,7 +23,7 @@ module.exports= function ($q, $location, $window,$http){
                     deffered.resolve(data);
 
                 }).error(function(error) {
-                    console.log(" [userContext.login()] Error encountered  " + error);
+                    console.log("[userContext.login()] Error encountered  " + error);
                     delete $window.sessionStorage.token;
                     deffered.reject(error);
                 })
@@ -36,11 +36,11 @@ module.exports= function ($q, $location, $window,$http){
             var deferred = $q.defer();
             $http.get('/enterprise')
                 .success(function(data, status, headers, config) {
-                    console.log(" [userContext.getUserDataFromServer()]response received from server is " + data);
+                    console.log("[userContext.getUserDataFromServer()]response received from server is " + data);
                     deferred.resolve(data);
 
                 }).error(function(error) {
-                    console.log(" [userContext.getUserDataFromServer()] error received in the response is " + error);
+                    console.log("[userContext.getUserDataFromServer()] error received in the response is " + error);
                     delete $window.sessionStorage.token;
                     deferred.reject(error);
                 })

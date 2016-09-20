@@ -24,7 +24,7 @@ module.exports = function ($q, $location, $window,$rootScope) {
                 console.log("[AuthInterceptor.responseError()] Not Authenticated ")
                 delete $window.sessionStorage.token;
                 //$location.path('/login');
-                $window.location.href='/';
+               // $window.location.href='/';
             }
             if (response.status == 404) {
                 console.log("[AuthInterceptor.responseError()] Page not found ")
