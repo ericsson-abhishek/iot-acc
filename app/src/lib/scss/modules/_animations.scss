@@ -1,0 +1,23 @@
+.animate-home{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    &.ng-enter,&.ng-leave {
+        -webkit-transition: all 1s ease;
+        transition: all 1s ease;
+    }
+    &.ng-enter {
+        top: 100%;
+    }
+    &.ng-enter-active {
+        top: 0;
+    }
+    &.ng-leave {
+        top: 0;
+    }
+    &.ng-leave-active {
+        top: -100%;
+    }
+}

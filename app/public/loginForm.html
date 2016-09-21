@@ -1,4 +1,4 @@
-<section class="section-dark">
+<section class="section-dark" >
     <div class="container ">
         <div class="row vertical-center">
             <div class="col-sm-4 col-sm-offset-4">
@@ -24,7 +24,7 @@
                                     <input name="password" type="password" class="form-control " placeholder="Password " ng-model="password " ng-focus="focusedPass=true " ng-blur="focusedPass=false" required />
                                 </div>
 
-                                <div>
+                                <div ng-cloak>
                                     <div ng-messages for="login_form.email.$error" ng-if="login_form.email.$dirty">
                                         <div ng-message when="required" class="alert alert-danger fade in">
                                             <!--<a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>-->

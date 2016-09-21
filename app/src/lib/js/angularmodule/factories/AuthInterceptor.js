@@ -9,16 +9,16 @@ module.exports = function ($q, $location, $window,$rootScope) {
                 config.headers['Bearer'] = $window.sessionStorage.token;
             }
             console.log("[AuthInterceptor.request()] using interceptor  for " + config.url)
-            $rootScope.$emit('LOADING');
+            //$rootScope.$emit('LOADING');
             return config;
         },
         'response': function (response) {
-            $rootScope.$emit('LOADED');
+           // $rootScope.$emit('LOADED');
             console.log('[AuthInterceptor.response()] successful response is intercepted '+ response)
             return response;
         },
         'responseError': function (response) {
-            $rootScope.$emit('LOADED');
+            //$rootScope.$emit('LOADED');
             console.log('[AuthInterceptor.responseError()] responseError is intercepted '+response.status)
             if (response.status == 401) {
                 console.log("[AuthInterceptor.responseError()] Not Authenticated ")

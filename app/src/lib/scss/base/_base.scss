@@ -1,9 +1,14 @@
+html {
+  overflow-y: scroll;
+}
+
 body {
     font-family: "Segoe UI", "Segoe WP", "Segoe Regular", sans-serif;
     font-size: 15px;
     line-height: 1.7em;
     //color:#666666;
     background: $color-dark-bg!important;
+    
 }
 
 a {

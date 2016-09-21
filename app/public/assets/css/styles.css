@@ -20,6 +20,9 @@ body.modal-open {
 /* background related mixins */
 /* Multiline ellipsis START */
 /* Multiline ellipsis END */
+html {
+  overflow-y: scroll; }
+
 body {
   font-family: "Segoe UI", "Segoe WP", "Segoe Regular", sans-serif;
   font-size: 15px;
@@ -501,3 +504,21 @@ button {
   background: #010203;
   color: #fdfeff !important;
   border: 1px solid #fdfeff; }
+
+.animate-home {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%; }
+  .animate-home.ng-enter, .animate-home.ng-leave {
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease; }
+  .animate-home.ng-enter {
+    top: 100%; }
+  .animate-home.ng-enter-active {
+    top: 0; }
+  .animate-home.ng-leave {
+    top: 0; }
+  .animate-home.ng-leave-active {
+    top: -100%; }
