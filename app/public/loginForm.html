@@ -16,17 +16,17 @@
                             <form name="login_form">
                                 <div class="left-inner-addon">
                                     <i class="fa  fa-envelope-o" ng-class="{clselected:focused} "></i>
-                                    <input type="text" name="email" class="form-control"  placeholder="Email" ng-model="email " ng-focus="focused=true " ng-blur="focused=false " required/>
+                                    <input type="text" name="email" class="form-control"  placeholder="Email" ng-model="email" ng-focus="focused=true" ng-blur="focused=false" required/>
                                 </div>
                                 
                                 <div class="left-inner-addon ">
                                     <i class="fa fa-key " ng-class="{clselected:focusedPass} "></i>
-                                    <input name="password" type="password" class="form-control " placeholder="Password " ng-model="password " ng-focus="focusedPass=true " ng-blur="focusedPass=false" required />
+                                    <input name="password" type="password" class="form-control" placeholder="Password " ng-model="password" ng-focus="focusedPass=true" ng-blur="focusedPass=false" required />
                                 </div>
 
                                 <div ng-cloak>
                                     <div ng-messages for="login_form.email.$error" ng-if="login_form.email.$dirty">
-                                        <div ng-message when="required" class="alert alert-danger fade in">
+                                        <div ng-message when="required" class="alert alert-danger fadein">
                                             <!--<a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>-->
                                             Please provide a valid email address
                                         </div>
@@ -36,12 +36,10 @@
                                         <div ng-message when="required" class="alert alert-danger fade in">Password must not be empty</div>
                                         
                                     </div>
-                                    <div ng-if="error">
-                                        
-                                        <div  class="alert alert-danger fade in">
-                                            <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                            <strong>Login Failed!</strong> {{errorMessage}}</div>
-                                        
+                                    <div ng-show="error" class="alert alert-danger fadein fadeout">
+                                        <!--<div  class=" ">-->
+                                            <strong>Login Failed!</strong> {{errorMessage}}
+                                        <!--</div>-->
                                     </div>
                                     
                                 </div>
@@ -56,7 +54,7 @@
 
                             <p class="central-form type-md ">
                                 <a href="# ">Forgot Password?</a> New To IOTAPP?
-                                <a href="# ">Register</a>
+                                <a href="/#register">Register</a>
                             </p>
                         </div>
                     </div>

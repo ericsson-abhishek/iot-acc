@@ -60,7 +60,7 @@ module.exports = HomeCtrl;
 },{}],3:[function(require,module,exports){
 'use strict';
 
-var LoginFormCtrl = function($scope, userContext, $window, $location) {
+var LoginFormCtrl = function($scope, userContext, $window, $location, $timeout) {
 
     // the following code has been added to skip the login page when user is already logged in
     // the scenario can appear when user click on the back button from the dashboard after logging in
@@ -77,9 +77,17 @@ var LoginFormCtrl = function($scope, userContext, $window, $location) {
                 .then(function(resp){
                     console.log("[LoginFormCtrl.login()] Resp received")
                 },function(err){
+                    $scope.email=undefined;
+                    $scope.password=undefined;
+                    $scope.login_form.$setPristine();
                     $scope.errorMessage=err;
                     $scope.error=true;
-                    console.log("[LoginFormCtrl.login()] Error received"+err)
+                    $timeout(function()
+                    {
+                        $scope.error=false;
+                        // $scope.$apply();
+                    },2000)
+                    console.log("[LoginFormCtrl.login()] Error received "+err)
                 });
         }
 
