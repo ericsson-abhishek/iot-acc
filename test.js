@@ -1,1 +1,1 @@
-console.log('Tested');
+console.log('Tested with Travis');
