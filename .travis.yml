@@ -4,4 +4,4 @@ node_js:
 script: "mocha app_test.js"
 services: mongodb
 addons:
-  "mongodb": "^2.2.7"
+  "mongodb": "^3.0"
