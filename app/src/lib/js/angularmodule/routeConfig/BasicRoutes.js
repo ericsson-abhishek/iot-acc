@@ -8,6 +8,9 @@ module.exports = function($routeProvider) {
         .when('/devices', {
             templateUrl: '../private/dashboard.html'
         })
+        .when('/adddevices', {
+            templateUrl: '../private/adddevice.html'
+        })
         .when('/register', {
             templateUrl: '../registration.html'
         })

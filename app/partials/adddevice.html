@@ -1,0 +1,35 @@
+<section class="section-dark">
+    <div class="container">
+        <div class="row vertical-center" ng-controller='AddDeviceCtrl'>
+                <div class="col-sm-4 col-sm-offset-4">
+                    <div class="panel-group padding-default" id="registration">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <img src="/assets/img/Logo.png" alt="OOO" class="img-responsive center-block logo" />
+                                <h1 class="panel-title">
+        				       Create a new device
+      		                </h1>
+                            </div>
+                            <div class="panel-body">
+                                <form name="add_device_form">
+                                    <input type="text" class=" col-xs-12" name="deviceName" placeholder="device name" ng-model="name">
+                                    <input type="text" class=" col-xs-12" name="manufacturer" id="manufacturer" placeholder="manufacturer" ng-model="manufacturer">
+                                    <input type="text" class=" col-xs-12" name="serialNo" id="serialNo" placeholder="serial number" ng-model="serialNo">
+                                    <input type="text" class=" col-xs-12" name="protocol" placeholder="protocol" ng-model="protocol">
+                                    <!--<input type="text" class=" col-xs-12" name="confEmail" placeholder="confirm Email" ng-model="confEmail">
+                                    <input type="password" class=" col-xs-12" name="passwd" placeholder="password" ng-model="password">-->
+                                    <p><button ng-click="createDevice()" class="btn btn-secondary btn-lg">Create Device</button>
+                                    </p>
+                                </form>
+                            </div>
+                            <div class="panel-footer">
+                                <p>
+                                    <a href="/#devices">Go back To Dashboard </a> 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>

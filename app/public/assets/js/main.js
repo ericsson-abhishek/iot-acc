@@ -1,6 +1,29 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+var AddDeviceCtrl = function($scope, $http, $window, $location,deviceService,$rootScope) {
+   
+
+    $scope.createDevice = function() {
+         var requestObject = {
+            name: $scope.name,
+            manufacturer: $scope.manufacturer,
+            serialNo: $scope.serialNo,
+            protocol: $scope.protocol,
+        }
+console.log("[AddDeviceCtrl.createDevice()] Calling Device Service for "+ requestObject)
+
+        deviceService.addDevice(requestObject).then(function(resp)
+        {
+            console.log("[AddDeviceCtrl.createDevice()] Device added successgfully "+ resp)
+        });
+    }
+};
+
+module.exports = AddDeviceCtrl;
+},{}],2:[function(require,module,exports){
+'use strict';
+
 var DashboardCtrl = function($scope, $http, $window, $location,userContext,$rootScope) {
     //$scope.user ={ "activatedDevices":"100", "totalDevices":"110"};
     $scope.user = userContext.getUserData();
@@ -22,7 +45,7 @@ var DashboardCtrl = function($scope, $http, $window, $location,userContext,$root
 };
 
 module.exports = DashboardCtrl;
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 'use strict';
 var HomeCtrl = function ($scope, $http, $window, $location) {
     console.log("[HomeCtrl] user info from store"+ $window.sessionStorage.token)
@@ -57,7 +80,7 @@ var HomeCtrl = function ($scope, $http, $window, $location) {
     }
 };
 module.exports = HomeCtrl;
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 var LoginFormCtrl = function($scope, userContext, $window, $location, $timeout) {
@@ -95,7 +118,7 @@ var LoginFormCtrl = function($scope, userContext, $window, $location, $timeout) 
 };
 
 module.exports = LoginFormCtrl;
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 var RegistrationCtrl = function($scope, $http, $window, $location) {
     $scope.isRegistrationSuccess = false;
@@ -127,7 +150,7 @@ var RegistrationCtrl = function($scope, $http, $window, $location) {
     }
 };
 module.exports = RegistrationCtrl;
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 var RootCtrl = function ($rootScope,$scope) {
     // $rootScope.$on('LOADING',function(){ $rootScope.reqLoading=true;} )
@@ -141,7 +164,7 @@ var RootCtrl = function ($rootScope,$scope) {
 }
 
 module.exports = RootCtrl;
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 // Authentication interceptor is getting used as a client side component to share the JWT token in every request
 module.exports = function ($q, $location, $window,$rootScope) {
     return {
@@ -179,7 +202,47 @@ module.exports = function ($q, $location, $window,$rootScope) {
         }
     }
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
+module.exports= function ($q, $location, $window,$http){
+    var deviceData;
+    return{
+        
+        // this mehod will be called when UI tries to authenticate any user
+        // here we have used the '$q' handler for returning promise objects from http calls
+        // the'$q' namespace will be used by the callers of the service
+        addDevice:function(reqData)
+        {
+            // creating a deferred object
+            var deffered = $q.defer();
+console.log("[deviceService.addDevice()] is voking server side call with  req" + reqData);
+            $http.post('/device', reqData)
+                .success(function(data, status, headers, config) {
+                    // on successfull login server would return the user details in the response body
+                    // the server would also send a JWT token in the response header
+                    console.log("[deviceService.addDevice()] response from the server is" + data);
+                   
+
+                    // set the deviceData, to be used by controller
+                    deviceData=data;
+
+                    // set the pash to dashboard
+                    $location.path('/devices');
+
+                    // return the deferred object
+                    deffered.resolve(data);
+
+                }).error(function(error) {
+                    console.log("[deviceService.addDevice()] Error encountered  " + error);
+                    //delete $window.sessionStorage.token;
+                    deffered.reject(error);
+                })
+            return deffered.promise;
+        }
+    }
+
+}
+
+},{}],9:[function(require,module,exports){
 module.exports= function ($q, $location, $window,$http){
     var userData;
     return{
@@ -275,7 +338,7 @@ module.exports= function ($q, $location, $window,$http){
 
 }
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 // dependencies for angularjs
@@ -296,13 +359,16 @@ app.controller('HomeCtrl', require('./controllers/HomeCtrl'));
 app.controller('DashboardCtrl', require('./controllers/DashboardCtrl'));
 // Controller for Dashboard pages
 app.controller('RegistrationCtrl', require('./controllers/RegistrationCtrl'));
+// Controller for Dashboard pages
+app.controller('AddDeviceCtrl', require('./controllers/AddDeviceCtrl'));
+
 // Controller for Root page
 app.controller('RootCtrl', require('./controllers/RootCtrl'));
 
 // adding angular factories
 app.factory('authInterceptor', require('./factories/AuthInterceptor'));
 app.factory('userContext', require('./factories/userContext'));
-
+app.factory('deviceService', require('./factories/deviceService'));
 // add the factory as an interceptor
 app.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('authInterceptor');
@@ -310,7 +376,7 @@ app.config(['$httpProvider', function($httpProvider) {
 
 // adding routes
 app.config(require('./routeConfig/BasicRoutes'));
-},{"./controllers/DashboardCtrl":1,"./controllers/HomeCtrl":2,"./controllers/LoginFormCtrl":3,"./controllers/RegistrationCtrl":4,"./controllers/RootCtrl":5,"./factories/AuthInterceptor":6,"./factories/userContext":7,"./routeConfig/BasicRoutes":9,"angular":19,"angular-animate":13,"angular-messages":15,"angular-route":17}],9:[function(require,module,exports){
+},{"./controllers/AddDeviceCtrl":1,"./controllers/DashboardCtrl":2,"./controllers/HomeCtrl":3,"./controllers/LoginFormCtrl":4,"./controllers/RegistrationCtrl":5,"./controllers/RootCtrl":6,"./factories/AuthInterceptor":7,"./factories/deviceService":8,"./factories/userContext":9,"./routeConfig/BasicRoutes":11,"angular":21,"angular-animate":15,"angular-messages":17,"angular-route":19}],11:[function(require,module,exports){
 module.exports = function($routeProvider) {
 
 
@@ -320,6 +386,9 @@ module.exports = function($routeProvider) {
         })
         .when('/devices', {
             templateUrl: '../private/dashboard.html'
+        })
+        .when('/adddevices', {
+            templateUrl: '../private/adddevice.html'
         })
         .when('/register', {
             templateUrl: '../registration.html'
@@ -334,7 +403,7 @@ module.exports = function($routeProvider) {
             redirectTo:  '/'
         })
 }
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 function toggleChevron(e) {
     $(e.target)
         .prev('.panel-heading')
@@ -349,7 +418,7 @@ function addToggleChevron() {
 }
 // this function would be invoked during the require call from main.js
 addToggleChevron();
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 // $ => the jquery in global scope
 // window.jQuery is requried by bootstrap
 window.jQuery = $ = require('jquery')
@@ -361,7 +430,7 @@ var angular = require('./angularmodule');
 window.onload = function() {
     console.log('main js is invoked successfully');
 }
-},{"./angularmodule":8,"./custom-bs-collapse":10,"bootstrap":20,"jquery":33}],12:[function(require,module,exports){
+},{"./angularmodule":10,"./custom-bs-collapse":12,"bootstrap":22,"jquery":35}],14:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4502,11 +4571,11 @@ angular.module('ngAnimate', [], function initAngularHelpers() {
 
 })(window, window.angular);
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":12}],14:[function(require,module,exports){
+},{"./angular-animate":14}],16:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -5247,11 +5316,11 @@ function ngMessageDirectiveFactory() {
 
 })(window, window.angular);
 
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 require('./angular-messages');
 module.exports = 'ngMessages';
 
-},{"./angular-messages":14}],16:[function(require,module,exports){
+},{"./angular-messages":16}],18:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -6322,11 +6391,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":16}],18:[function(require,module,exports){
+},{"./angular-route":18}],20:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -38095,11 +38164,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":18}],20:[function(require,module,exports){
+},{"./angular":20}],22:[function(require,module,exports){
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
 require('../../js/transition.js')
 require('../../js/alert.js')
@@ -38113,7 +38182,7 @@ require('../../js/popover.js')
 require('../../js/scrollspy.js')
 require('../../js/tab.js')
 require('../../js/affix.js')
-},{"../../js/affix.js":21,"../../js/alert.js":22,"../../js/button.js":23,"../../js/carousel.js":24,"../../js/collapse.js":25,"../../js/dropdown.js":26,"../../js/modal.js":27,"../../js/popover.js":28,"../../js/scrollspy.js":29,"../../js/tab.js":30,"../../js/tooltip.js":31,"../../js/transition.js":32}],21:[function(require,module,exports){
+},{"../../js/affix.js":23,"../../js/alert.js":24,"../../js/button.js":25,"../../js/carousel.js":26,"../../js/collapse.js":27,"../../js/dropdown.js":28,"../../js/modal.js":29,"../../js/popover.js":30,"../../js/scrollspy.js":31,"../../js/tab.js":32,"../../js/tooltip.js":33,"../../js/transition.js":34}],23:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.3.7
  * http://getbootstrap.com/javascript/#affix
@@ -38277,7 +38346,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: alert.js v3.3.7
  * http://getbootstrap.com/javascript/#alerts
@@ -38373,7 +38442,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: button.js v3.3.7
  * http://getbootstrap.com/javascript/#buttons
@@ -38500,7 +38569,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: carousel.js v3.3.7
  * http://getbootstrap.com/javascript/#carousel
@@ -38739,7 +38808,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: collapse.js v3.3.7
  * http://getbootstrap.com/javascript/#collapse
@@ -38953,7 +39022,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],26:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.7
  * http://getbootstrap.com/javascript/#dropdowns
@@ -39120,7 +39189,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: modal.js v3.3.7
  * http://getbootstrap.com/javascript/#modals
@@ -39461,7 +39530,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],28:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: popover.js v3.3.7
  * http://getbootstrap.com/javascript/#popovers
@@ -39571,7 +39640,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: scrollspy.js v3.3.7
  * http://getbootstrap.com/javascript/#scrollspy
@@ -39745,7 +39814,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tab.js v3.3.7
  * http://getbootstrap.com/javascript/#tabs
@@ -39902,7 +39971,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.7
  * http://getbootstrap.com/javascript/#tooltip
@@ -40424,7 +40493,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: transition.js v3.3.7
  * http://getbootstrap.com/javascript/#transitions
@@ -40485,7 +40554,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 /*eslint-disable no-unused-vars*/
 /*!
  * jQuery JavaScript Library v3.1.0
@@ -50561,4 +50630,4 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-},{}]},{},[11]);
+},{}]},{},[13]);

@@ -9,7 +9,7 @@ var deviceSchema = mongoose.Schema({
   serialNo: {type: String, unique: true, required: true, dropDups: true, lowercase: true, trim: true },
   protocol : {type: String, required: true, dropDups: true, lowercase: true, trim: true },
   enterpriseId:[{type: mongoose.Schema.Types.ObjectId, ref: 'Enterprise'}],
-  status : {type : Boolean , required: true, dropDups: true, lowercase: true, trim: true}
+  status : {type: String, lowercase: true,trim: true,default : "inactive"}
   //enterpriseEmail:{type: mongoose.Schema.Types.ObjectId, ref: 'Enterprise'}
 });
 
