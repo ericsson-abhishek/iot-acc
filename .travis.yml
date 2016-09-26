@@ -1,0 +1,6 @@
+language: node_js
+node_js:
+- "6.1"
+script: "mocha app_test.js"
+addons:
+  "mongodb": "^2.2.7"
