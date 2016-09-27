@@ -20,7 +20,10 @@
         
     </div>-->
 <div ng-controller="RootCtrl">
-<div ng-view class="{{viewClass}}"></div>
+    <div class="ui-view-container">
+        <div ui-view class="{{viewClass}}"></div>
+    </div>
+
 </div>
 
     <!--<script type="text/javascript" src="/assets/js/jquery.js"></script>

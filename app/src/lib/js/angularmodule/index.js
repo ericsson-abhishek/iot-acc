@@ -5,9 +5,10 @@ var angular = require('angular');
 require('angular-route')
 require('angular-messages')
 require('angular-animate')
+require('angular-ui-router')
 
 // defining the module
-var app = angular.module('iotapp', ['ngRoute', 'ngMessages','ngAnimate']);
+var app = angular.module('iotapp', ['ngRoute', 'ngMessages','ngAnimate','ui.router']);
 
 // adding angular controllers
 // Controller for log in page
@@ -34,4 +35,5 @@ app.config(['$httpProvider', function($httpProvider) {
 }])
 
 // adding routes
-app.config(require('./routeConfig/BasicRoutes'));
+//app.config(require('./routeConfig/BasicRoutes'));
+app.config(require('./routeConfig/UIRoutes'));

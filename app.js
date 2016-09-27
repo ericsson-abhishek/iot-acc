@@ -332,6 +332,9 @@ connect.then(function(res) {
     }).catch(function(err) {
         console.log(err);
     });
+}).catch(function(err)
+{
+    console.log("FATAL error while connecting DB!! Server start failure");
 });
 
-module.exports = app;
+//module.exports = app;

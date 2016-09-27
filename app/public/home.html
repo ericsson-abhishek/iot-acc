@@ -19,8 +19,8 @@
                 <li><a href="#contact">Marketplace</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#register" ng-show="!isLoggedIn">Register</a></li>
-                <li><a href="" ng-click="loginShow()" ng-show="!isLoggedIn">Login</a></li>
+                <li><a ui-sref="register" ng-show="!isLoggedIn">Register</a></li>
+                <li><a  ui-sref="login"  ng-show="!isLoggedIn">Login</a></li>
                 <li><a href=""  ng-click="logout()" ng-show="isLoggedIn">Logout</a></li>
 
             </ul>

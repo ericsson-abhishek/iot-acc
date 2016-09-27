@@ -143,11 +143,11 @@
 					
 				</div>-->
                 <div class="col-sm-2 ">
-                    <p class="lead">Totoal Devices - <strong>{{user.totalDevices}}</strong></p>
+                    <p class="lead">Total Devices - <strong>{{user.totalDevices}}</strong></p>
                 </div>
                 <div class="col-sm-3 text-right">
                     <div>
-                        <a href="/#adddevices" class="btn btn-dark btn-lg" id="addNewDevice">
+                        <a ui-sref="create" class="btn btn-dark btn-lg" id="addNewDevice">
                             <span class="fa fa-plus"></span> Add a New Device
                         </a>
                     </div>
@@ -171,6 +171,9 @@
 
                 <div class="col-md-12">
 
+                    <!--<div ui-view>-->
+                        
+                    </div>
                     <div class="panel-group padding-default" id="accordion">
                         <div class="panel panel-default">
                             <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">

@@ -256,31 +256,6 @@ button {
       background: #fdfeff;
       color: #122025 !important;
       border: none; }
-    .section-dark .panel-default button {
-      margin-top: 10px;
-      width: 100%;
-      -moz-border-top-right-radius: 5px !important;
-      -moz-border-bottom-right-radius: 5px !important;
-      -webkit-border-top-right-radius: 5px !important;
-      -webkit-border-bottom-right-radius: 5px !important;
-      border-top-right-radius: 5px !important;
-      border-bottom-right-radius: 5px !important;
-      -moz-border-top-left-radius: 5px !important;
-      -moz-border-bottom-left-radius: 5px !important;
-      -webkit-border-top-left-radius: 5px !important;
-      -webkit-border-bottom-left-radius: 5px !important;
-      border-top-left-radius: 5px !important;
-      border-bottom-left-radius: 5px !important;
-      background: #e3312e;
-      color: #fdfeff !important;
-      border: 1px solid #e3312e;
-      -webkit-transition: background-color 1s;
-      -moz-transition: background-color 1s;
-      transition: background-color 1s; }
-      .section-dark .panel-default button:hover {
-        background: #b10d1f;
-        color: #fdfeff !important;
-        border: 1px solid #b10d1f; }
     .section-dark .panel-default .clselected {
       color: #b10d1f;
       font-weight: 500; }
@@ -489,24 +464,6 @@ button {
     -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg); }
 
-.btn-primary {
-  background: #80eaf9;
-  color: #fdfeff !important;
-  border: 1px solid #fdfeff; }
-
-.btn-primary:hover {
-  background: #4fe2f7;
-  border: 1px solid #fdfeff; }
-
-.btn-secondary {
-  background: #b10d1f;
-  color: #fdfeff !important; }
-
-.btn-secondary:hover {
-  background: #810a17;
-  color: #fdfeff !important;
-  border: 1px solid #fdfeff; }
-
 .btn-dark {
   background: #122025;
   color: #fdfeff !important; }
@@ -520,20 +477,89 @@ button {
   color: #fdfeff !important;
   border: 1px solid #fdfeff; }
 
-.animate-home {
+button {
+  width: 100%;
+  -moz-border-top-right-radius: 5px !important;
+  -moz-border-bottom-right-radius: 5px !important;
+  -webkit-border-top-right-radius: 5px !important;
+  -webkit-border-bottom-right-radius: 5px !important;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+  -moz-border-top-left-radius: 5px !important;
+  -moz-border-bottom-left-radius: 5px !important;
+  -webkit-border-top-left-radius: 5px !important;
+  -webkit-border-bottom-left-radius: 5px !important;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+  -webkit-transition: background-color 1s;
+  -moz-transition: background-color 1s;
+  transition: background-color 1s; }
+
+.btn-secondary {
+  background: #e3312e;
+  color: #fdfeff !important;
+  border: 1px solid #e3312e; }
+  .btn-secondary:hover {
+    background: #b10d1f;
+    color: #fdfeff !important;
+    border: 1px solid #b10d1f; }
+
+.btn-primary {
+  background: #80eaf9;
+  color: #fdfeff !important;
+  border: 1px solid #80eaf9; }
+  .btn-primary:hover {
+    background: #80eaf9;
+    color: #fdfeff !important;
+    border: 1px solid #80eaf9; }
+
+.animate-up-down[ui-view] {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 100%; }
-  .animate-home.ng-enter, .animate-home.ng-leave {
-    -webkit-transition: all 1s ease;
-    transition: all 1s ease; }
-  .animate-home.ng-enter {
+  .animate-up-down[ui-view].ng-enter, .animate-up-down[ui-view].ng-leave {
+    -webkit-transition: all 0.8s ease-in-out;
+    -moz-transition: all 0.8s ease-in-out;
+    transition: all 0.8s ease-in-out; }
+  .animate-up-down[ui-view].ng-enter {
     top: 100%; }
-  .animate-home.ng-enter-active {
+  .animate-up-down[ui-view].ng-enter-active {
     top: 0; }
-  .animate-home.ng-leave {
+  .animate-up-down[ui-view].ng-leave {
     top: 0; }
-  .animate-home.ng-leave-active {
-    top: -100%; }
+  .animate-up-down[ui-view].ng-leave-active {
+    top: -200%; }
+
+/* Have to set height explicity on ui-view 
+to prevent collapsing during animation*/
+.animate-default[ui-view] {
+  height: 65px; }
+  .animate-default[ui-view].ng-enter, .animate-default[ui-view].ng-leave {
+    position: absolute;
+    left: 0;
+    right: 0;
+    -webkit-transition: all .5s ease-in-out;
+    -moz-transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out; }
+  .animate-default[ui-view].ng-enter {
+    opacity: 0;
+    -webkit-transform: scale3d(0.5, 0.5, 0.5);
+    -moz-transform: scale3d(0.5, 0.5, 0.5);
+    transform: scale3d(0.5, 0.5, 0.5); }
+  .animate-default[ui-view].ng-enter-active {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+    -moz-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1); }
+  .animate-default[ui-view].ng-leave {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); }
+  .animate-default[ui-view].ng-leave-active {
+    opacity: 0;
+    -webkit-transform: translate3d(100px, 0, 0);
+    -moz-transform: translate3d(100px, 0, 0);
+    transform: translate3d(100px, 0, 0); }
