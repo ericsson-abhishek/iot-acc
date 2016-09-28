@@ -47,6 +47,7 @@
     "gulp": "^3.9.1",
     "gulp-ruby-sass": "^2.1.0",
     "mocha": "^3.0.2",
+    "sinon": "^1.17.6",
     "socket.io-client": "^1.4.8",
     "vinyl-source-stream": "^1.1.0"
   }
