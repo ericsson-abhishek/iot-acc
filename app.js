@@ -311,6 +311,7 @@ app.get('/private/*', authentication.authenticateRequired, function (req, res, n
     staticMiddlewarePrivate(req, res, next);
 });
 
+//Node server connect/start method
 var connectNodeServer = function () {
         http.listen(PORT, function (error, success) {
             if (error) {
@@ -325,7 +326,7 @@ var connectNodeServer = function () {
 app.use(express.static(__dirname + "/app/public"));
 
 
-console.log("Ennnnnnnnnnnnnnnnnnn" + process.env.NODE_ENV)
+console.log("Travis Environment Variable : " + process.env.NODE_ENV)
 var mongo_uri = process.env.MONGODB_URI || "mongodb://localhost:27017"
 
 if (process.env.NODE_ENV === "Test") {
