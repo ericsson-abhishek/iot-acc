@@ -119,7 +119,7 @@ app.post("/enterprise", function(req, resp) {
 
     //calling create enterprise method with request data
     appdb.enterpriseService.createEnterprise(enterpriseData).then(function(result) {
-
+        console.log(result);
         // creating object for sending the activation mail notification
         var mailObj = {
             name: result.firstname,
@@ -153,6 +153,7 @@ var retrySendMail = function (mailObj) {
                     if(typeof response.response != 'undefined') {
                         sendCount = 1;
                         console.log("Retry successful");
+                     
                         return;
                     } else {
                          process.nextTick(function () {
@@ -289,10 +290,10 @@ app.post("/login", authentication.authenticateUser, function(req, resp, next) {
 
 
 app.delete("/logout", function(req, resp, next) {
-    // console.log("logout");
+    console.log("logout");
     var bearerJwt = req.get("Bearer");
     appdb.tokenService.deleteToken(bearerJwt).then(function(count) {
-        //console.log("count : "+count.result.n);
+        console.log("count : "+count.result.n);
         if (count.result.n === 1) {
             resp.status(200).send("Logged out successfully.");
         }
@@ -316,25 +317,25 @@ app.use(express.static(__dirname + "/app/public"));
 
 
 var mongo_uri = process.env.MONGODB_URI || "mongodb://localhost:27017"
-var connect = mongoose.connect(mongo_uri + '/iotaccdb', function() {
-  // mongoose.connection.db.dropDatabase()
-  // console.log("Database is dropped succesfully");
-});
+// var connect = mongoose.connect(mongo_uri + '/iotaccdb', function() {
+//   // mongoose.connection.db.dropDatabase()
+//   // console.log("Database is dropped succesfully");
+// });
 
-connect.then(function(res) {
-    http.listen(PORT, function(error, success) {
-        if (error) {
-            console.log("server startup failed");
-        } else {
-            console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
-        }
+// connect.then(function(res) {
+//     http.listen(PORT, function(error, success) {
+//         if (error) {
+//             console.log("server startup failed");
+//         } else {
+//             console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
+//         }
 
-    }).catch(function(err) {
-        console.log(err);
-    });
-}).catch(function(err)
-{
-    console.log("FATAL error while connecting DB!! Server start failure");
-});
+//     }).catch(function(err) {
+//         console.log(err);
+//     });
+// }).catch(function(err)
+// {
+//     console.log("FATAL error while connecting DB!! Server start failure");
+// });
 
-//module.exports = app;
+module.exports = app;
