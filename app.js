@@ -311,6 +311,16 @@ app.get('/private/*', authentication.authenticateRequired, function (req, res, n
     staticMiddlewarePrivate(req, res, next);
 });
 
+var connectNodeServer = function () {
+        http.listen(PORT, function (error, success) {
+            if (error) {
+                console.log("server startup failed");
+            } else {
+                console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
+            }
+        });
+};
+
 // __dirname  => is an predefined variable within node which gives the path of current working directory
 app.use(express.static(__dirname + "/app/public"));
 
@@ -333,13 +343,4 @@ if (process.env.NODE_ENV === "Test") {
     });
 }
 
-var connectNodeServer = function () {
-        http.listen(PORT, function (error, success) {
-            if (error) {
-                console.log("server startup failed");
-            } else {
-                console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
-            }
-        });
-};
 module.exports = app;
