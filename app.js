@@ -319,14 +319,7 @@ console.log("Ennnnnnnnnnnnnnnnnnn" + process.env.NODE_ENV)
 var mongo_uri = process.env.MONGODB_URI || "mongodb://localhost:27017"
 
 if (process.env.NODE_ENV === "Test") {
-    http.listen(PORT, function (error, success) {
-        if (error) {
-            console.log("server startup failed");
-        } else {
-            console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
-        }
-
-    })
+        connectNodeServer();
 } else {
     var connect = mongoose.connect(mongo_uri + '/iotaccdb', function () {
         // mongoose.connection.db.dropDatabase()
@@ -334,16 +327,19 @@ if (process.env.NODE_ENV === "Test") {
     });
 
     connect.then(function (res) {
+        connectNodeServer();
+    }).catch(function (err) {
+        console.log("FATAL error while connecting DB!! Server start failure" + err);
+    });
+
+    var connectNodeServer = function () {
         http.listen(PORT, function (error, success) {
             if (error) {
                 console.log("server startup failed");
             } else {
                 console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
             }
-
-        })
-    }).catch(function (err) {
-        console.log("FATAL error while connecting DB!! Server start failure" + err);
-    });
+        });
+    };
 }
 module.exports = app;
