@@ -331,8 +331,9 @@ if (process.env.NODE_ENV === "Test") {
     }).catch(function (err) {
         console.log("FATAL error while connecting DB!! Server start failure" + err);
     });
+}
 
-    var connectNodeServer = function () {
+var connectNodeServer = function () {
         http.listen(PORT, function (error, success) {
             if (error) {
                 console.log("server startup failed");
@@ -340,6 +341,5 @@ if (process.env.NODE_ENV === "Test") {
                 console.log("server is started at port " + PORT + " press [ctrl+c] to exit!!");
             }
         });
-    };
-}
+};
 module.exports = app;
