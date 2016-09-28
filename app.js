@@ -318,7 +318,7 @@ app.use(express.static(__dirname + "/app/public"));
 console.log("Ennnnnnnnnnnnnnnnnnn" + process.env.NODE_ENV)
 var mongo_uri = process.env.MONGODB_URI || "mongodb://localhost:27017"
 
-if (process.env.NODE_ENV === Test) {
+if (process.env.NODE_ENV === "Test") {
     http.listen(PORT, function (error, success) {
         if (error) {
             console.log("server startup failed");
