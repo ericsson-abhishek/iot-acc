@@ -100,7 +100,7 @@ app.post("/device", authentication.authenticateRequired, function (req, resp) {
     });
 });
 
-app.get("/device", authentication.authenticateRequired, function (req, resp) {
+app.get("/devices", authentication.authenticateRequired, function (req, resp) {
     //calling query device method 
     appdb.deviceService.queryDeviceByFilter("enterpriseId", req.params.enterpriseId).then(function (result) {
         //Sending response back on successfull device creation

@@ -6,9 +6,11 @@ require('angular-route')
 require('angular-messages')
 require('angular-animate')
 require('angular-ui-router')
+require('angular-aria')
+require('angular-material')
 
 // defining the module
-var app = angular.module('iotapp', ['ngRoute', 'ngMessages','ngAnimate','ui.router']);
+var app = angular.module('iotapp', ['ngRoute', 'ngMessages','ngAnimate','ui.router','ngMaterial']);
 
 // adding angular controllers
 // Controller for log in page

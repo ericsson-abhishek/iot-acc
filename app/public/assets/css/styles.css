@@ -21,9 +21,6 @@ body.modal-open {
 /* Multiline ellipsis START */
 /* Multiline ellipsis END */
 body {
-  overflow: hidden; }
-
-body {
   font-family: "Segoe UI", "Segoe WP", "Segoe Regular", sans-serif;
   font-size: 15px;
   line-height: 1.7em;
@@ -279,6 +276,55 @@ button {
       border-top-left-radius: 3px !important;
       border-bottom-left-radius: 3px !important; }
 
+.section-deviceDetails {
+  height: 300px;
+  min-width: 100%;
+  overflow-y: auto;
+  letter-spacing: -0.2px; }
+  .section-deviceDetails .list-group-item {
+    background-color: inherit; }
+  .section-deviceDetails .row {
+    margin: 0px 2px 2px 2px;
+    padding: 10px 2px 10px 2px;
+    color: #fdfeff;
+    background-color: #5c727f;
+    border: 1px solid #465862;
+    -moz-border-top-left-radius: 1px !important;
+    -moz-border-bottom-left-radius: 1px !important;
+    -webkit-border-top-left-radius: 1px !important;
+    -webkit-border-bottom-left-radius: 1px !important;
+    border-top-left-radius: 1px !important;
+    border-bottom-left-radius: 1px !important;
+    -moz-border-top-right-radius: 1px !important;
+    -moz-border-bottom-right-radius: 1px !important;
+    -webkit-border-top-right-radius: 1px !important;
+    -webkit-border-bottom-right-radius: 1px !important;
+    border-top-right-radius: 1px !important;
+    border-bottom-right-radius: 1px !important; }
+    .section-deviceDetails .row button {
+      height: 40px;
+      width: 40px;
+      text-align: center;
+      font-size: 17px;
+      -moz-border-top-right-radius: 20px !important;
+      -moz-border-bottom-right-radius: 20px !important;
+      -webkit-border-top-right-radius: 20px !important;
+      -webkit-border-bottom-right-radius: 20px !important;
+      border-top-right-radius: 20px !important;
+      border-bottom-right-radius: 20px !important;
+      -moz-border-top-left-radius: 20px !important;
+      -moz-border-bottom-left-radius: 20px !important;
+      -webkit-border-top-left-radius: 20px !important;
+      -webkit-border-bottom-left-radius: 20px !important;
+      border-top-left-radius: 20px !important;
+      border-bottom-left-radius: 20px !important; }
+    .section-deviceDetails .row h3, .section-deviceDetails .row h4, .section-deviceDetails .row h5, .section-deviceDetails .row p {
+      margin: 0; }
+    .section-deviceDetails .row:hover {
+      background-color: #748c9a; }
+  .section-deviceDetails md-switch {
+    margin: 0; }
+
 .em-primary {
   color: #80eaf9; }
 
@@ -512,6 +558,15 @@ button {
     background: #80eaf9;
     color: #fdfeff !important;
     border: 1px solid #80eaf9; }
+
+.btn-edit {
+  background: #880e4f;
+  color: #fdfeff !important;
+  border: 1px solid #880e4f; }
+  .btn-edit:hover {
+    background: #5a0934;
+    color: #fdfeff !important;
+    border: 1px solid #5a0934; }
 
 .animate-up-down[ui-view] {
   position: absolute;

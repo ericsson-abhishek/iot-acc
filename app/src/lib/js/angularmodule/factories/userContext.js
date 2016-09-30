@@ -88,6 +88,23 @@ module.exports= function ($q, $location, $window,$http){
             })
              return deferred.promise;
 
+        },
+        getDeviceDetails:function()
+        {
+            console.log("[userContext.getDeviceDetails()] is getting invoked");
+            var deferred = $q.defer();
+            $http.get('/devices')
+            .success(function(data){
+                console.log("[userContext.getDeviceDetails()] successful response from server");
+                console.dir(data);
+                deferred.resolve(data)
+            })
+            .error(function(err){
+                console.log("[userContext.getDeviceDetails()] Error Encoutered");
+                deferred.reject(err)
+            })
+
+             return deferred.promise;
         }
     }
 

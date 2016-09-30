@@ -74,3 +74,18 @@
             }
      //@include add-border(1px, $color-light, all);
  }
+
+ .btn-edit {
+        @include add-background($color-edit);
+        @include add-border(1px,
+        $color-edit,
+        'all');
+        &:hover {
+                @include add-background(darken($color-edit,10%));
+                @include add-border(1px,
+               darken($color-edit,10%),
+                'all');
+            }
+     //@include add-border(1px, $color-light, all);
+ }
+

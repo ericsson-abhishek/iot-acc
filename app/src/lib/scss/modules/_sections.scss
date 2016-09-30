@@ -233,3 +233,58 @@
         }
     }
 }
+
+.section-deviceDetails
+{
+
+    height: 300px; 
+    min-width: 100%;
+    overflow-y:auto;
+    letter-spacing: -0.2px;
+    .list-group-item
+    {
+        background-color:inherit;
+    }
+    .row{
+        
+         button {
+            //margin-bottom: 10px;
+            height: 40px;
+            width: 40px;
+            text-align: center;
+            font-size: 17px;
+            @include border-radius-right(20px);
+            @include border-radius-left(20px);
+           
+            
+           // background-color: blue;
+           //@include add-border-color-transition(1s);
+            
+            
+        }
+        margin:0px 2px 2px 2px;
+        padding:10px 2px 10px 2px;
+       
+        color: $color-light;
+        background-color:  lighten($color-dark-bg, 20%);
+        h3,h4,h5,p
+        {
+            margin: 0;
+        }
+        @include add-border(1px,
+            lighten($color-dark-bg, 10%),
+            'all');
+        @include border-radius-left(1px);
+        @include border-radius-right(1px);
+
+
+        &:hover
+        {
+            background-color:  lighten($color-dark-bg, 30%);
+        }
+    }
+    md-switch
+    {
+        margin: 0;
+    }
+}
