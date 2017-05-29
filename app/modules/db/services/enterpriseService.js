@@ -54,7 +54,7 @@ var validateEnterprise = function (email, password) {
             //checking for user existence in DB
             if (result !== null) {
                 //Hashing the user passed password , so that we can compare with DB stored password    
-                if(result.account_status !== "active") {
+                if(result.account_status !== "activate") {
                     reject("Account is not yet activated");
                 } else {
                 var passwordObj = {};
